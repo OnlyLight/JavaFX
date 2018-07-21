@@ -93,6 +93,7 @@ public class FXMLDocumentController implements Initializable {
         setOnKeyPress();
         payBill();
         showPay();
+        setEventClick();
     }
     
     // Table
@@ -116,15 +117,18 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Row: "+row);
             
             int idMon = getListMon().get(row).getId();
-            System.out.println("IDROW: " + getListMon().get(row).getId() + " - IDMONROW: " + getListMon().get(row).getIdMon() + "SoLuong: " + getListMon().get(row).getSoLuong() + " - Ten: " + getListMon().get(row).getTenMon());
             
             int newValue = event.getNewValue();
-            System.out.println("IDROW: " + idMon);
-            System.out.println("New: " + newValue);
-            
-            DBUtils_MonOrder.update(idMon, newValue);
-            
-            showPay();
+            if(newValue > 0) {
+                System.out.println("IDROW: " + idMon);
+                System.out.println("New: " + newValue);
+
+                DBUtils_MonOrder.update(idMon, newValue);
+
+                showPay();
+            } else {
+                tbInfomation.refresh();
+            }
         });
         
     }
@@ -148,7 +152,6 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private ObservableList<MonOrder> getListMon() {
-//        MonOrder m = new MonOrder(0, "aaa", 12000, "a", 2);
         ObservableList<MonOrder> list = FXCollections.observableArrayList();
         list.addAll(DBUtils_MonOrder.getList());
         return list;
@@ -204,11 +207,6 @@ public class FXMLDocumentController implements Initializable {
         btnPay.setOnAction((event) -> {
             // show alert thanh toán
             createAlert("Thanh toán: " + showPay());
-            System.out.println("PayBill: " + showPay());
-            DBUtils_MonOrder.deleteAll();
-            tbInfomation.getItems().clear();
-            showPay();
-            System.out.println("Clear");
         });
     }
     
@@ -221,11 +219,36 @@ public class FXMLDocumentController implements Initializable {
         alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
 
         Optional<ButtonType> result = alert.showAndWait();
+        
+        if(result.get() == ButtonType.OK) {
+            DBUtils_MonOrder.deleteAll();
+            tbInfomation.getItems().clear();
+            showPay();
+            System.out.println("Clear");
+        }
 
         System.out.println(result.get().getText());
     }
     
     // End Pay Bill
+    
+    // Menu
+    private void setEventClick() {
+        mnClose.setText("Exit");
+        mnClose.setOnAction((event) -> {
+            System.exit(0);
+        });
+        
+        mnTonKho.setOnAction((event) -> {
+            try {
+                showDialog("/warehouse/FXMLWareHouse.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+    
+    // End Menu
     
     // Accordion
     private void showAcdMenu() {
@@ -233,7 +256,6 @@ public class FXMLDocumentController implements Initializable {
         acdMenu.getPanes().clear();
         ArrayList<TitledPane> titles = new ArrayList<>();
         ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
-        ArrayList<Mon> mon = DBUtils_Mon.getList();
 
         for(int i = 0; i < listLoaiMon.size(); i++) {
             TitledPane title = new TitledPane();
@@ -259,7 +281,7 @@ public class FXMLDocumentController implements Initializable {
             monInfo = mon;
             
             try {
-                showDialog();
+                showDialog("/dialog/FXMLDialog.fxml", StageStyle.UNDECORATED, Modality.APPLICATION_MODAL);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -274,17 +296,17 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Close");
     }
     
-    private void showDialog() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/dialog/FXMLDialog.fxml"));
+    // End Accordion
+    private void showDialog(String url, StageStyle style, Modality modal) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(url));
         Scene scene = new Scene(root);
         
-        Stage stage = new Stage(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
+        Stage stage = new Stage(style);
+        stage.initModality(modal);
         
         stage.setScene(scene);
         stage.show();
     }
-    // End Accordion
 }
 
 /*

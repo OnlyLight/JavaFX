@@ -9,9 +9,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import tqduy.bean.Mon;
+import static tqduy.connect.DBUtils_LoaiMon.execute;
+import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
@@ -138,15 +139,6 @@ public class DBUtils_Mon {
     public static void insert(String tenMon, int donGia, int idLoaiMon) {
         execute("INSERT INTO " + DBUtils_LoaiMon.TB_MON + "( tenMon, donGia, idLoaiMon ) VALUES ( N'"+tenMon+"', "+donGia+", "+idLoaiMon+" )");
         System.out.println("Chèn thành công !!");
-        
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException e) {
-                e.getStackTrace();
-                System.out.println("Lỗi đóng Connect");
-            }
-        }
     }
 
     public static void update(int idMon, String tenMon, int donGia, int idLoaiMon) {
@@ -184,45 +176,4 @@ public class DBUtils_Mon {
         }
     }
     // END TB MON
-
-    public static ResultSet query(String sql) {
-        con = conn();
-        ResultSet res = null;
-        Statement stmt = null;
-
-        try {
-            stmt = con.createStatement();
-            res = stmt.executeQuery(sql);
-        } catch (SQLException e) {
-            e.getStackTrace();
-        }
-        return res;
-    }
-
-    public static void execute(String sql) {
-        con = conn();
-        Statement stmt = null;
-        try {
-            stmt = con.createStatement();
-            stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            System.out.println("Lỗi cú pháp");
-            System.exit(0);
-        } finally {
-            //finally block used to close resources
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se) {
-            }// do nothing
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException se) {
-                System.out.println("Lỗi đóng connect !!");
-            }//end finally try
-        }
-    }
 }

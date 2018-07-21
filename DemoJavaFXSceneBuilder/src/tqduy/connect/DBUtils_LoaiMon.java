@@ -41,7 +41,7 @@ public class DBUtils_LoaiMon {
     public static ArrayList<LoaiMon> getList() {
         ArrayList<LoaiMon> arrLoaiMon = new ArrayList<>();
         
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + "";
+        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + " ORDER BY id";
 
         ResultSet res = query(sql);
 
@@ -228,8 +228,10 @@ public class DBUtils_LoaiMon {
             stmt = con.createStatement();
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
+            System.out.println(e.getErrorCode());
+            System.out.println(e.getMessage());
             System.out.println("Lỗi cú pháp");
-            System.exit(0);
+//            System.exit(0);
         } finally {
             //finally block used to close resources
             try {

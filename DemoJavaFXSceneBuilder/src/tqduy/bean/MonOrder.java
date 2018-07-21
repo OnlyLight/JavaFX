@@ -12,7 +12,6 @@ package tqduy.bean;
  */
 public class MonOrder {
     private int id;
-    private int idMon;
     private String tenMon;
     private int donGia;
     private String loaiMon;
@@ -69,16 +68,8 @@ public class MonOrder {
         this.soLuong = soLuong;
     }
 
-    public int getIdMon() {
-        return idMon;
-    }
-
-    public void setIdMon(int idMon) {
-        this.idMon = idMon;
-    }
-
     @Override
     public String toString() {
-        return "MonOrder{" + "id=" + id + ", idMon=" + idMon + ", tenMon=" + tenMon + ", donGia=" + donGia + ", loaiMon=" + loaiMon + ", soLuong=" + soLuong + '}';
+        return "MonOrder{" + "id=" + id + ", tenMon=" + tenMon + ", donGia=" + donGia + ", loaiMon=" + loaiMon + ", soLuong=" + soLuong + '}';
     }
 }

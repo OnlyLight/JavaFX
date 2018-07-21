@@ -76,7 +76,7 @@ public class FXMLDialogController implements Initializable {
     
     private void checkInput() {
         txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*")) {
+            if (newValue.matches("\\d*") && !newValue.equals("0")) {
                 try {
                     amount = Integer.parseInt(newValue);
                 } catch (Exception e) {
@@ -122,6 +122,7 @@ public class FXMLDialogController implements Initializable {
         
         btnCancel.setOnAction((event) -> {
             closeStage(btnCancel);
+            
             try {
                 showDialog();
             } catch (IOException ex) {

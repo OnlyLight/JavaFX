@@ -9,9 +9,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import tqduy.bean.MonOrder;
+import static tqduy.connect.DBUtils_LoaiMon.execute;
+import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
@@ -80,54 +81,10 @@ public class DBUtils_MonOrder {
         execute("INSERT INTO " + DBUtils_LoaiMon.TB_MON_ORDER + "( soLuong, idMon ) VALUES ( "+soLuong+", "+idMon+" )");
         System.out.println("Chèn thành công !!");
     }
-    
-    public static void main(String[] args) {
-        update(8, 5);
-    }
 
     public static void update(int idMon, int soLuong) {
         execute("UPDATE MonOrder SET soLuong = "+soLuong+" WHERE idMon = "+idMon+"");
         System.out.println("Update Success");
     }
     // END TB MON
-
-    public static ResultSet query(String sql) {
-        con = conn();
-        ResultSet res = null;
-        Statement stmt = null;
-
-        try {
-            stmt = con.createStatement();
-            res = stmt.executeQuery(sql);
-        } catch (SQLException e) {
-            e.getStackTrace();
-        }
-        return res;
-    }
-
-    public static void execute(String sql) {
-        con = conn();
-        Statement stmt = null;
-        try {
-            stmt = con.createStatement();
-            stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            System.out.println("Lỗi cú pháp");
-        } finally {
-            //finally block used to close resources
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se) {
-            }// do nothing
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException se) {
-                System.out.println("Lỗi đóng connect !!");
-            }//end finally try
-        }
-    }
 }
