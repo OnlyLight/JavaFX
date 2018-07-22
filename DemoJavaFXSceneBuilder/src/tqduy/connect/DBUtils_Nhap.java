@@ -123,9 +123,4 @@ public class DBUtils_Nhap {
 "        )");
         System.out.println("Chèn thành công !!");
     }
-
-//    public static void update(int idMon, int soLuong) {
-//        execute("UPDATE MonOrder SET soLuong = "+soLuong+" WHERE idMon = "+idMon+"");
-//        System.out.println("Update Success");
-//    }
 }

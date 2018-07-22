@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,19 +28,21 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import tqduy.bean.DVT;
 import tqduy.bean.LoaiNX;
-import tqduy.bean.MonOrder;
 import tqduy.bean.Nhap;
 import tqduy.bean.NhapTable;
 import tqduy.bean.Xuat;
 import tqduy.bean.XuatTable;
 import tqduy.connect.DBUtils_DVT;
 import tqduy.connect.DBUtils_LoaiNX;
-import tqduy.connect.DBUtils_MonOrder;
 import tqduy.connect.DBUtils_Nhap;
 import tqduy.connect.DBUtils_Xuat;
 
@@ -88,6 +91,7 @@ public class FXMLWareHouseController implements Initializable {
     
     private ArrayList<LoaiNX> arrLoai = DBUtils_LoaiNX.getList();
     private ArrayList<DVT> arrDVT = DBUtils_DVT.getList();
+    private ObservableList<String> listLoai;
     private LocalDate dateNhap = LocalDate.now();
     private LocalDate dateXuat = LocalDate.now();
     private int soLuongNhap = 1, donGiaNhap = 1, countNhap = 0, soLuongXuat = 1, countXuat = 0;
@@ -95,7 +99,7 @@ public class FXMLWareHouseController implements Initializable {
     
     // Combobox
     private void showCombobox() {
-        ObservableList<String> listLoai = FXCollections.observableArrayList();
+        listLoai = FXCollections.observableArrayList();
         ObservableList<String> listDVT = FXCollections.observableArrayList();
         for (LoaiNX loaiNX : arrLoai) {
             String tenLoai = loaiNX.getTenLoaiNX();
@@ -295,7 +299,7 @@ public class FXMLWareHouseController implements Initializable {
     private void setDataTable() {
         // Set data for table Nhap
         tbTenSpNhapColumn.setCellValueFactory(new PropertyValueFactory<>("tenSp"));
-        tbTenLoaiNhapColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoai"));
+//        tbTenLoaiNhapColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoai"));
         tbDVTNhapColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));
         tbDonGiaNhapColumn.setCellValueFactory(new PropertyValueFactory<>("donGia"));
         tbSoLuongNhapColumn.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
@@ -313,7 +317,7 @@ public class FXMLWareHouseController implements Initializable {
         createNameColumn();
         
         setDataTable();
-
+        
         tbNgayNhapColumn.setCellFactory((column) -> {
             TableCell<NhapTable, Date> cell = new TableCell<NhapTable, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
