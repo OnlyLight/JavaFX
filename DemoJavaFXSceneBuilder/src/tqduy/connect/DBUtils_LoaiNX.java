@@ -5,12 +5,12 @@
  */
 package tqduy.connect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import tqduy.bean.InsertNX;
 import tqduy.bean.LoaiNX;
+import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
@@ -24,18 +24,6 @@ public class DBUtils_LoaiNX {
     public final static String TB_DVT = "DVT";
     public final static String USER_NAME = "duy";
     public final static String PASSWORD = "1234";
-    private static Connection con = null;
-
-    public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-6T1NTE9\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
-        try {
-            con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
-            System.out.println("Connect Success !!");
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        return con;
-    }
     
     // TABLE LOAI NX
     public static ArrayList<LoaiNX> getList() {
@@ -55,16 +43,34 @@ public class DBUtils_LoaiNX {
                 arrLoaiMon.add(lnx);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
+            return arrLoaiMon;
+        }
+    }
+    
+    public static ArrayList<InsertNX> getListNX() {
+        System.out.println("Hello !!!");
+        ArrayList<InsertNX> arrLoaiMon = new ArrayList<>();
+        
+        String sql = "SELECT dbo.LoaiNX.tenLoaiNX, dbo.DVT.DVT FROM dbo.LoaiNX JOIN dbo.DVT ON DVT.idDVT = LoaiNX.idDVT";
+
+        ResultSet res = query(sql);
+
+        try {
+            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
+                String tenLoaiNX = res.getString("tenLoaiNX");
+                String dvt = res.getString("DVT");
+                
+                InsertNX in = new InsertNX(tenLoaiNX, dvt);
+                System.out.println("NX: " + in);
+                arrLoaiMon.add(in);
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Xin nhap lai !!");
+        } finally {
             return arrLoaiMon;
         }
     }
@@ -82,17 +88,15 @@ public class DBUtils_LoaiNX {
 
             lnx = new LoaiNX(idNX, tenLoaiNX, dvt);
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
             return lnx;
         }
+    }
+    
+    public static void insert(String tenLoai, int dvt) {
+        execute("INSERT INTO " + DBUtils_LoaiNX.TB_LOAINX + "(tenLoaiNX, idDVT) VALUES ( N'"+ tenLoai +"', "+dvt+" )");
+        System.out.println("Chèn thành công !!");
     }
 }

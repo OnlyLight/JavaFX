@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="managerMenu.FXMLManagerMenuController">
+   <children>
+      <TabPane prefHeight="542.0" prefWidth="629.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabLoaiMon" text="Loại món">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <VBox prefHeight="318.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <ListView fx:id="lvLoaiMon" prefHeight="443.0" prefWidth="629.0" />
+                           </children>
+                        </VBox>
+                     </center>
+                     <top>
+                        <VBox alignment="CENTER" prefHeight="121.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="83.0" prefWidth="600.0">
+                                 <children>
+                                    <Label text="Tên Loại món">
+                                       <padding>
+                                          <Insets right="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextField fx:id="txtTenLoaiMon" />
+                                    <Button fx:id="btnThemLoaiMon" mnemonicParsing="false" text="Thêm Loại">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <Label text="Danh Sách Loại Món">
+                                 <font>
+                                    <Font name="Bell MT Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </top></BorderPane>
+               </content>
+          </Tab>
+          <Tab fx:id="tabMenu" text="Menu">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Tên Món" GridPane.rowIndex="1">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="txtTenMonMenu" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Loại Món" GridPane.rowIndex="3">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="cbLoaiMonMenu" prefHeight="25.0" prefWidth="452.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button fx:id="btnThemMenu" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Thêm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                              <Label text="Đơn giá" GridPane.rowIndex="2" />
+                              <TextField fx:id="txtDonGiaMenu" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="134.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="446.0" minWidth="10.0" prefWidth="446.0" />
+                           </columnConstraints>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </top>
+                     <center>
+                        <TableView fx:id="tbMenu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn fx:id="tbTenMonColumnMenu" prefWidth="152.0" text="Tên Món" />
+                            <TableColumn fx:id="tbDonGiaColumnMenu" prefWidth="126.0" text="Đơn Giá" />
+                              <TableColumn fx:id="tbLoaiMonColumnMenu" prefWidth="153.0" text="Loại Món" />
+                          </columns>
+                        </TableView>
+                     </center>
+                  </BorderPane>
+               </content>
+          </Tab>
+            <Tab fx:id="tabDVT" text="Đơn vị tính ">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <VBox prefHeight="318.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <ListView fx:id="lvDVT" prefHeight="434.0" prefWidth="629.0" />
+                           </children>
+                        </VBox>
+                     </center>
+                     <top>
+                        <VBox alignment="CENTER" prefHeight="121.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="83.0" prefWidth="600.0">
+                                 <children>
+                                    <Label text="Đơn vị tính">
+                                       <padding>
+                                          <Insets right="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <TextField fx:id="txtDVT" />
+                                    <Button fx:id="btnThemDVT" mnemonicParsing="false" text="Thêm Loại">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <Label text="Danh Sách Đơn Vị Tính">
+                                 <font>
+                                    <Font name="Bell MT Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </top>
+                  </BorderPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabLoaiNX" text="Loại Nhập Xuất">
+               <content>
+                  <BorderPane prefHeight="415.0" prefWidth="629.0">
+                     <top>
+                        <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="134.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="446.0" minWidth="10.0" prefWidth="446.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Tên Loại Nhập Xuất" GridPane.rowIndex="1">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding>
+                              </Label>
+                              <TextField fx:id="txtLoaiNhapXuat" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Đơn vị tính" GridPane.rowIndex="2">
+                                 <padding>
+                                    <Insets right="5.0" />
+                                 </padding>
+                              </Label>
+                              <ComboBox fx:id="cbDVT" prefHeight="25.0" prefWidth="452.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button fx:id="btnThemLoaiNX" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Thêm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </GridPane>
+                     </top>
+                     <center>
+                        <TableView fx:id="tbLoaiNX" prefHeight="350.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn fx:id="tbLoaiNXColumn" prefWidth="174.0" text="Loại NX" />
+                            <TableColumn fx:id="tbDVTColumn" prefWidth="185.0" text="Đơn vị tính" />
+                          </columns>
+                        </TableView>
+                     </center>
+                  </BorderPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</VBox>

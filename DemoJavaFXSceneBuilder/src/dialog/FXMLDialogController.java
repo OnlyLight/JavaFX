@@ -160,11 +160,11 @@ public class FXMLDialogController implements Initializable {
     }
     
     private void showDialog() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/sale/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/sale/FXMLMain.fxml"));
         Scene scene = new Scene(root);
         
         Stage stage = new Stage(StageStyle.DECORATED);
-        stage.setTitle("Hi! Coffee");
+        stage.setTitle("OL! Tea");
         
         stage.setScene(scene);
         stage.show();

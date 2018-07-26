@@ -54,7 +54,7 @@ public class DBUtils_LoaiMon {
                 arrLoaiMon.add(lm);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
             if (con != null) {
@@ -82,7 +82,7 @@ public class DBUtils_LoaiMon {
                 lm = new LoaiMon(id, loaiMon);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
             if (con != null) {
@@ -96,115 +96,18 @@ public class DBUtils_LoaiMon {
         }
     }
     
-    public static void delete(int id) {
-        boolean check = false;
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + "";
+//    public static void delete(int id) {
+//        execute("DELETE FROM " + DBUtils_LoaiMon.TB_LOAIMON + " WHERE id = " + id + "");
+//    }
 
-        ResultSet res = query(sql);
-
-        try {
-            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
-                int stid = res.getInt("id");
-                if (stid == id) {
-                    execute("DELETE FROM " + DBUtils_LoaiMon.TB_LOAIMON + " WHERE id = " + id + "");
-                    check = true;
-                    break;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Xin nhap lai !!");
-        } finally {
-            if (!check) {
-                System.out.println("Không tìm thấy phần tử cần xóa !!");
-            } else {
-                System.out.println("Xóa thành công !!");
-            }
-
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
-        }
+    public static void insert(String loaiMon) {
+        execute("INSERT INTO " + DBUtils_LoaiMon.TB_LOAIMON + "(loaiMon) VALUES ( N'"+ loaiMon +"' )");
+        System.out.println("Chèn thành công !!");
     }
 
-    public static void insert(int id, String loaiMon) {
-        boolean check = true;
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + "";
-
-        ResultSet res = query(sql);
-
-        try {
-            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
-                int stid = res.getInt("id");
-                if (stid == id) {
-                    check = false;
-                    break;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Xin nhap lai !!");
-            check = true;
-        } finally {
-            if (check) {
-                execute("INSERT INTO " + DBUtils_LoaiMon.TB_LOAIMON + "(id, loaiMon) VALUES ( "+id+", N'"+ loaiMon +"' )");
-                System.out.println("Chèn thành công !!");
-            } else {
-                System.out.println("Trùng ID !!");
-            }
-
-            try {
-                if (res != null) {
-                    res.close();
-                }
-            } catch (SQLException se) {
-            }// do nothing
-
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi đóng Connect");
-                }
-            }
-        }
-    }
-
-    public static void update(int id, String loaiMon) {
-        boolean check = false;
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + "";
-
-        ResultSet res = query(sql);
-
-        try {
-            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
-                int stid = res.getInt("id");
-                if (stid == id) {
-                    execute("UPDATE " + DBUtils_LoaiMon.TB_LOAIMON + " SET loaiMon = N'"+loaiMon+"' WHERE id = "+id+"");
-                    check = true;
-                    break;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Lỗi update");
-        } finally {
-            if (!check) {
-                System.out.println("Không tìm thấy phần tử cần chỉnh sửa !!");
-            } else {
-                System.out.println("Sửa thành công !!");
-            }
-
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi đóng connect");
-                }
-            }
-        }
-    }
+//    public static void update(int id, String loaiMon) {
+//        execute("UPDATE " + DBUtils_LoaiMon.TB_LOAIMON + " SET loaiMon = N'"+loaiMon+"' WHERE id = "+id+"");
+//    }
     // END TB LOAI MON
 
     public static ResultSet query(String sql) {
@@ -216,7 +119,7 @@ public class DBUtils_LoaiMon {
             stmt = con.createStatement();
             res = stmt.executeQuery(sql);
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
         }
         return res;
     }

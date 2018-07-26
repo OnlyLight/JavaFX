@@ -5,8 +5,6 @@
  */
 package tqduy.connect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,18 +17,6 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_MonOrder {
-    private static Connection con = null;
-
-    public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-6T1NTE9\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
-        try {
-            con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
-            System.out.println("Connect Success !!");
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        return con;
-    }
     
     // TABLE MON
     public static ArrayList<MonOrder> getList() {
@@ -53,16 +39,9 @@ public class DBUtils_MonOrder {
                 arrMon.add(monOrder);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
             return arrMon;
         }
     }

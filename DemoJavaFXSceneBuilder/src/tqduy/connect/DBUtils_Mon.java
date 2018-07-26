@@ -5,11 +5,10 @@
  */
 package tqduy.connect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import tqduy.bean.Menu;
 import tqduy.bean.Mon;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
@@ -19,22 +18,6 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_Mon {
-    private static Connection con = null;
-
-    public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-6T1NTE9\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
-        try {
-            con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
-            System.out.println("Connect Success !!");
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        return con;
-    }
-    
-    public static void main(String[] args) {
-        conn();
-    }
     
     // TABLE MON
     public static ArrayList<Mon> getList() {
@@ -55,16 +38,33 @@ public class DBUtils_Mon {
                 arrMon.add(m);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
+            return arrMon;
+        }
+    }
+    
+    public static ArrayList<Menu> getListMenu() {
+        ArrayList<Menu> arrMon = new ArrayList<>();
+        
+        String sql = "SELECT dbo.Mon.tenMon, dbo.Mon.donGia, dbo.LoaiMon.loaiMon FROM dbo.Mon JOIN dbo.LoaiMon ON LoaiMon.id = Mon.idLoaiMon";
+
+        ResultSet res = query(sql);
+
+        try {
+            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
+                String tenMon = res.getString("tenMon");
+                int donGia = res.getInt("donGia");
+                String loaiMon = res.getString("loaiMon");
+                
+                Menu m = new Menu(tenMon, donGia, loaiMon);
+                arrMon.add(m);
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Xin nhap lai !!");
+        } finally {
             return arrMon;
         }
     }
@@ -86,16 +86,9 @@ public class DBUtils_Mon {
                 arrMon.add(m);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
             return arrMon;
         }
     }
@@ -124,15 +117,6 @@ public class DBUtils_Mon {
             } else {
                 System.out.println("Xóa thành công !!");
             }
-
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.getStackTrace();
-                    System.out.println("Lỗi");
-                }
-            }
         }
     }
 
@@ -157,21 +141,13 @@ public class DBUtils_Mon {
                 }
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Lỗi update");
         } finally {
             if (!check) {
                 System.out.println("Không tìm thấy phần tử cần chỉnh sửa !!");
             } else {
                 System.out.println("Sửa thành công !!");
-            }
-
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi đóng connect");
-                }
             }
         }
     }

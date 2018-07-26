@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.FXMLDocumentController">
+   <children>
+      <BorderPane prefHeight="712.0" prefWidth="805.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="Danh Mục">
+                  <items>
+                    <MenuItem fx:id="mnQuanLy" mnemonicParsing="false" text="Quản lý" />
+                        <MenuItem fx:id="mnClose" mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Thống kê">
+                  <items>
+                    <MenuItem fx:id="mnTonKho" mnemonicParsing="false" text="Thống kê tồn kho" />
+                        <MenuItem fx:id="mnHoaDon" mnemonicParsing="false" text="Thống kê hóa đơn" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="Quản Trị">
+                    <items>
+                      <MenuItem fx:id="mnThucDon" mnemonicParsing="false" text="Quản trị thực đơn" />
+                        <MenuItem fx:id="mnNhanVien" mnemonicParsing="false" text="Quản trị nhân viên" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                      <MenuItem fx:id="mnAbout" mnemonicParsing="false" text="About Coffee Manager" />
+                    </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane fx:id="layoutSale" prefHeight="604.0" prefWidth="805.0">
+                     <bottom>
+                        <StackPane prefHeight="122.0" prefWidth="805.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                 <center>
+                                    <GridPane alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="txtMoneyTotal" disable="true" prefHeight="25.0" prefWidth="208.0" GridPane.columnIndex="3" />
+                                          <TextField fx:id="txtDiscount" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <TextField fx:id="txtPay" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                          <Button fx:id="btnPay" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Thanh Toán" textFill="RED" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </Button>
+                                          <Label alignment="CENTER" prefHeight="17.0" prefWidth="109.0" text="Tổng Tiền" GridPane.columnIndex="2" />
+                                          <Label alignment="CENTER" prefHeight="17.0" prefWidth="102.0" text="Giảm Giá" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Thành Tiền" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                       </children>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </StackPane>
+                     </bottom>
+                     <center>
+                        <SplitPane dividerPositions="0.7447073474470735" prefHeight="539.0" prefWidth="803.0" BorderPane.alignment="CENTER">
+                           <items>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <TableView fx:id="tbInfomation" prefHeight="561.0" prefWidth="595.0">
+                                       <columns>
+                                          <TableColumn fx:id="tbColumnTenMon" prefWidth="156.0" />
+                                          <TableColumn fx:id="tbColumnDonGia" prefWidth="138.0" />
+                                          <TableColumn fx:id="tbColumnLoaiMon" minWidth="0.0" prefWidth="163.0" />
+                                          <TableColumn fx:id="tbColumnAmount" prefWidth="137.0" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Accordion fx:id="acdMenu" prefHeight="561.0" prefWidth="202.0">
+                                       <panes>
+                                          <TitledPane animated="false" text="untitled">
+                                             <content>
+                                                <VBox prefHeight="200.0" prefWidth="184.0" />
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane animated="false" text="untitled">
+                                             <content>
+                                                <VBox prefHeight="200.0" prefWidth="100.0" />
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane animated="false" text="untitled">
+                                             <content>
+                                                <VBox prefHeight="200.0" prefWidth="100.0" />
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane animated="false" text="untitled">
+                                             <content>
+                                                <VBox prefHeight="200.0" prefWidth="100.0" />
+                                             </content>
+                                          </TitledPane>
+                                       </panes>
+                                    </Accordion>
+                                 </children>
+                              </VBox>
+                           </items>
+                        </SplitPane>
+                     </center>
+                  </BorderPane>
+               </children>
+            </StackPane>
+         </center>
+      </BorderPane>
+   </children>
+</VBox>

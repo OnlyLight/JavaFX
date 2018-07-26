@@ -5,8 +5,6 @@
  */
 package tqduy.connect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -21,18 +19,6 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_Nhap {
-    private static Connection con = null;
-
-    public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-6T1NTE9\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
-        try {
-            con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
-            System.out.println("Connect Success !!");
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        return con;
-    }
     
     // TABLE LOAI MON
     public static ArrayList<Nhap> getList() {
@@ -52,53 +38,34 @@ public class DBUtils_Nhap {
                 Date date = res.getDate("ngayNhap");
                 
                 Nhap n = new Nhap(idNhap, tenSpNhap, idLoaiNX, donGia, soLuong, date);
-                System.out.println(n);
                 arrNhap.add(n);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
             return arrNhap;
         }
     }
     
-    public static Nhap getNhap(int id) {
-        Nhap n = new Nhap();
-        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_NHAP + " WHERE idNhap="+id+"";
+    public static int getNhap(int dayNeed) {
+        int sL = 0;
+        String sql = "SELECT dbo.Nhap.soLuong FROM dbo.Nhap WHERE YEAR(dbo.Nhap.ngayNhap) = "+dayNeed+"";
 
         ResultSet res = query(sql);
+        System.out.println("SQL: " + sql);
 
         try {
-            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
-                int idNhap = res.getInt("idNhap");
-                String tenSpNhap = res.getString("tenSpNhap");
-                int idLoaiNX = res.getInt("idLoaiNX");
-                int donGia = res.getInt("donGia");
+            if (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
                 int soLuong = res.getInt("soLuong");
-                Date date = res.getDate("ngayNhap");
                 
-                n = new Nhap(idNhap, tenSpNhap, idLoaiNX, donGia, soLuong, date);
+                sL = soLuong;
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getErrorCode() + " - " + e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
-            return n;
+            return sL;
         }
     }
     

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sale;
+package managerMenu;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,24 +15,19 @@ import javafx.stage.Stage;
  *
  * @author QuangDuy
  */
-public class DemoJavaFXSceneBuilder extends Application {
-    
+public class ManagerMenu extends Application{
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLMain.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLManagerMenu.fxml"));
         
         Scene scene = new Scene(root);
         
-        stage.setTitle("OL! Tea");
         stage.setScene(scene);
         stage.show();
     }
-
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) {
         launch(args);
     }
-    
 }

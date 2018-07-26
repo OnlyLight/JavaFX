@@ -104,13 +104,19 @@ public class FXMLDocumentController implements Initializable {
         tbColumnAmount.setText("Số Lượng");
         
         tbColumnTenMon.setCellValueFactory(new PropertyValueFactory<>("tenMon"));
-        
         tbColumnDonGia.setCellValueFactory(new PropertyValueFactory<>("donGia"));
-        
         tbColumnLoaiMon.setCellValueFactory(new PropertyValueFactory<>("loaiMon"));
-        
         tbColumnAmount.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
         tbColumnAmount.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        
+        tbColumnAmount.setOnEditStart((event) -> {
+            try {
+                int newValue = event.getNewValue();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
+        
         tbColumnAmount.setOnEditCommit((event) -> {
             TablePosition<MonOrder, Integer> pos = event.getTablePosition();
             int row = pos.getRow();
@@ -118,7 +124,14 @@ public class FXMLDocumentController implements Initializable {
             
             int idMon = getListMon().get(row).getId();
             
-            int newValue = event.getNewValue();
+            int newValue = 1;
+            try {
+                newValue = event.getNewValue();
+            } catch (Exception e) {
+                newValue = event.getOldValue();
+                System.out.println(e.getMessage());
+            }
+            
             if(newValue > 0) {
                 System.out.println("IDROW: " + idMon);
                 System.out.println("New: " + newValue);
@@ -246,6 +259,14 @@ public class FXMLDocumentController implements Initializable {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        
+        mnThucDon.setOnAction((event) -> {
+            try {
+                showDialog("/managerMenu/FXMLManagerMenu.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
     
     // End Menu
@@ -303,6 +324,8 @@ public class FXMLDocumentController implements Initializable {
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
+        
+        stage.setTitle("OL! Tea");
         
         stage.setScene(scene);
         stage.show();

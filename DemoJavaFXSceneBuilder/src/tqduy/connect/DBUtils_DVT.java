@@ -5,13 +5,11 @@
  */
 package tqduy.connect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.DVT;
-import tqduy.bean.LoaiNX;
+import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
@@ -19,19 +17,6 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_DVT {
-    private static Connection con = null;
-
-    public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-6T1NTE9\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
-        try {
-            con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
-            System.out.println("Connect Success !!");
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        return con;
-    }
-    
     // TABLE DVT
     public static ArrayList<DVT> getList() {
         ArrayList<DVT> arrDVT = new ArrayList<>();
@@ -49,16 +34,9 @@ public class DBUtils_DVT {
                 arrDVT.add(dvt);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
             return arrDVT;
         }
     }
@@ -75,17 +53,15 @@ public class DBUtils_DVT {
 
             dvt = new DVT(idDVT, dVT);
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
             return dvt;
         }
+    }
+    
+    public static void insert(String tenDVT) {
+        execute("INSERT INTO " + DBUtils_LoaiMon.TB_LOAIMON + "(DVT) VALUES ( N'"+ tenDVT +"' )");
+        System.out.println("Chèn thành công !!");
     }
 }

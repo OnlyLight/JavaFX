@@ -5,8 +5,6 @@
  */
 package tqduy.connect;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -21,18 +19,6 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_Xuat {
-    private static Connection con = null;
-
-    public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-6T1NTE9\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
-        try {
-            con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
-            System.out.println("Connect Success !!");
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        return con;
-    }
     
     // TABLE Xuat
     public static ArrayList<Xuat> getList() {
@@ -51,52 +37,34 @@ public class DBUtils_Xuat {
                 Date date = res.getDate("ngayXuat");
                 
                 Xuat x = new Xuat(idXuat, tenSpXuat, idLoaiNX, soLuong, date);
-                System.out.println(x);
                 arrXuat.add(x);
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
             return arrXuat;
         }
     }
     
-    public static Xuat getMon(int id) {
-        Xuat x = new Xuat();
-        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_XUAT + " WHERE idXuat="+id+"";
+    public static int getXuat(int dayNeed) {
+        int sL = 0;
+        String sql = "SELECT dbo.Xuat.soLuong FROM dbo.Xuat WHERE YEAR(dbo.Xuat.ngayXuat) = "+dayNeed+"";
 
+        System.out.println("SQL: " + sql);
         ResultSet res = query(sql);
 
         try {
-            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
-                int idXuat = res.getInt("idXuat");
-                String tenSpXuat = res.getString("tenSpXuat");
-                int idLoaiNX = res.getInt("idLoaiNX");
+            if(res.next()) {
                 int soLuong = res.getInt("soLuong");
-                Date date = res.getDate("ngayNhap");
                 
-                x = new Xuat(idXuat, tenSpXuat, idLoaiNX, soLuong, date);
+                sL = soLuong;
             }
         } catch (SQLException e) {
-            e.getStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("Xin nhap lai !!");
         } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    System.out.println("Lỗi");
-                }
-            }
-            return x;
+            return sL;
         }
     }
     

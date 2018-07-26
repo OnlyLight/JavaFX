@@ -9,17 +9,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
    <children>
-      <TabPane prefHeight="715.0" prefWidth="802.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="730.0" prefWidth="802.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Quản Lý Kho">
                <content>
                   <BorderPane prefHeight="389.0" prefWidth="802.0">
                      <center>
-                        <SplitPane dividerPositions="0.60875" prefHeight="666.0" prefWidth="802.0" BorderPane.alignment="CENTER">
+                        <SplitPane dividerPositions="0.60875" prefHeight="248.0" prefWidth="802.0" BorderPane.alignment="CENTER">
                            <items>
-                              <SplitPane dividerPositions="0.497164461247637" orientation="VERTICAL" prefHeight="587.0" prefWidth="550.0">
+                              <SplitPane dividerPositions="0.497164461247637" orientation="VERTICAL" prefHeight="193.0" prefWidth="484.0">
                                  <items>
                                     <TableView fx:id="tbNhap" prefHeight="399.0" prefWidth="483.0">
                                       <columns>
@@ -93,11 +93,6 @@
                                     <GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="343.0" prefWidth="187.0">
                                        <children>
                                           <Label contentDisplay="RIGHT" text="Tên Sản phẩm" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                          <TextField fx:id="txtTenSpXuat" GridPane.columnIndex="1">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                          </TextField>
                                           <TextField fx:id="txtSoLuongXuat" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                              <GridPane.margin>
                                                 <Insets />
@@ -113,6 +108,7 @@
                                           <Label text="Ngày xuất" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                                           <Label text="Loại" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                                           <DatePicker fx:id="dpNgayXuat" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <ComboBox fx:id="cbTenSpXuat" prefWidth="150.0" GridPane.columnIndex="1" />
                                        </children>
                                        <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="138.0" minWidth="10.0" prefWidth="104.0" />
@@ -137,10 +133,83 @@
                   </BorderPane>
                </content>
           </Tab>
-          <Tab text="Untitled Tab 2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+          <Tab fx:id="tabTK" text="Thống kê nhập xuất">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <VBox prefHeight="150.0" prefWidth="802.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <GridPane prefHeight="115.0" prefWidth="802.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="409.0" minWidth="10.0" prefWidth="102.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="459.66668701171875" minWidth="10.0" prefWidth="203.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="459.66668701171875" minWidth="10.0" prefWidth="99.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="499.0" minWidth="10.0" prefWidth="232.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="463.0" minWidth="10.0" prefWidth="168.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints maxHeight="32.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <DatePicker fx:id="dpDayStartXuat" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <DatePicker fx:id="dpDayFinishXuat" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <Label text="Xuất từ Ngày" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                    <Label text="Đến Ngày" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                    <Button fx:id="btnFind" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Tìm" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                    <Label text="Nhập từ Ngày" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Label text="Đến Ngày" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <DatePicker fx:id="dpDayStartNhap" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <DatePicker fx:id="dpDayFinishNhap" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Button fx:id="btnPrintInfo" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="In Thông tin" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                              <GridPane prefHeight="46.0" prefWidth="802.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.0" minWidth="10.0" prefWidth="111.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="543.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="178.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Loại" GridPane.halignment="CENTER" />
+                                    <ComboBox fx:id="cbLoaiThongKe" prefHeight="25.0" prefWidth="475.0" GridPane.columnIndex="1" />
+                                    <Button fx:id="btnReset" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Xem toàn bộ" GridPane.columnIndex="2" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </top>
+                     <center>
+                        <SplitPane dividerPositions="0.37572254335260113" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+                           <items>
+                              <TableView fx:id="tbThongKe" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn fx:id="tbTenSpTKColumn" prefWidth="83.0" text="Tên SP" />
+                                  <TableColumn fx:id="tbDonGiaTKColumn" prefWidth="82.0" text="Đơn Giá" />
+                                    <TableColumn fx:id="tbSoLuongNhapTKColumn" prefWidth="113.0" text="Số Lượng Nhập" />
+                                    <TableColumn fx:id="tbNgayNhapTKColumn" prefWidth="118.0" text="Ngày Nhập" />
+                                    <TableColumn fx:id="tbSoLuongXuatTKColumn" prefWidth="120.0" text="Số Lượng Xuất" />
+                                    <TableColumn fx:id="tbNgayXuatTKColumn" prefWidth="130.0" text="Ngày Xuất" />
+                                    <TableColumn fx:id="tbLoaiTKColumn" prefWidth="154.0" text="Loại" />
+                                </columns>
+                              </TableView>
+                              <BarChart fx:id="bcThongKe">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis fx:id="yAxis" side="LEFT" />
+                                </yAxis>
+                              </BarChart>
+                           </items>
+                        </SplitPane>
+                     </center>
+                  </BorderPane>
+               </content>
           </Tab>
         </tabs>
       </TabPane>
