@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signIn.FXMLSignInController">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <bottom>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="btnAdd" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Thêm" textFill="RED">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox prefHeight="340.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane prefHeight="331.0" prefWidth="600.0">
+                     <children>
+                        <Label text="Tên KH" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="SDT" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Loại Thành viên" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Ngày DK" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="295.0" text="THÔNG TIN KHÁCH HÀNG" GridPane.columnIndex="2">
+                           <font>
+                              <Font name="Bodoni MT Black Italic" size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="txtTenCus" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtSDT" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="cbLoaiMember" prefHeight="25.0" prefWidth="309.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <DatePicker fx:id="dpNgayDK" disable="true" editable="false" prefHeight="25.0" prefWidth="304.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="87.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="314.0" minWidth="10.0" prefWidth="98.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.0" minWidth="10.0" prefWidth="300.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="115.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</VBox>

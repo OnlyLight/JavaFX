@@ -216,6 +216,17 @@ public class FXMLNhanVienController implements Initializable {
         System.out.println(result.get().getText());
         return result;
     }
+    
+    private void chooseTab() {
+        tabRole.setOnSelectionChanged((event) -> {
+            showTableRole();
+        });
+        
+        tabNhanVien.setOnSelectionChanged((event) -> {
+            showTBNV();
+            loadComboBox();
+        });
+    }
 
     /**
      * Initializes the controller class.
@@ -224,8 +235,7 @@ public class FXMLNhanVienController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         showTableRole();
-        showTBNV();
-        loadComboBox();
+        chooseTab();
         setEventClick();
     }    
     

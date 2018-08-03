@@ -16,7 +16,6 @@ import javafx.stage.Stage;
  * @author QuangDuy
  */
 public class DemoJavaFXSceneBuilder extends Application {
-    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));

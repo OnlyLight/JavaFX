@@ -38,7 +38,7 @@ public class FXMLDialogController implements Initializable {
     private TextField txtID, txtPrice, txtCategory, txtProductName, txtAmount;
     
     @FXML
-    private Button btnAdd, btnCancel;
+    private Button btnAdd;
     
     private int amount = 1;
     private Mon mon = FXMLDocumentController.monInfo;
@@ -108,16 +108,6 @@ public class FXMLDialogController implements Initializable {
             else {
                 createAlert("Sản phẩm đã tồn tại");
             }
-            
-            try {
-                showDialog();
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        
-        btnCancel.setOnAction((event) -> {
-            closeStage(btnCancel);
             
             try {
                 showDialog();

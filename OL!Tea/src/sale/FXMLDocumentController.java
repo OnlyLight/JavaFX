@@ -8,6 +8,7 @@ package sale;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -40,10 +41,19 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.converter.IntegerStringConverter;
+import signIn.FXMLSignInController;
+import login.FXMLLoginController;
+import tqduy.bean.CusMember;
 import tqduy.bean.LoaiMon;
+import tqduy.bean.Member;
 import tqduy.bean.Mon;
 import tqduy.bean.MonOrder;
+import tqduy.bean.NhanVien;
+import tqduy.connect.DBUtils_Bill;
+import tqduy.connect.DBUtils_CusMember;
+import tqduy.connect.DBUtils_DK;
 import tqduy.connect.DBUtils_LoaiMon;
+import tqduy.connect.DBUtils_Member;
 import tqduy.connect.DBUtils_Mon;
 import tqduy.connect.DBUtils_MonOrder;
 
@@ -52,20 +62,24 @@ import tqduy.connect.DBUtils_MonOrder;
  * @author QuangDuy
  */
 public class FXMLDocumentController implements Initializable {
-    
-    @FXML private TextField txtPay, txtMoneyTotal, txtDiscount;
+    @FXML private TextField txtPay, txtMoneyTotal, txtDiscount, txtSdtCheck;
     @FXML private BorderPane layoutSale;
-    @FXML private Button btnPay;
-    @FXML private MenuItem mnThucDon, mnClose, mnNhanVien, mnAbout, mnTonKho, mnHoaDon, mnLogout, mnCustomer;
+    @FXML private Button btnPay, btnCheck;
+    @FXML private MenuItem mnThucDon, mnClose, mnNhanVien, mnAbout, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     @FXML private TableView<MonOrder> tbInfomation;
     @FXML private TableColumn<MonOrder, String> tbColumnTenMon;
     @FXML private TableColumn<MonOrder, Integer> tbColumnDonGia;
     @FXML private TableColumn<MonOrder, String> tbColumnLoaiMon;
     @FXML private TableColumn<MonOrder, Integer> tbColumnAmount;
-    
     @FXML private Accordion acdMenu;
     
     public static Mon monInfo;
+    public static String sdt = "";
+    private CusMember customer = new CusMember();
+    private NhanVien nvLogin = FXMLLoginController.nvLogin;
+    private Member m = FXMLSignInController.m;
+    private double memberDiscount= 0;
+    private int idMem = 0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -77,6 +91,60 @@ public class FXMLDocumentController implements Initializable {
         payBill();
         showPay();
         setEventClick();
+        checkSDT();
+    }
+    
+    private boolean check(ArrayList<CusMember> arrCus, String sdtCheck) {
+        for (CusMember arrCu : arrCus) {
+            if(arrCu.getSdt().equals(sdtCheck)) {
+                customer = arrCu;
+                System.out.println(arrCu.getSdt() + " - " + sdtCheck);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private void checkSDT() {
+        txtSdtCheck.setText(sdt);
+        ArrayList<CusMember> arrCusFirst = DBUtils_CusMember.getListForCheck();
+        if(check(arrCusFirst, sdt)) {
+            idMem = customer.getIdMember();
+            showPay();
+        }
+        
+        txtSdtCheck.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("\\d*")) {
+                try {
+                    sdt = newValue;
+                } catch (Exception e) {
+                    
+                }
+            } else {
+                txtSdtCheck.setText(oldValue);
+            }
+        });
+        
+        btnCheck.setOnAction((event) -> {
+            ArrayList<CusMember> arrCus = DBUtils_CusMember.getListForCheck();
+            if(check(arrCus, sdt)) {
+                idMem = customer.getIdMember();
+                Optional<ButtonType> result = createAlert("Welcome " + customer.getTenCus());
+            
+                if(result.get() == ButtonType.OK) {
+                    showPay();
+                }
+            } else {
+                System.out.println("Sign in !!");
+                System.out.println("SDTMain: " + sdt);
+                try {
+                    showDialogMenu("/signIn/FXMLSignIn.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                closeStage(btnCheck);
+            }
+        });
     }
     
     // Table
@@ -176,15 +244,24 @@ public class FXMLDocumentController implements Initializable {
     
     // Pay Bill
     private double showPay() {
-        txtDiscount.setText("35%");
         double pay = 0;
+        for (Member member : DBUtils_Member.getList()) {
+            if(member.isActive()) {
+                if(member.getIdMember() == idMem) {
+                    memberDiscount = member.getDiscount();
+                }
+            }
+        }
+        
+        txtDiscount.setText(String.valueOf(memberDiscount));
+        
         ObservableList<MonOrder> list = getListMon();
         if(!list.isEmpty()) {
             int sumPay = 0;
             for (MonOrder monOrder : list) {
                 sumPay += monOrder.getDonGia() * monOrder.getSoLuong();
             }
-            double discount = sumPay * (35.0/100);
+            double discount = sumPay * (memberDiscount/100);
             pay = sumPay - discount;
             if(pay < 0) pay = 0;
             System.out.println("sumPay: " + sumPay + " - discount: " + discount + " - pay: " + pay);
@@ -201,12 +278,41 @@ public class FXMLDocumentController implements Initializable {
     
     private void payBill() {
         btnPay.setOnAction((event) -> {
+            System.out.println("IDMember: "+idMem+" - IDNV: " + nvLogin.getIdNV() + " - " + nvLogin.getUserName() + " - " + txtPay.getText());
+            
             // show alert thanh toán
-            createAlert("Thanh toán: " + showPay());
+            double pay = showPay();
+            Optional<ButtonType> result = createAlert("Thanh toán: " + pay);
+            
+            if(result.get() == ButtonType.OK) {
+                clearAndPostData();
+            }
         });
     }
     
-    private void createAlert(String content) {
+    private void clearAndPostData() {
+        // Insert Data for Table Bill
+        int pay = (int)showPay();
+        if (pay > 0) {
+            if(customer.getIdCus() > 0) {
+                System.out.println("IDNV: " + nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
+                DBUtils_DK.insert(nvLogin.getIdNV(), customer.getIdCus());
+            }
+            
+            System.out.println("IDNV: " + nvLogin.getIdNV() + " - pay: " + pay + " - " + LocalDate.now());
+            DBUtils_Bill.insert(nvLogin.getIdNV(), pay, LocalDate.now());
+        }
+        
+        // Clear
+        DBUtils_MonOrder.deleteAll();
+        tbInfomation.getItems().clear();
+        showPay();
+        memberDiscount = 0;
+        txtDiscount.setText(String.valueOf(memberDiscount));
+        System.out.println("Clear");
+    }
+    
+    private Optional<ButtonType> createAlert(String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setHeaderText("Infomation");
@@ -216,14 +322,8 @@ public class FXMLDocumentController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         
-        if(result.get() == ButtonType.OK) {
-            DBUtils_MonOrder.deleteAll();
-            tbInfomation.getItems().clear();
-            showPay();
-            System.out.println("Clear");
-        }
-
         System.out.println(result.get().getText());
+        return result;
     }
     
     // End Pay Bill
@@ -253,15 +353,32 @@ public class FXMLDocumentController implements Initializable {
         
         mnThucDon.setOnAction((event) -> {
             try {
-                showDialog("/managerMenu/FXMLManagerMenu.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+                showDialogMenu("/managerMenu/FXMLManagerMenu.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            closeStage(btnPay);
         });
         
         mnNhanVien.setOnAction((event) -> {
             try {
                 showDialog("/managerNV/FXMLNhanVien.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        mnMember.setOnAction((event) -> {
+            try {
+                showDialog("/managerMember/FXMLMember.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        mnCus.setOnAction((event) -> {
+            try {
+                showDialog("/managerCus/FXMLCustomer.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -305,7 +422,7 @@ public class FXMLDocumentController implements Initializable {
             monInfo = mon;
             
             try {
-                showDialog("/dialog/FXMLDialog.fxml", StageStyle.UNDECORATED, Modality.APPLICATION_MODAL);
+                showDialogMenu("/dialog/FXMLDialog.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -321,12 +438,37 @@ public class FXMLDocumentController implements Initializable {
     }
     
     // End Accordion
+    private void showDialogMenu(String url, StageStyle style, Modality modal) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(url));
+        Scene scene = new Scene(root);
+        
+        Stage stage = new Stage(style);
+        stage.initModality(modal);
+        
+        stage.setOnCloseRequest((event) -> {
+            try {
+                showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        stage.setTitle("OL! Tea");
+        
+        stage.setScene(scene);
+        stage.show();
+    }
+    
     private void showDialog(String url, StageStyle style, Modality modal) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(url));
         Scene scene = new Scene(root);
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
+        
+        stage.setOnCloseRequest((event) -> {
+            System.out.println("Hello Button Close");
+        });
         
         stage.setTitle("OL! Tea");
         

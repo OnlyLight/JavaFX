@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.FXMLLoginController">
+   <children>
+      <Label prefHeight="21.0" prefWidth="41.0" text="Login">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <VBox prefHeight="81.0" prefWidth="438.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="UserName " />
+                  <TextField fx:id="txtUserName" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="81.0" prefWidth="438.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="PassWord " />
+                  <PasswordField fx:id="txtPassWord" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" prefHeight="61.0" prefWidth="396.0">
+         <children>
+            <Button fx:id="btnLogin" mnemonicParsing="false" text="Đăng Nhập" />
+         </children>
+      </VBox>
+   </children>
+</VBox>

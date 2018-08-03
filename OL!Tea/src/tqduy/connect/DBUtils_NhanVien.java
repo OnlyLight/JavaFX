@@ -20,7 +20,7 @@ public class DBUtils_NhanVien {
     public static ArrayList<NhanVien> getList() {
         ArrayList<NhanVien> arrNV = new ArrayList<>();
         
-        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.Role.roleName, dbo.NhanVien.isActive FROM dbo.NhanVien JOIN dbo.Role ON Role.idRole = NhanVien.role";
+        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.NhanVien.passWord, dbo.Role.roleName, dbo.NhanVien.isActive FROM dbo.NhanVien JOIN dbo.Role ON Role.idRole = NhanVien.role";
 
         ResultSet res = query(sql);
 
@@ -28,11 +28,41 @@ public class DBUtils_NhanVien {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
                 int idNV = res.getInt("idNV");
                 String userName = res.getString("userName");
+                String passWord = res.getString("passWord");
                 String roleName = res.getString("roleName");
                 boolean active = res.getBoolean("isActive");
                 
                 NhanVien nv = new NhanVien(userName, roleName, active);
                 nv.setIdNV(idNV);
+                nv.setUserName(userName);
+                nv.setPassWord(passWord);
+                arrNV.add(nv);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Xin nhap lai !!");
+        } finally {
+            return arrNV;
+        }
+    }
+    
+    public static ArrayList<NhanVien> getListForCheck() {
+        ArrayList<NhanVien> arrNV = new ArrayList<>();
+        
+        String sql = "SELECT * FROM dbo.NhanVien";
+
+        ResultSet res = query(sql);
+
+        try {
+            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
+                int idNV = res.getInt("idNV");
+                String userName = res.getString("userName");
+                String passWord = res.getString("passWord");
+                
+                NhanVien nv = new NhanVien();
+                nv.setIdNV(idNV);
+                nv.setUserName(userName);
+                nv.setPassWord(passWord);
                 arrNV.add(nv);
             }
         } catch (SQLException e) {
