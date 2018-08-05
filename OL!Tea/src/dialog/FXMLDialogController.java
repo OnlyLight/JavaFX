@@ -20,6 +20,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sale.FXMLDocumentController;
@@ -99,6 +100,13 @@ public class FXMLDialogController implements Initializable {
         btnAdd.setDisable(true);
         txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
             btnAdd.setDisable(newValue.trim().isEmpty());
+        });
+        
+        txtAmount.setOnKeyPressed((event) -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                System.out.println("Hello Enter");
+                btnAdd.fire();
+            }
         });
         
         btnAdd.setOnAction((event) -> {

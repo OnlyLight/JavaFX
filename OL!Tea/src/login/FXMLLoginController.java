@@ -76,6 +76,10 @@ public class FXMLLoginController implements Initializable {
     private boolean checkUser(ArrayList<NhanVien> nvs, String user, String pass) {
         for (NhanVien nv : nvs) {
             if(user.equals(nv.getUserName()) && pass.equals(nv.getPassWord())) {
+                nvLogin.setIdNV(nv.getIdNV());
+                nvLogin.setUserName(nv.getUserName());
+                nvLogin.setPassWord(nv.getPassWord());
+                nvLogin.setIdRoleName(nv.getIdRoleName());
                 return true;
             }
         }

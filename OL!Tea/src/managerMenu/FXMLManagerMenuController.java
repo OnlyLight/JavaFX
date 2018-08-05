@@ -24,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.util.Callback;
 import tqduy.bean.DVT;
 import tqduy.bean.InsertNX;
@@ -180,6 +181,28 @@ public class FXMLManagerMenuController implements Initializable {
     }
     
     private void setClick() {
+        txtTenLoaiMon.setOnKeyPressed((event) -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                System.out.println("Hello Enter");
+                btnThemLoaiMon.fire();
+            }
+        });
+        btnThemLoaiMon.setDisable(true);
+        txtTenLoaiMon.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnThemLoaiMon.setDisable(newValue.trim().isEmpty());
+        });
+        
+        txtDVT.setOnKeyPressed((event) -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                System.out.println("Hello Enter");
+                btnThemDVT.fire();
+            }
+        });
+        btnThemDVT.setDisable(true);
+        txtDVT.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnThemDVT.setDisable(newValue.trim().isEmpty());
+        });
+        
         btnThemLoaiMon.setOnAction((event) -> {
             if(!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
                 DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());

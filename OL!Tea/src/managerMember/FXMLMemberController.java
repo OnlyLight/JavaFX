@@ -24,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.util.Callback;
 import tqduy.bean.Member;
 import tqduy.connect.DBUtils_Member;
@@ -100,6 +101,18 @@ public class FXMLMemberController implements Initializable {
             } else {
                 txtDiscountMember.setText(oldValue);
             }
+        });
+        
+        txtDiscountMember.setOnKeyPressed((event) -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                System.out.println("Hello Enter");
+                btnThemMember.fire();
+            }
+        });
+        
+        btnThemMember.setDisable(true);
+        txtDiscountMember.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnThemMember.setDisable(newValue.trim().isEmpty());
         });
         
         btnThemMember.setOnAction((event) -> {

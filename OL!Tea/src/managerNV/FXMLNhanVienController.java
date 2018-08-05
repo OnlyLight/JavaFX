@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.util.Callback;
 import tqduy.bean.Role;
 import tqduy.bean.NhanVien;
@@ -155,6 +156,13 @@ public class FXMLNhanVienController implements Initializable {
     }
     
     private void setEventClick() {
+        txtTenVaiTro.setOnKeyPressed((event) -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                System.out.println("Hello Enter");
+                btnThemVaiTro.fire();
+            }
+        });
+        
         btnThemVaiTro.setDisable(true);
         txtTenVaiTro.textProperty().addListener((observable, oldValue, newValue) -> {
             btnThemVaiTro.setDisable(newValue.trim().isEmpty());
