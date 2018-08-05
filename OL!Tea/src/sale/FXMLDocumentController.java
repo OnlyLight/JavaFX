@@ -25,6 +25,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -65,6 +66,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TextField txtPay, txtMoneyTotal, txtDiscount, txtSdtCheck;
     @FXML private BorderPane layoutSale;
     @FXML private Button btnPay, btnCheck;
+    @FXML private Menu menuQuanTri;
     @FXML private MenuItem mnThucDon, mnClose, mnNhanVien, mnAbout, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     @FXML private TableView<MonOrder> tbInfomation;
     @FXML private TableColumn<MonOrder, String> tbColumnTenMon;
@@ -84,6 +86,14 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        menuQuanTri.setDisable(true);
+        if(nvLogin.getIdRoleName() == 1) {
+            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
+            menuQuanTri.setDisable(false);
+        } else {
+            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
+            System.out.println("Ko Phai admin");
+        }
         showAcdMenu();
         tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         showTable();
@@ -282,26 +292,27 @@ public class FXMLDocumentController implements Initializable {
             
             // show alert thanh toán
             double pay = showPay();
-            Optional<ButtonType> result = createAlert("Thanh toán: " + pay);
-            
-            if(result.get() == ButtonType.OK) {
-                clearAndPostData();
+            if(pay <= 0) {
+                createAlert("Chưa chọn món !!");
+            } else {
+                Optional<ButtonType> result = createAlert("Thanh toán: " + pay);
+
+                if(result.get() == ButtonType.OK) {
+                    clearAndPostData(pay);
+                }
             }
         });
     }
     
-    private void clearAndPostData() {
+    private void clearAndPostData(double pay) {
         // Insert Data for Table Bill
-        int pay = (int)showPay();
-        if (pay > 0) {
-            if(customer.getIdCus() > 0) {
-                System.out.println("IDNV: " + nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
-                DBUtils_DK.insert(nvLogin.getIdNV(), customer.getIdCus());
-            }
-            
-            System.out.println("IDNV: " + nvLogin.getIdNV() + " - pay: " + pay + " - " + LocalDate.now());
-            DBUtils_Bill.insert(nvLogin.getIdNV(), pay, LocalDate.now());
+        if(customer.getIdCus() > 0) {
+            System.out.println("IDNV: " + nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
+            DBUtils_DK.insert(nvLogin.getIdNV(), customer.getIdCus());
         }
+
+        System.out.println("IDNV: " + nvLogin.getIdNV() + " - pay: " + pay + " - " + LocalDate.now());
+        DBUtils_Bill.insert(nvLogin.getIdNV(), (int)pay, LocalDate.now());
         
         // Clear
         DBUtils_MonOrder.deleteAll();
@@ -332,6 +343,7 @@ public class FXMLDocumentController implements Initializable {
     private void setEventClick() {
         mnClose.setText("Exit");
         mnClose.setOnAction((event) -> {
+            DBUtils_MonOrder.deleteAll();
             if(DBUtils_LoaiMon.conn() != null) {
                 try {
                     DBUtils_LoaiMon.conn().close();
@@ -379,6 +391,25 @@ public class FXMLDocumentController implements Initializable {
         mnCus.setOnAction((event) -> {
             try {
                 showDialog("/managerCus/FXMLCustomer.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        mnLogout.setOnAction((event) -> {
+            nvLogin = null;
+            DBUtils_MonOrder.deleteAll();
+            try {
+                showDialog("/login/FXMLLogin.fxml", StageStyle.DECORATED, Modality.NONE);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            closeStage(btnPay);
+        });
+        
+        mnHoaDon.setOnAction((event) -> {
+            try {
+                showDialog("/bill/FXMLBill.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -447,10 +478,28 @@ public class FXMLDocumentController implements Initializable {
         
         stage.setOnCloseRequest((event) -> {
             try {
-                showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+                loadMainDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        });
+        
+        stage.setTitle("OL! Tea");
+        
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    private void loadMainDialog(String url, StageStyle style, Modality modal) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(url));
+        Scene scene = new Scene(root);
+        
+        Stage stage = new Stage(style);
+        stage.initModality(modal);
+        
+        stage.setOnCloseRequest((event) -> {
+            System.out.println("Delete MonOrder");
+            DBUtils_MonOrder.deleteAll();
         });
         
         stage.setTitle("OL! Tea");

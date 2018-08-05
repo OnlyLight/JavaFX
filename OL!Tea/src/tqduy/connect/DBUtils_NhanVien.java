@@ -58,11 +58,13 @@ public class DBUtils_NhanVien {
                 int idNV = res.getInt("idNV");
                 String userName = res.getString("userName");
                 String passWord = res.getString("passWord");
+                int idRoleName = res.getInt("role");
                 
                 NhanVien nv = new NhanVien();
                 nv.setIdNV(idNV);
                 nv.setUserName(userName);
                 nv.setPassWord(passWord);
+                nv.setIdRoleName(idRoleName);
                 arrNV.add(nv);
             }
         } catch (SQLException e) {

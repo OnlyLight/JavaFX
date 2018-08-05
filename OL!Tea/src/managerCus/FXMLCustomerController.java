@@ -6,12 +6,18 @@
 package managerCus;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,6 +37,26 @@ public class FXMLCustomerController implements Initializable {
     @FXML private TableColumn<CusMember, String> tbSDTCusColumn;
     @FXML private TableColumn<CusMember, String> tbLoaiMemberCusColumn;
     @FXML private TableColumn<CusMember, Date> tbNgayLapCusColumn;
+    @FXML private Button btnInThongTin;
+    
+    private void setEvent() {
+        btnInThongTin.setOnAction((event) -> {
+            createAlert("Printing....");
+        });
+    }
+    
+    private void createAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Infomation");
+        alert.setContentText(content);
+
+        alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        System.out.println(result.get().getText());
+    }
     
     private void showTBCusMem() {
         System.out.println("Hello ");
@@ -50,6 +76,24 @@ public class FXMLCustomerController implements Initializable {
         tbLoaiMemberCusColumn.setCellValueFactory(new PropertyValueFactory<>("loaiMember"));
         tbNgayLapCusColumn.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
         
+        tbNgayLapCusColumn.setCellFactory((column) -> {
+            TableCell<CusMember, Date> cell = new TableCell<CusMember, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        setText(format.format(item));
+                    }
+                }
+            };
+            return cell; //To change body of generated lambdas, choose Tools | Templates.
+        });
+        
         ObservableList<CusMember> list = FXCollections.observableArrayList(DBUtils_CusMember.getList());
         System.out.println("List: " + list);
         if(!list.isEmpty()) {
@@ -65,6 +109,7 @@ public class FXMLCustomerController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         showTBCusMem();
+        setEvent();
     }    
     
 }

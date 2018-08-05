@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -31,6 +34,7 @@ import sale.FXMLDocumentController;
 import tqduy.bean.Member;
 import tqduy.connect.DBUtils_CusMember;
 import tqduy.connect.DBUtils_Member;
+import tqduy.connect.DBUtils_MonOrder;
 
 /**
  * FXML Controller class
@@ -84,14 +88,32 @@ public class FXMLSignInController implements Initializable {
             String ten = txtTenCus.getText().toString().trim();
             
             System.out.println("Ten: " + ten + " - sdt: " + sdt + " - NGay: " + dateDK + " - idMember: " + m.getIdMember() + " - " + m.getLoai());
-            DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
-            try {
-                showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLSignInController.class.getName()).log(Level.SEVERE, null, ex);
+            if(ten.isEmpty() || sdt.isEmpty() || dateDK == null || m == null) {
+                createAlert("Hãy nhập đầy đủ thông tin !!");
+            } else {
+                DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
+                try {
+                    showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLSignInController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                closeStage(btnAdd);
             }
-            closeStage(btnAdd);
         });
+    }
+    
+    private Optional<ButtonType> createAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Infomation");
+        alert.setContentText(content);
+
+        alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        System.out.println(result.get().getText());
+        return result;
     }
     
     private void showDialog(String url, StageStyle style, Modality modal) throws IOException {
@@ -100,6 +122,11 @@ public class FXMLSignInController implements Initializable {
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
+        
+        stage.setOnCloseRequest((event) -> {
+            System.out.println("Delete MonOrder");
+            DBUtils_MonOrder.deleteAll();
+        });
         
         stage.setTitle("OL! Tea");
         

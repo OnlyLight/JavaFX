@@ -22,7 +22,7 @@ public class DBUtils_CusMember {
     public static ArrayList<CusMember> getList() {
         ArrayList<CusMember> arrCusMem = new ArrayList<>();
         
-        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.Role.roleName, dbo.Customer.tenCus, dbo.Customer.sdt, dbo.Member.idMember, dbo.Member.tenLoaiMember, dbo.Customer.ngayLap FROM dbo.Member JOIN dbo.Customer ON Customer.idMember = Member.idMember JOIN dbo.DKMember ON DKMember.idCustomer = Customer.idCustomer JOIN dbo.NhanVien ON dbo.DKMember.idNhanVien = dbo.NhanVien.idNV JOIN dbo.Bill ON Bill.idNhanVien = NhanVien.idNV JOIN dbo.Role ON Role.idRole = NhanVien.role";
+        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.Role.roleName, dbo.Customer.tenCus, dbo.Customer.sdt, dbo.Member.idMember, dbo.Member.tenLoaiMember, dbo.Customer.ngayLap FROM dbo.Member JOIN dbo.Customer ON Customer.idMember = Member.idMember JOIN dbo.DKMember ON DKMember.idCustomer = Customer.idCustomer JOIN dbo.NhanVien ON dbo.DKMember.idNhanVien = dbo.NhanVien.idNV JOIN dbo.Role ON Role.idRole = NhanVien.role";
 
         ResultSet res = query(sql);
         System.out.println("SQL: " + sql);

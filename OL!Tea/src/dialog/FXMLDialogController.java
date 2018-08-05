@@ -96,23 +96,32 @@ public class FXMLDialogController implements Initializable {
     }
     
     private void eventClick(){
+        btnAdd.setDisable(true);
+        txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnAdd.setDisable(newValue.trim().isEmpty());
+        });
+        
         btnAdd.setOnAction((event) -> {
             getData();
             
             closeStage(btnAdd);
             MonOrder m = new MonOrder();
             
-            if(!checkID()) {
-                DBUtils_MonOrder.insert(mon.getIdMon(), amount);
-            }
-            else {
-                createAlert("Sản phẩm đã tồn tại");
-            }
-            
-            try {
-                showDialog();
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
+            if(txtAmount.getText().toString().trim().isEmpty()) {
+                createAlert("Hãy nhập số lượng !!!");
+            } else {
+                if(!checkID()) {
+                    DBUtils_MonOrder.insert(mon.getIdMon(), amount);
+                }
+                else {
+                    createAlert("Sản phẩm đã tồn tại");
+                }
+
+                try {
+                    showDialog();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -151,6 +160,11 @@ public class FXMLDialogController implements Initializable {
         
         Stage stage = new Stage(StageStyle.DECORATED);
         stage.setTitle("OL! Tea");
+        
+        stage.setOnCloseRequest((event) -> {
+            System.out.println("Delete MonOrder");
+            DBUtils_MonOrder.deleteAll();
+        });
         
         stage.setScene(scene);
         stage.show();

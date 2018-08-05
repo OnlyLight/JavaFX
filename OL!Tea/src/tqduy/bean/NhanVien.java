@@ -13,6 +13,7 @@ public class NhanVien {
     private int idNV;
     private String userName;
     private String passWord;
+    private int idRoleName;
     private String roleName;
     private boolean active;
 
@@ -47,6 +48,14 @@ public class NhanVien {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+    public int getIdRoleName() {
+        return idRoleName;
+    }
+
+    public void setIdRoleName(int idRoleName) {
+        this.idRoleName = idRoleName;
     }
 
     public String getRoleName() {

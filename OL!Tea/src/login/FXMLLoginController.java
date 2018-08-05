@@ -8,6 +8,7 @@ package login;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -24,6 +27,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tqduy.bean.NhanVien;
+import tqduy.connect.DBUtils_MonOrder;
 import tqduy.connect.DBUtils_NhanVien;
 
 /**
@@ -56,21 +60,40 @@ public class FXMLLoginController implements Initializable {
             String pass = txtPassWord.getText().toString().trim();
             nvLogin = new NhanVien();
             
-            for (NhanVien nv : nvs) {
-                if(user.equals(nv.getUserName()) && pass.equals(nv.getPassWord())) {
-                    nvLogin.setUserName(nv.getUserName());
-                    nvLogin.setPassWord(nv.getPassWord());
-                    nvLogin.setIdNV(nv.getIdNV());
-                    try {
-                        showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-                    } catch (IOException ex) {
-                        Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    closeStage(btnLogin);
-                    break;
+            if(checkUser(nvs, user, pass)) {
+                try {
+                    showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                closeStage(btnLogin);
+            } else {
+                createAlert("User hoặc passWord không đúng");
             }
         });
+    }
+    
+    private boolean checkUser(ArrayList<NhanVien> nvs, String user, String pass) {
+        for (NhanVien nv : nvs) {
+            if(user.equals(nv.getUserName()) && pass.equals(nv.getPassWord())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private Optional<ButtonType> createAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Infomation");
+        alert.setContentText(content);
+
+        alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        System.out.println(result.get().getText());
+        return result;
     }
     
     private void closeStage(Button btn) {
@@ -85,6 +108,11 @@ public class FXMLLoginController implements Initializable {
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
+        
+        stage.setOnCloseRequest((event) -> {
+            System.out.println("Delete MonOrder");
+            DBUtils_MonOrder.deleteAll();
+        });
         
         stage.setTitle("OL! Tea");
         

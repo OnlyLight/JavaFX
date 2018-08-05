@@ -32,7 +32,7 @@
                         <MenuItem fx:id="mnCus" mnemonicParsing="false" text="Thông Kê Khách Hàng" />
                   </items>
                 </Menu>
-                  <Menu mnemonicParsing="false" text="Quản Trị">
+                  <Menu fx:id="menuQuanTri" mnemonicParsing="false" text="Quản Trị">
                     <items>
                       <MenuItem fx:id="mnThucDon" mnemonicParsing="false" text="Quản Lý Thực Đơn - Nhập Xuất" />
                         <MenuItem fx:id="mnNhanVien" mnemonicParsing="false" text="Quản Lý Nhân Viên" />

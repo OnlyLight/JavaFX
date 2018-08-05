@@ -14,6 +14,7 @@ import java.util.Date;
 public class Bill {
     private int idBill;
     private int idNV;
+    private String tenNV;
     private int tongTien;
     private Date ngayLap;
 
@@ -41,6 +42,14 @@ public class Bill {
 
     public void setIdNV(int idNV) {
         this.idNV = idNV;
+    }
+
+    public String getTenNV() {
+        return tenNV;
+    }
+
+    public void setTenNV(String tenNV) {
+        this.tenNV = tenNV;
     }
 
     public int getTongTien() {

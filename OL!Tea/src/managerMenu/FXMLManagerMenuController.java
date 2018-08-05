@@ -181,7 +181,7 @@ public class FXMLManagerMenuController implements Initializable {
     
     private void setClick() {
         btnThemLoaiMon.setOnAction((event) -> {
-            if(!txtTenLoaiMon.getText().isEmpty()) {
+            if(!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
                 DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
             }
             

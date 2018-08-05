@@ -204,7 +204,17 @@ public class FXMLWareHouseController implements Initializable {
                     cbTenLoaiXuat.setItems(loai);
                 }
             }
+            showBoxNhap();
         });
+    }
+    
+    private void showBoxNhap() {
+        ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
+        for (LoaiNX loaiNX : arrLoai) {
+            loai.add(loaiNX);
+            System.out.println(loaiNX);
+        }
+        if(!loai.isEmpty()) cbTenLoaiNhap.setItems(loai);
     }
     
     private void showCombobox() {
@@ -218,7 +228,8 @@ public class FXMLWareHouseController implements Initializable {
             String tenDV = dvt.getDvt();
             listDVT.add(tenDV);
         }
-        cbTenLoaiNhap.setItems(loai);
+        
+        showBoxNhap();
         cbTenLoaiXuat.setItems(loai);
         cbLoaiThongKe.setItems(loai);
     }
@@ -363,7 +374,7 @@ public class FXMLWareHouseController implements Initializable {
         });
         
         btnXuat.setOnAction((event) -> {
-            if(tenSpXuat.isEmpty() || txtSoLuongXuat.getText().isEmpty() || tenLoaiXuat == null) {
+            if(tenSpXuat.isEmpty() || txtSoLuongXuat.getText().toString().trim().isEmpty() || tenLoaiXuat == null) {
                 createAlert("Xin Nhập đầy đủ thông tin !!!");
             } else {
                 DBUtils_Xuat.insert(tenSpXuat, tenLoaiXuat.getIdLoaiNX(), soLuongXuat, dateXuat);
@@ -467,6 +478,60 @@ public class FXMLWareHouseController implements Initializable {
         
         tbNgayNhapColumn.setCellFactory((column) -> {
             TableCell<NhapTable, Date> cell = new TableCell<NhapTable, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        setText(format.format(item));
+                    }
+                }
+            };
+            return cell; //To change body of generated lambdas, choose Tools | Templates.
+        });
+        
+        tbNgayXuatColumn.setCellFactory((column) -> {
+            TableCell<XuatTable, Date> cell = new TableCell<XuatTable, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        setText(format.format(item));
+                    }
+                }
+            };
+            return cell; //To change body of generated lambdas, choose Tools | Templates.
+        });
+        
+        tbNgayNhapTKColumn.setCellFactory((column) -> {
+            TableCell<TKTable, Date> cell = new TableCell<TKTable, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if(empty) {
+                        setText(null);
+                    }
+                    else {
+                        setText(format.format(item));
+                    }
+                }
+            };
+            return cell; //To change body of generated lambdas, choose Tools | Templates.
+        });
+        
+        tbNgayXuatTKColumn.setCellFactory((column) -> {
+            TableCell<TKTable, Date> cell = new TableCell<TKTable, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
                 @Override

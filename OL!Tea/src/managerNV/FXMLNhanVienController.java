@@ -155,6 +155,11 @@ public class FXMLNhanVienController implements Initializable {
     }
     
     private void setEventClick() {
+        btnThemVaiTro.setDisable(true);
+        txtTenVaiTro.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnThemVaiTro.setDisable(newValue.trim().isEmpty());
+        });
+        
         btnThemVaiTro.setOnAction((event) -> {
             String ten = txtTenVaiTro.getText().toString().trim();
             if(!ten.isEmpty()) {
@@ -183,7 +188,7 @@ public class FXMLNhanVienController implements Initializable {
             String userName = txtUserName.getText().toString().trim();
             String passWord = txtPassWord.getText().toString().trim();
             
-            if(!userName.isEmpty() || !passWord.isEmpty()) {
+            if(!userName.isEmpty() && !passWord.isEmpty()) {
                 Optional<ButtonType> result = createAlert("Do you want add ?");
             
                 if(result.get() == ButtonType.OK) {
