@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="managerMenu.FXMLManagerMenuController">
+<AnchorPane id="AnchorPane" prefHeight="573.0" prefWidth="655.0" style="-fx-background-color: #D3D3D3;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="managerMenu.FXMLManagerMenuController">
    <children>
-      <TabPane prefHeight="542.0" prefWidth="629.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab fx:id="tabLoaiMon" text="Loại món">
+      <ImageView fitHeight="573.0" fitWidth="655.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/download.jpg" />
+         </image>
+      </ImageView>
+      <TabPane opacity="0.98" prefHeight="573.0" prefWidth="655.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab fx:id="tabLoaiMon" text="Loại món">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
                         <VBox prefHeight="318.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                            <children>
                               <TableView fx:id="tbLoaiMon" prefHeight="394.0" prefWidth="629.0">
-                                <columns>
-                                  <TableColumn fx:id="tbIDColumnLoaiMon" prefWidth="75.0" text="STT" />
-                                  <TableColumn fx:id="tbTenLoaiMonColumn" prefWidth="103.0" text="Loại" />
+                                 <columns>
+                                    <TableColumn fx:id="tbIDColumnLoaiMon" prefWidth="75.0" text="STT" />
+                                    <TableColumn fx:id="tbTenLoaiMonColumn" prefWidth="103.0" text="Loại" />
                                     <TableColumn fx:id="tbIsActiveLoaiMonColumn" prefWidth="105.0" text="isActive" />
-                                </columns>
+                                 </columns>
                               </TableView>
                            </children>
                         </VBox>
                      </center>
                      <top>
-                        <VBox alignment="CENTER" prefHeight="121.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="655.0" BorderPane.alignment="CENTER">
                            <children>
+                              <Label text="Danh Sách Loại Món">
+                                 <font>
+                                    <Font name="Bell MT Bold" size="20.0" />
+                                 </font>
+                              </Label>
                               <HBox alignment="CENTER" prefHeight="83.0" prefWidth="600.0">
                                  <children>
                                     <Label text="Tên Loại món">
@@ -38,27 +50,33 @@
                                           <Insets right="5.0" />
                                        </padding>
                                     </Label>
-                                    <TextField fx:id="txtTenLoaiMon" />
-                                    <Button fx:id="btnThemLoaiMon" mnemonicParsing="false" text="Thêm Loại">
-                                       <HBox.margin>
-                                          <Insets left="5.0" />
-                                       </HBox.margin>
-                                    </Button>
+                                    <JFXTextField fx:id="txtTenLoaiMon" prefHeight="25.0" prefWidth="153.0" />
+                                    <JFXButton fx:id="btnThemLoaiMon" prefHeight="25.0" prefWidth="86.0" style="-fx-background-color: #8e0000;" text="Thêm Loại" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </JFXButton>
                                  </children>
                               </HBox>
-                              <Label text="Danh Sách Loại Món">
-                                 <font>
-                                    <Font name="Bell MT Bold" size="20.0" />
-                                 </font>
-                              </Label>
                            </children>
                         </VBox>
-                     </top></BorderPane>
+                     </top>
+                  </BorderPane>
                </content>
-          </Tab>
-          <Tab fx:id="tabMenu" text="Menu">
+            </Tab>
+            <Tab fx:id="tabMenu" text="Menu">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <TableView fx:id="tbMenu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <columns>
+                              <TableColumn fx:id="tbTenMonColumnMenu" prefWidth="152.0" text="Tên Món" />
+                              <TableColumn fx:id="tbDonGiaColumnMenu" prefWidth="126.0" text="Đơn Giá" />
+                              <TableColumn fx:id="tbLoaiMonColumnMenu" prefWidth="153.0" text="Loại Món" />
+                              <TableColumn fx:id="tbIsActiveMenuColumn" prefWidth="135.0" text="isActive" />
+                           </columns>
+                        </TableView>
+                     </center>
                      <top>
                         <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
                            <children>
@@ -67,16 +85,20 @@
                                     <Insets right="5.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="txtTenMonMenu" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Loại Món" GridPane.rowIndex="3">
                                  <padding>
                                     <Insets right="5.0" />
                                  </padding>
                               </Label>
                               <ComboBox fx:id="cbLoaiMonMenu" prefHeight="25.0" prefWidth="452.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Button fx:id="btnThemMenu" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Thêm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                               <Label text="Đơn giá" GridPane.rowIndex="2" />
-                              <TextField fx:id="txtDonGiaMenu" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <JFXTextField fx:id="txtTenMonMenu" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <JFXTextField fx:id="txtDonGiaMenu" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <JFXButton fx:id="btnThemMenu" prefHeight="25.0" prefWidth="99.0" style="-fx-background-color: #8e0000;" text="Thêm Món" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </JFXButton>
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="134.0" />
@@ -94,52 +116,45 @@
                            </rowConstraints>
                         </GridPane>
                      </top>
-                     <center>
-                        <TableView fx:id="tbMenu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="tbTenMonColumnMenu" prefWidth="152.0" text="Tên Món" />
-                            <TableColumn fx:id="tbDonGiaColumnMenu" prefWidth="126.0" text="Đơn Giá" />
-                              <TableColumn fx:id="tbLoaiMonColumnMenu" prefWidth="153.0" text="Loại Món" />
-                              <TableColumn fx:id="tbIsActiveMenuColumn" prefWidth="135.0" text="isActive" />
-                          </columns>
-                        </TableView>
-                     </center>
                   </BorderPane>
                </content>
-          </Tab>
+            </Tab>
             <Tab fx:id="tabDVT" text="Đơn vị tính ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
                         <VBox prefHeight="318.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                            <children>
-                              <ListView fx:id="lvDVT" prefHeight="434.0" prefWidth="629.0" />
+                              <ListView fx:id="lvDVT" prefHeight="390.0" prefWidth="655.0" />
                            </children>
                         </VBox>
                      </center>
                      <top>
-                        <VBox alignment="CENTER" prefHeight="121.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="158.0" prefWidth="655.0" BorderPane.alignment="CENTER">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="83.0" prefWidth="600.0">
+                              <Label text="Danh Sách Đơn Vị Tính">
+                                 <font>
+                                    <Font name="Bell MT Bold" size="20.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <HBox alignment="CENTER" prefHeight="111.0" prefWidth="655.0">
                                  <children>
                                     <Label text="Đơn vị tính">
                                        <padding>
                                           <Insets right="5.0" />
                                        </padding>
                                     </Label>
-                                    <TextField fx:id="txtDVT" />
-                                    <Button fx:id="btnThemDVT" mnemonicParsing="false" text="Thêm Loại">
-                                       <HBox.margin>
-                                          <Insets left="5.0" />
-                                       </HBox.margin>
-                                    </Button>
+                                    <JFXTextField fx:id="txtDVT" prefHeight="25.0" prefWidth="155.0" />
+                                    <JFXButton fx:id="btnThemDVT" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #8e0000;" text="Thêm DVT" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </JFXButton>
                                  </children>
                               </HBox>
-                              <Label text="Danh Sách Đơn Vị Tính">
-                                 <font>
-                                    <Font name="Bell MT Bold" size="20.0" />
-                                 </font>
-                              </Label>
                            </children>
                         </VBox>
                      </top>
@@ -149,50 +164,54 @@
             <Tab fx:id="tabLoaiNX" text="Loại Nhập Xuất">
                <content>
                   <BorderPane prefHeight="415.0" prefWidth="629.0">
+                     <center>
+                        <TableView fx:id="tbLoaiNX" prefHeight="438.0" prefWidth="655.0" BorderPane.alignment="CENTER">
+                           <columns>
+                              <TableColumn fx:id="tbLoaiNXColumn" prefWidth="174.0" text="Loại NX" />
+                              <TableColumn fx:id="tbDVTColumn" prefWidth="185.0" text="Đơn vị tính" />
+                           </columns>
+                        </TableView>
+                     </center>
                      <top>
-                        <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="134.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="446.0" minWidth="10.0" prefWidth="446.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                        <GridPane alignment="CENTER" prefHeight="147.0" prefWidth="655.0" BorderPane.alignment="CENTER">
                            <children>
                               <Label text="Tên Loại Nhập Xuất" GridPane.rowIndex="1">
                                  <padding>
                                     <Insets right="5.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="txtLoaiNhapXuat" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Đơn vị tính" GridPane.rowIndex="2">
                                  <padding>
                                     <Insets right="5.0" />
                                  </padding>
                               </Label>
                               <ComboBox fx:id="cbDVT" prefHeight="25.0" prefWidth="452.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Button fx:id="btnThemLoaiNX" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Thêm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                              <JFXTextField fx:id="txtLoaiNhapXuat" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <JFXButton fx:id="btnThemLoaiNX" prefHeight="25.0" prefWidth="83.0" style="-fx-background-color: #8e0000;" text="Thêm" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </JFXButton>
                            </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="134.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="446.0" minWidth="10.0" prefWidth="446.0" />
+                           </columnConstraints>
                            <padding>
                               <Insets left="10.0" right="10.0" />
                            </padding>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                         </GridPane>
                      </top>
-                     <center>
-                        <TableView fx:id="tbLoaiNX" prefHeight="350.0" prefWidth="629.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="tbLoaiNXColumn" prefWidth="174.0" text="Loại NX" />
-                            <TableColumn fx:id="tbDVTColumn" prefWidth="185.0" text="Đơn vị tính" />
-                          </columns>
-                        </TableView>
-                     </center>
                   </BorderPane>
                </content>
             </Tab>
-        </tabs>
+         </tabs>
       </TabPane>
    </children>
-</VBox>
+</AnchorPane>

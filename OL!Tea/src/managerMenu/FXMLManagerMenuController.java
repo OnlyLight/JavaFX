@@ -5,7 +5,10 @@
  */
 package managerMenu;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -14,14 +17,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -41,8 +44,8 @@ import tqduy.connect.DBUtils_Mon;
  * @author QuangDuy
  */
 public class FXMLManagerMenuController implements Initializable {
-    @FXML private TextField txtTenLoaiMon, txtTenMonMenu, txtDonGiaMenu, txtDVT, txtLoaiNhapXuat;
-    @FXML private Button btnThemLoaiMon, btnThemMenu, btnThemDVT, btnThemLoaiNX;
+    @FXML private JFXTextField txtTenLoaiMon, txtTenMonMenu, txtDonGiaMenu, txtDVT, txtLoaiNhapXuat;
+    @FXML private JFXButton btnThemLoaiMon, btnThemMenu, btnThemDVT, btnThemLoaiNX;
     @FXML private ListView<DVT> lvDVT;
     @FXML private ComboBox<LoaiMon> cbLoaiMonMenu;
     @FXML private ComboBox<DVT> cbDVT;
@@ -254,6 +257,8 @@ public class FXMLManagerMenuController implements Initializable {
                     tbLoaiNX.getItems().clear();
                     tbLoaiNX.setItems(listLoai);
                 }
+            } else {
+                createAlert("Hãy nhập đầy đủ thông tin !!");
             }
         });
         
@@ -269,6 +274,16 @@ public class FXMLManagerMenuController implements Initializable {
             }
         });
         
+        btnThemLoaiNX.setDisable(true);
+        txtLoaiNhapXuat.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnThemLoaiNX.setDisable(newValue.trim().isEmpty());
+        });
+        
+        btnThemMenu.setDisable(true);
+        txtTenMonMenu.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnThemMenu.setDisable(newValue.trim().isEmpty());
+        });
+        
         btnThemMenu.setOnAction((event) -> {
             String tenMon = txtTenMonMenu.getText().toString().trim();
             
@@ -281,8 +296,24 @@ public class FXMLManagerMenuController implements Initializable {
                     tbMenu.getItems().clear();
                     tbMenu.setItems(listLoai);
                 }
+            } else {
+                createAlert("Hãy nhập đầy đủ thông tin !!");
             }
         });
+    }
+    
+    private Optional<ButtonType> createAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Infomation");
+        alert.setContentText(content);
+
+        alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        System.out.println(result.get().getText());
+        return result;
     }
     
     private void loadComboBox() {

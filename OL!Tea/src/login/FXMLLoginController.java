@@ -5,6 +5,9 @@
  */
 package login;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,8 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,9 +38,9 @@ import tqduy.connect.DBUtils_NhanVien;
  * @author QuangDuy
  */
 public class FXMLLoginController implements Initializable {
-    @FXML private TextField txtUserName;
-    @FXML private PasswordField txtPassWord;
-    @FXML private Button btnLogin;
+    @FXML private JFXTextField txtUserName;
+    @FXML private JFXPasswordField txtPassWord;
+    @FXML private JFXButton btnLogin, btnExit;
     
     public static NhanVien nvLogin;
     
@@ -70,6 +72,10 @@ public class FXMLLoginController implements Initializable {
             } else {
                 createAlert("User hoặc passWord không đúng");
             }
+        });
+        
+        btnExit.setOnAction((event) -> {
+            System.exit(0);
         });
     }
     
@@ -112,6 +118,8 @@ public class FXMLLoginController implements Initializable {
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
+        
+        stage.getIcons().add(new Image("/images/icon.jpg"));
         
         stage.setOnCloseRequest((event) -> {
             System.out.println("Delete MonOrder");

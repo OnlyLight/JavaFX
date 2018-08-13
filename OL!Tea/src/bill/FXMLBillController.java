@@ -5,10 +5,12 @@
  */
 package bill;
 
+import com.jfoenix.controls.JFXButton;
 import tqduy.bean.Bill;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -22,7 +24,6 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -43,7 +44,7 @@ public class FXMLBillController implements Initializable {
     @FXML private TableColumn<Bill, String> tbTenNVColumn;
     @FXML private TableColumn<Bill, Integer> tbTongTienColumn;
     @FXML private TableColumn<Bill, Date> tbNgayLapColumn;
-    @FXML private Button btnInThongTin;
+    @FXML private JFXButton btnInThongTin;
     
     private void setEvent() {
         btnInThongTin.setOnAction((event) -> {
@@ -104,41 +105,22 @@ public class FXMLBillController implements Initializable {
     }
     
     private void showAreaChart() {
-        areaChart.setTitle("Revenue");
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        
+        areaChart.setTitle("Thông Kê Hóa Đơn");
         
         areaChart.setLegendSide(Side.LEFT);
         System.out.println("AreaChart");
-        // Chuỗi dữ liệu của năm 2014
         XYChart.Series<String, Number> series2017 = new XYChart.Series<String, Number>();
-        series2017.setName("2017");
+        series2017.setName(""+(year-1)+"");
         
         XYChart.Series<String, Number> series2018 = new XYChart.Series<String, Number>();
-        series2018.setName("2018");
+        series2018.setName(""+year+"");
         
         for(int i = 1; i <= 12; i++) {
-            series2017.getData().add(new XYChart.Data<String, Number>(""+i+"", DBUtils_Bill.getSumPirceForMonth(i, 2017)));
-            series2018.getData().add(new XYChart.Data<String, Number>(""+i+"", DBUtils_Bill.getSumPirceForMonth(i, 2018)));
+            series2017.getData().add(new XYChart.Data<String, Number>(""+i+"", DBUtils_Bill.getSumPirceForMonth(i, (year-1))));
+            series2018.getData().add(new XYChart.Data<String, Number>(""+i+"", DBUtils_Bill.getSumPirceForMonth(i, year)));
         }
-
-//        series2014.getData().add(new XYChart.Data<String, Number>("1", 400));
-//        series2014.getData().add(new XYChart.Data<String, Number>("3", 1000));
-//        series2014.getData().add(new XYChart.Data<String, Number>("4", 1500));
-//        series2014.getData().add(new XYChart.Data<String, Number>("5", 800));
-//        series2014.getData().add(new XYChart.Data<String, Number>("7", 500));
-//        series2014.getData().add(new XYChart.Data<String, Number>("8", 1800));
-//        series2014.getData().add(new XYChart.Data<String, Number>("10", 1500));
-//        series2014.getData().add(new XYChart.Data<String, Number>("12", 1300));
-
-        // Chuỗi dữ liệu của năm 2015
-        
-//        series2015.getData().add(new XYChart.Data<String, Number>("1", 2000));
-//        series2015.getData().add(new XYChart.Data<String, Number>("3", 1500));
-//        series2015.getData().add(new XYChart.Data<String, Number>("4", 1300));
-//        series2015.getData().add(new XYChart.Data<String, Number>("5", 1200));
-//        series2015.getData().add(new XYChart.Data<String, Number>("7", 1400));
-//        series2015.getData().add(new XYChart.Data<String, Number>("8", 1080));
-//        series2015.getData().add(new XYChart.Data<String, Number>("10", 2050));
-//        series2015.getData().add(new XYChart.Data<String, Number>("12", 2005));
 
         areaChart.getData().addAll(series2017, series2018);
     }
@@ -150,6 +132,7 @@ public class FXMLBillController implements Initializable {
         // TODO
         showAreaChart();
         showTable();
+        setEvent();
     }    
     
 }

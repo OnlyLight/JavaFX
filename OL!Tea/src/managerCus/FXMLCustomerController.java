@@ -5,6 +5,7 @@
  */
 package managerCus;
 
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +38,7 @@ public class FXMLCustomerController implements Initializable {
     @FXML private TableColumn<CusMember, String> tbSDTCusColumn;
     @FXML private TableColumn<CusMember, String> tbLoaiMemberCusColumn;
     @FXML private TableColumn<CusMember, Date> tbNgayLapCusColumn;
-    @FXML private Button btnInThongTin;
+    @FXML private JFXButton btnInThongTin;
     
     private void setEvent() {
         btnInThongTin.setOnAction((event) -> {

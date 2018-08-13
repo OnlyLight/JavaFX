@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -390,7 +391,7 @@ public class FXMLDocumentController implements Initializable {
         
         mnCus.setOnAction((event) -> {
             try {
-                showDialog("/managerCus/FXMLCustomer.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+                showDialog("/managerCus/FXMLCustomer_1.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -400,7 +401,7 @@ public class FXMLDocumentController implements Initializable {
             nvLogin = null;
             DBUtils_MonOrder.deleteAll();
             try {
-                showDialog("/login/FXMLLogin.fxml", StageStyle.DECORATED, Modality.NONE);
+                showDialog("/login/FXMLLogin_1.fxml", StageStyle.UNDECORATED, Modality.NONE);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -410,6 +411,14 @@ public class FXMLDocumentController implements Initializable {
         mnHoaDon.setOnAction((event) -> {
             try {
                 showDialog("/bill/FXMLBill.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        mnAbout.setOnAction((event) -> {
+            try {
+                showDialog("/about/FXMLAbout.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -476,6 +485,8 @@ public class FXMLDocumentController implements Initializable {
         Stage stage = new Stage(style);
         stage.initModality(modal);
         
+        stage.getIcons().add(new Image("/images/icon.jpg"));
+        
         stage.setOnCloseRequest((event) -> {
             try {
                 loadMainDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
@@ -497,6 +508,8 @@ public class FXMLDocumentController implements Initializable {
         Stage stage = new Stage(style);
         stage.initModality(modal);
         
+        stage.getIcons().add(new Image("/images/icon.jpg"));
+        
         stage.setOnCloseRequest((event) -> {
             System.out.println("Delete MonOrder");
             DBUtils_MonOrder.deleteAll();
@@ -514,6 +527,7 @@ public class FXMLDocumentController implements Initializable {
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
+        stage.getIcons().add(new Image("/images/icon.jpg"));
         
         stage.setOnCloseRequest((event) -> {
             System.out.println("Hello Button Close");

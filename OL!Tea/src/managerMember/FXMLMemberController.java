@@ -5,6 +5,8 @@
  */
 package managerMember;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -21,7 +23,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -35,8 +36,8 @@ import tqduy.connect.DBUtils_Member;
  * @author QuangDuy
  */
 public class FXMLMemberController implements Initializable {
-    @FXML private TextField txtTenLoaiMember, txtDiscountMember;
-    @FXML private Button btnThemMember;
+    @FXML private JFXTextField txtTenLoaiMember, txtDiscountMember;
+    @FXML private JFXButton btnThemMember;
     @FXML private TableView<Member> tbMember;
     @FXML private TableColumn<Member, Integer> tbIDMemberColumn;
     @FXML private TableColumn<Member, String> tbLoaiMemberColumn;

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -9,13 +11,18 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="managerNV.FXMLNhanVienController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="managerNV.FXMLNhanVienController">
    <children>
+      <ImageView fitHeight="501.0" fitWidth="685.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/download.jpg" />
+         </image>
+      </ImageView>
       <BorderPane prefHeight="501.0" prefWidth="686.0">
          <center>
             <TabPane prefHeight="514.0" prefWidth="686.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab fx:id="tabRole" text="Vai Trò">
+               <tabs>
+                  <Tab fx:id="tabRole" text="Vai Trò">
                      <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
                            <center>
@@ -32,8 +39,13 @@
                               </VBox>
                            </center>
                            <top>
-                              <VBox alignment="CENTER" prefHeight="121.0" prefWidth="629.0" BorderPane.alignment="CENTER">
+                              <VBox alignment="CENTER" prefHeight="185.0" prefWidth="686.0" BorderPane.alignment="CENTER">
                                  <children>
+                                    <Label text="Danh Sách Vai Trò">
+                                       <font>
+                                          <Font name="Bell MT Bold" size="20.0" />
+                                       </font>
+                                    </Label>
                                     <HBox alignment="CENTER" prefHeight="83.0" prefWidth="600.0">
                                        <children>
                                           <Label text="Tên Vai Trò">
@@ -41,26 +53,21 @@
                                                 <Insets right="5.0" />
                                              </padding>
                                           </Label>
-                                          <TextField fx:id="txtTenVaiTro" />
-                                          <Button fx:id="btnThemVaiTro" mnemonicParsing="false" text="Thêm Loại">
-                                             <HBox.margin>
-                                                <Insets left="5.0" />
-                                             </HBox.margin>
-                                          </Button>
+                                          <JFXTextField fx:id="txtTenVaiTro" />
+                                          <JFXButton fx:id="btnThemVaiTro" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #8e0000;" text="Thêm" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </JFXButton>
                                        </children>
                                     </HBox>
-                                    <Label text="Danh Sách Vai Trò">
-                                       <font>
-                                          <Font name="Bell MT Bold" size="20.0" />
-                                       </font>
-                                    </Label>
                                  </children>
                               </VBox>
                            </top>
                         </BorderPane>
                      </content>
-                </Tab>
-                <Tab fx:id="tabNhanVien" text="Nhân Viên">
+                  </Tab>
+                  <Tab fx:id="tabNhanVien" text="Nhân Viên">
                      <content>
                         <BorderPane prefHeight="200.0" prefWidth="200.0">
                            <center>
@@ -73,23 +80,27 @@
                               </TableView>
                            </center>
                            <top>
-                              <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+                              <GridPane alignment="CENTER" prefHeight="185.0" prefWidth="686.0" BorderPane.alignment="CENTER">
                                  <children>
                                     <Label text="User Name" GridPane.rowIndex="1">
                                        <padding>
                                           <Insets right="5.0" />
                                        </padding>
                                     </Label>
-                                    <TextField fx:id="txtUserName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label text="Vai Trò" GridPane.rowIndex="3">
                                        <padding>
                                           <Insets right="5.0" />
                                        </padding>
                                     </Label>
                                     <ComboBox fx:id="cbVaiTro" prefHeight="25.0" prefWidth="452.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Button fx:id="btnThemNV" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Thêm" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
                                     <Label text="PassWord" GridPane.rowIndex="2" />
-                                    <TextField fx:id="txtPassWord" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <JFXTextField fx:id="txtUserName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <JFXTextField fx:id="txtPassWord" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <JFXButton fx:id="btnThemNV" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #8e0000;" text="Thêm" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </JFXButton>
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="134.0" />
@@ -109,10 +120,10 @@
                            </top>
                         </BorderPane>
                      </content>
-                </Tab>
-              </tabs>
+                  </Tab>
+               </tabs>
             </TabPane>
          </center>
       </BorderPane>
    </children>
-</VBox>
+</AnchorPane>

@@ -5,6 +5,8 @@
  */
 package dialog;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -20,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -35,11 +38,9 @@ import tqduy.connect.DBUtils_MonOrder;
  * @author QuangDuy
  */
 public class FXMLDialogController implements Initializable {
-    @FXML
-    private TextField txtID, txtPrice, txtCategory, txtProductName, txtAmount;
-    
-    @FXML
-    private Button btnAdd;
+    @FXML private TextField txtID, txtPrice, txtCategory, txtProductName;
+    @FXML private JFXTextField txtAmount;
+    @FXML private JFXButton btnAdd;
     
     private int amount = 1;
     private Mon mon = FXMLDocumentController.monInfo;
@@ -97,7 +98,6 @@ public class FXMLDialogController implements Initializable {
     }
     
     private void eventClick(){
-        btnAdd.setDisable(true);
         txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
             btnAdd.setDisable(newValue.trim().isEmpty());
         });
@@ -167,6 +167,7 @@ public class FXMLDialogController implements Initializable {
         Scene scene = new Scene(root);
         
         Stage stage = new Stage(StageStyle.DECORATED);
+        stage.getIcons().add(new Image("/images/icon.jpg"));
         stage.setTitle("OL! Tea");
         
         stage.setOnCloseRequest((event) -> {

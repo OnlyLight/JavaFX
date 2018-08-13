@@ -5,6 +5,8 @@
  */
 package signIn;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -25,7 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -42,10 +44,10 @@ import tqduy.connect.DBUtils_MonOrder;
  * @author QuangDuy
  */
 public class FXMLSignInController implements Initializable {
-    @FXML private Button btnAdd;
+    @FXML private JFXButton btnAdd;
     @FXML private ComboBox<Member> cbLoaiMember;
     @FXML private DatePicker dpNgayDK;
-    @FXML private TextField txtSDT, txtTenCus;
+    @FXML private JFXTextField txtSDT, txtTenCus;
     
     private LocalDate dateDK = LocalDate.now();
     private String sdt = FXMLDocumentController.sdt;
@@ -84,6 +86,11 @@ public class FXMLSignInController implements Initializable {
     }
     
     private void setClickBtn() {
+        btnAdd.setDisable(true);
+        txtTenCus.textProperty().addListener((observable, oldValue, newValue) -> {
+            btnAdd.setDisable(newValue.trim().isEmpty());
+        });
+        
         btnAdd.setOnAction((event) -> {
             String ten = txtTenCus.getText().toString().trim();
             
@@ -122,6 +129,7 @@ public class FXMLSignInController implements Initializable {
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
+        stage.getIcons().add(new Image("/images/icon.jpg"));
         
         stage.setOnCloseRequest((event) -> {
             System.out.println("Delete MonOrder");
