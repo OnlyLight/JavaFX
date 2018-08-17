@@ -5,6 +5,8 @@
  */
 package sale;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -64,9 +66,10 @@ import tqduy.connect.DBUtils_MonOrder;
  * @author QuangDuy
  */
 public class FXMLDocumentController implements Initializable {
-    @FXML private TextField txtPay, txtMoneyTotal, txtDiscount, txtSdtCheck;
+    @FXML private TextField txtPay, txtMoneyTotal, txtDiscount;
+    @FXML private JFXTextField txtSdtCheck;
     @FXML private BorderPane layoutSale;
-    @FXML private Button btnPay, btnCheck;
+    @FXML private JFXButton btnPay, btnCheck;
     @FXML private Menu menuQuanTri;
     @FXML private MenuItem mnThucDon, mnClose, mnNhanVien, mnAbout, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     @FXML private TableView<MonOrder> tbInfomation;

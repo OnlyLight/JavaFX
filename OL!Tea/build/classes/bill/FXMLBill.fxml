@@ -43,7 +43,7 @@
             </SplitPane>
          </center>
          <top>
-            <JFXButton fx:id="btnInThongTin" alignment="CENTER" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #005cb2;" text="In Thông Tin" textFill="#6ab7ff" BorderPane.alignment="TOP_RIGHT">
+            <JFXButton fx:id="btnInThongTin" alignment="CENTER" prefHeight="33.0" prefWidth="138.0" style="-fx-background-color: #005cb2;" text="In Thông Tin" textFill="WHITE" BorderPane.alignment="TOP_RIGHT">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

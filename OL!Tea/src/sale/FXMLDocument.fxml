@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.paint.*?>
@@ -77,20 +78,21 @@
                                           <TextField fx:id="txtMoneyTotal" disable="true" prefHeight="25.0" prefWidth="208.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                           <TextField fx:id="txtDiscount" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                                           <TextField fx:id="txtPay" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                          <Button fx:id="btnPay" mnemonicParsing="false" prefHeight="25.0" prefWidth="197.0" text="Thanh Toán" textFill="RED" GridPane.columnIndex="5" GridPane.rowIndex="2">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </Button>
                                           <Label alignment="CENTER" prefHeight="17.0" prefWidth="109.0" text="Tổng Tiền" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                           <Label alignment="CENTER" prefHeight="17.0" prefWidth="102.0" text="Giảm Giá" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                           <Label alignment="CENTER" prefHeight="17.0" prefWidth="100.0" text="Thành Tiền" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                           <Label alignment="CENTER" text="SDT" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                                          <TextField fx:id="txtSdtCheck" GridPane.columnIndex="3" />
-                                          <Button fx:id="btnCheck" mnemonicParsing="false" prefWidth="197.0" text="Kiểm Tra" GridPane.columnIndex="5" />
+                                          <JFXTextField fx:id="txtSdtCheck" GridPane.columnIndex="3" />
+                                          <JFXButton fx:id="btnCheck" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #005cb2;" text="Kiểm tra" textFill="WHITE" GridPane.columnIndex="5">
+                                             <font>
+                                                <Font name="Berlin Sans FB Demi Bold" size="15.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton fx:id="btnPay" style="-fx-background-color: #000000;" text="Thanh Toán" textFill="RED" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font name="Berlin Sans FB Demi Bold" size="15.0" />
+                                             </font>
+                                          </JFXButton>
                                        </children>
                                     </GridPane>
                                  </center>
