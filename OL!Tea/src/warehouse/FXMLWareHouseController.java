@@ -89,7 +89,7 @@ public class FXMLWareHouseController implements Initializable {
     private String tenSpXuat = "";
     
     private void displayBarChart() {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int year = Calendar.getInstance().get(Calendar.YEAR); // GET CURRENT YEAR
         System.out.println("year: " +year);
         
         tabTK.setOnSelectionChanged((event) -> {

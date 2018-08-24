@@ -46,12 +46,14 @@ public class FXMLBillController implements Initializable {
     @FXML private TableColumn<Bill, Date> tbNgayLapColumn;
     @FXML private JFXButton btnInThongTin;
     
+    // EVENT FOR IN THONG TIN THONG KE
     private void setEvent() {
         btnInThongTin.setOnAction((event) -> {
             createAlert("Printing...");
         });
     }
     
+    // CREATE ALERT FOR NOTIFICATION
     private void createAlert(String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -68,16 +70,21 @@ public class FXMLBillController implements Initializable {
         System.out.println(result.get().getText());
     }
     
+    // SHOW DATA FOR TABLE
     private void showTable() {
-        tbBill.getColumns().clear();
+        tbBill.getColumns().clear(); // CLEAR TABLE
+        
+        // SET NAME FOR COLUMN
         tbTenNVColumn.setText("Nhân Viên");
         tbTongTienColumn.setText("Tổng tiền");
         tbNgayLapColumn.setText("Ngày Lập");
         
+        // SET POPERTY FOR COLUMN
         tbTenNVColumn.setCellValueFactory(new PropertyValueFactory<>("tenNV"));
         tbTongTienColumn.setCellValueFactory(new PropertyValueFactory<>("tongTien"));
         tbNgayLapColumn.setCellValueFactory(new PropertyValueFactory<>("ngayLap"));
         
+        // FORMAT DISPLAY FOR DATE
         tbNgayLapColumn.setCellFactory((column) -> {
             TableCell<Bill, Date> cell = new TableCell<Bill, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -96,6 +103,7 @@ public class FXMLBillController implements Initializable {
             return cell; //To change body of generated lambdas, choose Tools | Templates.
         });
         
+        // SET DATA FOR TABLE
         ObservableList<Bill> list = FXCollections.observableArrayList(DBUtils_Bill.getList());
         System.out.println("List: " + list);
         if(!list.isEmpty()) {
@@ -104,16 +112,20 @@ public class FXMLBillController implements Initializable {
         }
     }
     
+    // DISPLAY AREACHART
     private void showAreaChart() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         
+        // SET TITLE
         areaChart.setTitle("Thông Kê Hóa Đơn");
-        
         areaChart.setLegendSide(Side.LEFT);
         System.out.println("AreaChart");
+        
+        // SET DATA DISPLAY FOR LINE LAST YEAR
         XYChart.Series<String, Number> series2017 = new XYChart.Series<String, Number>();
         series2017.setName(""+(year-1)+"");
         
+        // SET DATA DISPLAY FOR LINE CURRENT YEAR
         XYChart.Series<String, Number> series2018 = new XYChart.Series<String, Number>();
         series2018.setName(""+year+"");
         

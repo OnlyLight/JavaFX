@@ -57,6 +57,7 @@ public class FXMLDialogController implements Initializable {
         eventClick();
     }    
     
+    // DISPLAY INFOMATION PRODUCT CHOICE
     private void showInfo() {
         System.out.println(mon);
         checkInput();
@@ -72,6 +73,7 @@ public class FXMLDialogController implements Initializable {
         txtCategory.setText(String.valueOf(tenLoai));
     }
     
+    // CHECK DATA INPUT IS NUMBER AND > 0
     private void checkInput() {
         txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.matches("\\d*") && !newValue.equals("0")) {
@@ -86,6 +88,7 @@ public class FXMLDialogController implements Initializable {
         });
     }
     
+    // GET DATA PRODUCT
     private void getData() {
         int id = mon.getIdMon();
         String tenMon = mon.getTenMon();
@@ -98,10 +101,12 @@ public class FXMLDialogController implements Initializable {
     }
     
     private void eventClick(){
+        // TEXTFIELD txtAmount != NULL IS btnAdd ACTIVE
         txtAmount.textProperty().addListener((observable, oldValue, newValue) -> {
             btnAdd.setDisable(newValue.trim().isEmpty());
         });
         
+        // SET KEY ENTER FOR txtAmount
         txtAmount.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
                 System.out.println("Hello Enter");
@@ -112,24 +117,18 @@ public class FXMLDialogController implements Initializable {
         btnAdd.setOnAction((event) -> {
             getData();
             
-            closeStage(btnAdd);
-            MonOrder m = new MonOrder();
-            
-            if(txtAmount.getText().toString().trim().isEmpty()) {
-                createAlert("Hãy nhập số lượng !!!");
+            if(!checkID()) {
+                DBUtils_MonOrder.insert(mon.getIdMon(), amount);
             } else {
-                if(!checkID()) {
-                    DBUtils_MonOrder.insert(mon.getIdMon(), amount);
-                }
-                else {
-                    createAlert("Sản phẩm đã tồn tại");
-                }
+                createAlert("Sản phẩm đã tồn tại");
+            }
+            
+            closeStage(btnAdd); // CLOSE DIALOG
 
-                try {
-                    showDialog();
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                showDialog();
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
