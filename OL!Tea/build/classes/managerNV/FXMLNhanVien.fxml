@@ -10,7 +10,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="managerNV.FXMLNhanVienController">
    <children>
       <ImageView fitHeight="501.0" fitWidth="685.0" pickOnBounds="true" preserveRatio="true">
@@ -95,12 +94,12 @@
                                     <ComboBox fx:id="cbVaiTro" prefHeight="25.0" prefWidth="452.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <Label text="PassWord" GridPane.rowIndex="2" />
                                     <JFXTextField fx:id="txtUserName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <JFXTextField fx:id="txtPassWord" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <JFXButton fx:id="btnThemNV" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #8e0000;" text="Thêm" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </JFXButton>
+                                    <JFXPasswordField fx:id="txtPassWord" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="134.0" />

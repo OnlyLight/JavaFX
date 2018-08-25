@@ -6,6 +6,7 @@
 package managerNV;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.Optional;
@@ -28,6 +29,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.util.Callback;
+import tqduy.MD5.MD5Library;
 import tqduy.bean.Role;
 import tqduy.bean.NhanVien;
 import tqduy.connect.DBUtils_NhanVien;
@@ -40,7 +42,8 @@ import tqduy.connect.DBUtils_Role;
  */
 public class FXMLNhanVienController implements Initializable {
     @FXML private JFXButton btnThemNV, btnThemVaiTro;
-    @FXML private JFXTextField txtPassWord, txtTenVaiTro, txtUserName;
+    @FXML private JFXTextField txtTenVaiTro, txtUserName;
+    @FXML private JFXPasswordField txtPassWord;
     @FXML private ComboBox<Role> cbVaiTro;
     @FXML private TableView<Role> tbRole;
     @FXML private TableColumn<Role, Integer> tbIDVaiTroColumn;
@@ -198,9 +201,10 @@ public class FXMLNhanVienController implements Initializable {
             
             if(!userName.isEmpty() && !passWord.isEmpty()) {
                 Optional<ButtonType> result = createAlert("Do you want add ?");
-            
+                String pass = MD5Library.md5(passWord);
+                
                 if(result.get() == ButtonType.OK) {
-                    DBUtils_NhanVien.insert(userName, passWord, roleSelected.getIdRole());
+                    DBUtils_NhanVien.insert(userName, pass, roleSelected.getIdRole());
                     System.out.println(userName + " - " + passWord + " - " + roleSelected.getIdRole());
                     
                     ObservableList<NhanVien> list = FXCollections.observableArrayList(DBUtils_NhanVien.getList());

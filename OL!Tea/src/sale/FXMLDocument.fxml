@@ -85,12 +85,12 @@
                                           <JFXTextField fx:id="txtSdtCheck" GridPane.columnIndex="3" />
                                           <JFXButton fx:id="btnCheck" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #005cb2;" text="Kiểm tra" textFill="WHITE" GridPane.columnIndex="5">
                                              <font>
-                                                <Font name="Berlin Sans FB Demi Bold" size="15.0" />
+                                                <Font name="Berlin Sans FB Demi Bold" size="12.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnPay" style="-fx-background-color: #000000;" text="Thanh Toán" textFill="RED" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                          <JFXButton fx:id="btnPay" prefHeight="23.0" prefWidth="107.0" style="-fx-background-color: #000000;" text="Thanh Toán" textFill="RED" GridPane.columnIndex="5" GridPane.rowIndex="2">
                                              <font>
-                                                <Font name="Berlin Sans FB Demi Bold" size="15.0" />
+                                                <Font name="Berlin Sans FB Demi Bold" size="12.0" />
                                              </font>
                                           </JFXButton>
                                        </children>

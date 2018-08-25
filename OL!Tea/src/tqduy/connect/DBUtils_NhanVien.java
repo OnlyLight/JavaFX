@@ -59,12 +59,14 @@ public class DBUtils_NhanVien {
                 String userName = res.getString("userName");
                 String passWord = res.getString("passWord");
                 int idRoleName = res.getInt("role");
+                boolean active = res.getBoolean("isActive");
                 
                 NhanVien nv = new NhanVien();
                 nv.setIdNV(idNV);
                 nv.setUserName(userName);
                 nv.setPassWord(passWord);
                 nv.setIdRoleName(idRoleName);
+                nv.setActive(active);
                 arrNV.add(nv);
             }
         } catch (SQLException e) {

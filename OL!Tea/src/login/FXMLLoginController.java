@@ -28,6 +28,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import tqduy.MD5.MD5Library;
 import tqduy.bean.NhanVien;
 import tqduy.connect.DBUtils_MonOrder;
 import tqduy.connect.DBUtils_NhanVien;
@@ -59,7 +60,7 @@ public class FXMLLoginController implements Initializable {
         ArrayList<NhanVien> nvs = DBUtils_NhanVien.getListForCheck();
         btnLogin.setOnAction((event) -> {
             String user = txtUserName.getText().toString().trim();
-            String pass = txtPassWord.getText().toString().trim();
+            String pass = MD5Library.md5(txtPassWord.getText().toString().trim());
             nvLogin = new NhanVien();
             
             if(checkUser(nvs, user, pass)) {
@@ -81,12 +82,14 @@ public class FXMLLoginController implements Initializable {
     
     private boolean checkUser(ArrayList<NhanVien> nvs, String user, String pass) {
         for (NhanVien nv : nvs) {
-            if(user.equals(nv.getUserName()) && pass.equals(nv.getPassWord())) {
-                nvLogin.setIdNV(nv.getIdNV());
-                nvLogin.setUserName(nv.getUserName());
-                nvLogin.setPassWord(nv.getPassWord());
-                nvLogin.setIdRoleName(nv.getIdRoleName());
-                return true;
+            if(nv.isActive()) {
+                if(user.equals(nv.getUserName()) && pass.equals(nv.getPassWord())) {
+                    nvLogin.setIdNV(nv.getIdNV());
+                    nvLogin.setUserName(nv.getUserName());
+                    nvLogin.setPassWord(nv.getPassWord());
+                    nvLogin.setIdRoleName(nv.getIdRoleName());
+                    return true;
+                }
             }
         }
         return false;
