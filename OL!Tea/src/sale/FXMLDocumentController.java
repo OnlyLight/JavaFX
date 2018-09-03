@@ -488,7 +488,7 @@ public class FXMLDocumentController implements Initializable {
         Stage stage = new Stage(style);
         stage.initModality(modal);
         
-        stage.getIcons().add(new Image("/images/icon.jpg"));
+        stage.getIcons().add(new Image("/images/download.jpg"));
         
         stage.setOnCloseRequest((event) -> {
             try {
@@ -511,7 +511,7 @@ public class FXMLDocumentController implements Initializable {
         Stage stage = new Stage(style);
         stage.initModality(modal);
         
-        stage.getIcons().add(new Image("/images/icon.jpg"));
+        stage.getIcons().add(new Image("/images/download.jpg"));
         
         stage.setOnCloseRequest((event) -> {
             System.out.println("Delete MonOrder");
@@ -530,7 +530,7 @@ public class FXMLDocumentController implements Initializable {
         
         Stage stage = new Stage(style);
         stage.initModality(modal);
-        stage.getIcons().add(new Image("/images/icon.jpg"));
+        stage.getIcons().add(new Image("/images/download.jpg"));
         
         stage.setOnCloseRequest((event) -> {
             System.out.println("Hello Button Close");
