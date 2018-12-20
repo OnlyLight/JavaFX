@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
@@ -35,6 +36,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import tqduy.bean.DVT;
 import tqduy.bean.LoaiNX;
@@ -80,7 +82,6 @@ public class FXMLWareHouseController implements Initializable {
     
     private ArrayList<LoaiNX> arrLoai = DBUtils_LoaiNX.getList();
     private ArrayList<DVT> arrDVT = DBUtils_DVT.getList();
-    private ObservableList<String> listLoai;
     private LocalDate dateNhap = LocalDate.now();
     private LocalDate dateXuat = LocalDate.now();
     private LocalDate dayStartNhap, dayFinishNhap, dayStartXuat, dayFinishXuat;
@@ -88,6 +89,7 @@ public class FXMLWareHouseController implements Initializable {
     private LoaiNX tenLoaiNhap = new LoaiNX(), tenLoaiXuat = new LoaiNX(), loaiTK = new LoaiNX();
     private String tenSpXuat = "";
     
+    // Bản thông kê
     private void displayBarChart() {
         int year = Calendar.getInstance().get(Calendar.YEAR); // GET CURRENT YEAR
         System.out.println("year: " +year);
@@ -144,6 +146,7 @@ public class FXMLWareHouseController implements Initializable {
         
         btnFind.setOnAction((event) -> {
             System.out.println("Result[dayStartNhap: " + dayStartNhap + " - dayFinishNhap: " + dayFinishNhap + " - dayStartXuat: " + dayStartXuat + " - dayFinishXuat: " + dayFinishXuat);
+            // Lấy list dữ liệu đã tìm kiếm đưa ra cho table hiển thị
             ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.searchTK(dayStartNhap, dayFinishNhap, dayStartXuat, dayFinishXuat, loaiTK.getTenLoaiNX()));
             if(!list.isEmpty()) {
                 tbThongKe.getItems().clear();
@@ -165,13 +168,14 @@ public class FXMLWareHouseController implements Initializable {
         }
         System.out.println("arrCopy1: "+ copy.toString());
         
+        // Hiển thị tên cho việc nhập xuất
         for(int i = 0; i < arrNhap.size(); i++) {
             int count = 0;
             for(int j = 0; j < copy.size(); j++) {
                 if(arrNhap.get(i).getTenSpNhap().equals(copy.get(j))) {
                     count++;
                     if(count >= 2) {
-                        copy.remove(j);
+                        copy.remove(j); // Nếu đếm được tên 2 lần thì xóa đi lấy 1 lần
                         break;
                     }
                 }
@@ -195,7 +199,7 @@ public class FXMLWareHouseController implements Initializable {
             
             if(tenSpXuat != null) {
                 ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
-                for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) {
+                for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
                     loai.add(loaiNX);
                 }
 
@@ -204,7 +208,7 @@ public class FXMLWareHouseController implements Initializable {
                     cbTenLoaiXuat.setItems(loai);
                 }
             }
-            showBoxNhap();
+//            showBoxNhap();
         });
     }
     
@@ -237,7 +241,7 @@ public class FXMLWareHouseController implements Initializable {
     private void checkInput() {
         // Box Nhap
         txtSoLuongNhap.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*") && !newValue.equals("0")) {
+            if (newValue.matches("\\d*") && !newValue.equals("0")) { // Lọc dữ liệu cho việt nhập vào chỉ lấy số
                 try {
                     soLuongNhap = Integer.parseInt(newValue);
                 } catch (Exception e) {
@@ -279,13 +283,22 @@ public class FXMLWareHouseController implements Initializable {
     private void eventDatePicker() {
         dpNgayNhap.setValue(LocalDate.now());
         dpNgayXuat.setValue(LocalDate.now());
+        dpDayStartNhap.setValue(LocalDate.now());
+        dpDayFinishNhap.setValue(LocalDate.now());
+        dpDayStartXuat.setValue(LocalDate.now());
+        dpDayFinishXuat.setValue(LocalDate.now());
         
+        // fomat for Datepicker dd/MM/yyyy
         fomatterForDatePicker(dpNgayNhap);
         fomatterForDatePicker(dpNgayXuat);
         fomatterForDatePicker(dpDayStartNhap);
         fomatterForDatePicker(dpDayFinishNhap);
         fomatterForDatePicker(dpDayStartXuat);
         fomatterForDatePicker(dpDayFinishXuat);
+        
+        // Set Limit for datepicker statistical
+        setDayLimitForDatePicker(dpDayStartNhap, dpDayFinishNhap);
+        setDayLimitForDatePicker(dpDayStartXuat, dpDayFinishXuat);
         
         dpNgayNhap.setOnAction((event) -> {
             dateNhap = dpNgayNhap.getValue();
@@ -310,6 +323,23 @@ public class FXMLWareHouseController implements Initializable {
         dpDayFinishXuat.setOnAction((event) -> {
             dayFinishXuat = dpDayFinishXuat.getValue();
         });
+    }
+    
+    private void setDayLimitForDatePicker(DatePicker dayStart, DatePicker dayFinish) {
+        final Callback<DatePicker, DateCell> dayCellFactory;
+
+        dayCellFactory = (final DatePicker datePicker) -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item.isBefore(dayStart.getValue())) { //Disable all dates after required date
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;"); //To set background on different color
+                }
+            }
+        };
+        
+        dayFinish.setDayCellFactory(dayCellFactory);
     }
     
     private void fomatterForDatePicker(DatePicker datePicker) {

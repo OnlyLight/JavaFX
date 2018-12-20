@@ -18,8 +18,4 @@ public class MD5Library {
         }
         return result;
     }
-
-    public static void main(String[] args) {
-        System.out.println(md5(""));
-    }
 }

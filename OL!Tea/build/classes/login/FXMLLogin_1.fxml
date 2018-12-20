@@ -11,7 +11,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.FXMLLoginController">
    <children>
-      <ImageView fitHeight="545.0" fitWidth="780.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="545.0" fitWidth="780.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/tea.jpg" />
          </image>

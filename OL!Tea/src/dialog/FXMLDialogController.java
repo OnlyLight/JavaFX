@@ -166,7 +166,7 @@ public class FXMLDialogController implements Initializable {
         Scene scene = new Scene(root);
         
         Stage stage = new Stage(StageStyle.DECORATED);
-        stage.getIcons().add(new Image("/images/icon.jpg"));
+        stage.getIcons().add(new Image("/images/download.jpg"));
         stage.setTitle("OL! Tea");
         
         stage.setOnCloseRequest((event) -> {

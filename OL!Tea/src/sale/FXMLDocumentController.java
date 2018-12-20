@@ -90,11 +90,14 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        // Phân Quyền cho user đăng nhập
         menuQuanTri.setDisable(true);
         if(nvLogin.getIdRoleName() == 1) {
+            // Admin
             System.out.println("idRoleName: " + nvLogin.getIdRoleName());
             menuQuanTri.setDisable(false);
         } else {
+            // Staff
             System.out.println("idRoleName: " + nvLogin.getIdRoleName());
             System.out.println("Ko Phai admin");
         }
@@ -108,6 +111,7 @@ public class FXMLDocumentController implements Initializable {
         checkSDT();
     }
     
+    // Check xem user đã đăng ký thành viên chưa
     private boolean check(ArrayList<CusMember> arrCus, String sdtCheck) {
         for (CusMember arrCu : arrCus) {
             if(arrCu.getSdt().equals(sdtCheck)) {
@@ -162,6 +166,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     // Table
+    // Định nghĩa cho table
     private void createTitle() {
         tbColumnTenMon.setText("Tên Món");
         tbColumnDonGia.setText("Đơn Giá");
@@ -211,6 +216,7 @@ public class FXMLDocumentController implements Initializable {
         
     }
     
+    // Hiển thị thông tin cho table
     public void showTable() {
         tbInfomation.setEditable(true);
         

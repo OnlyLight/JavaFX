@@ -22,8 +22,6 @@ public class DBUtils_LoaiNX {
     public final static String TB_NHAP = "Nhap";
     public final static String TB_XUAT = "Xuat";
     public final static String TB_DVT = "DVT";
-    public final static String USER_NAME = "duy";
-    public final static String PASSWORD = "1234";
     
     // TABLE LOAI NX
     public static ArrayList<LoaiNX> getList() {

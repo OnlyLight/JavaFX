@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signIn.FXMLSignInController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="435.0" fitWidth="710.0" layoutX="-55.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/620x349.jpg" />
          </image>
@@ -41,10 +41,10 @@
                <children>
                   <GridPane prefHeight="331.0" prefWidth="600.0">
                      <children>
-                        <Label text="Tên KH" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="SDT" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Loại Thành viên" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Ngày DK" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="Tên KH" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="SDT" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="Loại Thành viên" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="Ngày DK" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="295.0" text="THÔNG TIN KHÁCH HÀNG" GridPane.columnIndex="2">
                            <font>
                               <Font name="Bodoni MT Black Italic" size="20.0" />

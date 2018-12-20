@@ -37,8 +37,6 @@ import tqduy.connect.DBUtils_Bill;
  * @author QuangDuy
  */
 public class FXMLBillController implements Initializable {
-    @FXML private CategoryAxis xAxis;
-    @FXML private NumberAxis yAxis;
     @FXML private AreaChart<String, Number> areaChart;
     @FXML private TableView<Bill> tbBill;
     @FXML private TableColumn<Bill, String> tbTenNVColumn;

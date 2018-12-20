@@ -78,7 +78,7 @@ public class DBUtils_TK {
                     arrTK.add(tk);
                 }
             } else {
-                System.out.println("Hello");
+                System.out.println("res NULL");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
