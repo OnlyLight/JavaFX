@@ -8,6 +8,7 @@ package login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -41,9 +44,12 @@ import tqduy.connect.DBUtils_NhanVien;
 public class FXMLLoginController implements Initializable {
     @FXML private JFXTextField txtUserName;
     @FXML private JFXPasswordField txtPassWord;
-    @FXML private JFXButton btnLogin, btnExit;
+    @FXML private JFXButton btnLogin;
+    double x,y;
     
     public static NhanVien nvLogin;
+    @FXML
+    private FontAwesomeIcon btnExit;
     
     private void setEventClick() {
         txtPassWord.setOnKeyPressed((event) -> {
@@ -52,11 +58,11 @@ public class FXMLLoginController implements Initializable {
                 btnLogin.fire();
             }
         });
-        btnLogin.setDisable(true);
-        txtUserName.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnLogin.setDisable(newValue.trim().isEmpty());
-        });
-        
+//        btnLogin.setDisable(true);
+//        txtUserName.textProperty().addListener((observable, oldValue, newValue) -> {
+//            btnLogin.setDisable(newValue.trim().isEmpty());
+//        });
+//        
         ArrayList<NhanVien> nvs = DBUtils_NhanVien.getListForCheck();
         btnLogin.setOnAction((event) -> {
             String user = txtUserName.getText().toString().trim();
@@ -73,10 +79,6 @@ public class FXMLLoginController implements Initializable {
             } else {
                 createAlert("User hoặc passWord không đúng");
             }
-        });
-        
-        btnExit.setOnAction((event) -> {
-            System.exit(0);
         });
     }
     
@@ -143,5 +145,23 @@ public class FXMLLoginController implements Initializable {
         // TODO
         setEventClick();
     }    
+
+    @FXML
+    private void handleClickClose(MouseEvent event) {
+        System.exit(0);
+    }
+
+    @FXML
+    private void handleDrag(MouseEvent event) {
+        Stage stagee = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stagee.setX(event.getScreenX() -x);
+        stagee.setY(event.getScreenY() -y);
+    }
+
+    @FXML
+    private void handleMousePressed(MouseEvent event) {
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
     
 }

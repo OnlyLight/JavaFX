@@ -25,7 +25,7 @@ public class Login extends Application {
         
         Scene scene = new Scene(root);
         
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.TRANSPARENT);
         
         stage.getIcons().add(new Image("/images/download.jpg"));
         stage.setTitle("OL! Tea");

@@ -22,12 +22,12 @@ public class DBUtils_LoaiMon {
     public final static String TB_LOAIMON = "LoaiMon";
     public final static String TB_MON = "Mon";
     public final static String TB_MON_ORDER = "MonOrder";
-    public final static String USER_NAME = "duy";
-    public final static String PASSWORD = "1234";
+    public final static String USER_NAME = "sa";
+    public final static String PASSWORD = "1";
     public static Connection con = conn();
 
     public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-6T1NTE9\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
+        String url = "jdbc:sqlserver://DESKTOP-P3U7V1A\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
         try {
             con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
             System.out.println("Connect Success !!");
