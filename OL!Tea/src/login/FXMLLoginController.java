@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import insidefx.undecorator.UndecoratorScene;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,15 +20,13 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -70,12 +69,13 @@ public class FXMLLoginController implements Initializable {
             nvLogin = new NhanVien();
             
             if(checkUser(nvs, user, pass)) {
-                try {
-                    showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                closeStage(btnLogin);
+                
+//                try {
+//                    showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                closeStage();
             } else {
                 createAlert("User hoặc passWord không đúng");
             }
@@ -111,9 +111,22 @@ public class FXMLLoginController implements Initializable {
         return result;
     }
     
-    private void closeStage(Button btn) {
-        Stage stage = (Stage) btn.getScene().getWindow();
+    private void closeStage() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/sale/FXMLDocument.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        Scene scene = new Scene(root);
+        Stage stage = Login.getStage();
         stage.close();
+        UndecoratorScene scene = new UndecoratorScene(stage, (Region) root);
+//        Scene scene = new Scene(root);
+        scene.setFadeInTransition();
+        
+        stage.setScene(scene);
+        stage.show();
         System.out.println("Close");
     }
     

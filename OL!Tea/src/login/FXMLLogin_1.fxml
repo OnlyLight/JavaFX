@@ -203,7 +203,7 @@
       </VBox>
          </center>
    <top>
-      <Pane prefHeight="32.0" prefWidth="1178.0" style="-fx-background-color: #222831;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="30.0" styleClass="bg-dark" stylesheets="@../css/global.css" BorderPane.alignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

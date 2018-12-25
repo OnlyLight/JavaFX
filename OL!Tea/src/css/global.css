@@ -17,3 +17,12 @@ and open the template in the editor.
     -fx-background-color: #00adb5;
     -fx-cursor: hand;
 }
+
+.bg-dark {
+    -fx-background-color: #222831;
+    -fx-pref-height: 30; 
+}
+
+.btn-checkout {
+    -fx-background-color: linear-gradient(to left, #00adb5, #00cad1)
+}

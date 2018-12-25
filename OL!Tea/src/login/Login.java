@@ -20,23 +20,34 @@ import javafx.stage.StageStyle;
  * @author QuangDuy
  */
 public class Login extends Application {
+    private static Stage guiStage;
+
+    public static Stage getStage() {
+        return guiStage;
+    }
+    
+    public static void setScene(Parent root) {
+        guiStage.close();
+        UndecoratorScene undecoratorScene = new UndecoratorScene(guiStage, (Region) root);
+        undecoratorScene.setFadeInTransition();
+        guiStage.setScene(undecoratorScene);
+        guiStage.show();
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
+        guiStage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin_1.fxml"));
         
-        UndecoratorScene undecoratorScene = new UndecoratorScene(stage, (Region) root);
-//        Scene scene = new Scene(root);
+        UndecoratorScene undecoratorScene = new UndecoratorScene(guiStage, (Region) root);
         undecoratorScene.setFadeInTransition();
         
-//        stage.initStyle(StageStyle.UNDECORATED);
-        
-        stage.getIcons().add(new Image("/images/download.jpg"));
-        stage.setTitle("OL! Tea");
-        stage.setMinHeight(590);
-        stage.setMinWidth(967);
-        stage.setScene(undecoratorScene);
-        stage.show();
+        guiStage.getIcons().add(new Image("/images/download.jpg"));
+        guiStage.setTitle("OL! Tea");
+        guiStage.setMinHeight(590);
+        guiStage.setMinWidth(967);
+        guiStage.setScene(undecoratorScene);
+        guiStage.show();
     }
 
     /**

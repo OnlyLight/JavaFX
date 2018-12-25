@@ -11,8 +11,10 @@
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/bean/LoaiMon.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_MonOrder.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_LoaiMon.java</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/FXMLDocument.fxml</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/dialog/FXMLDialogController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_Bill.java</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/FXMLDocumentController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/login/FXMLLoginController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/bean/MonOrder.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerMember/FXMLMember.fxml</file>

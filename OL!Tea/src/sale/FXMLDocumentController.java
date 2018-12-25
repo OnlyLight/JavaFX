@@ -69,9 +69,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TextField txtPay, txtMoneyTotal, txtDiscount;
     @FXML private JFXTextField txtSdtCheck;
     @FXML private BorderPane layoutSale;
-    @FXML private JFXButton btnPay, btnCheck;
-    @FXML private Menu menuQuanTri;
-    @FXML private MenuItem mnThucDon, mnClose, mnNhanVien, mnAbout, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
+    @FXML private JFXButton btnPay, btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     @FXML private TableView<MonOrder> tbInfomation;
     @FXML private TableColumn<MonOrder, String> tbColumnTenMon;
     @FXML private TableColumn<MonOrder, Integer> tbColumnDonGia;
@@ -91,16 +89,16 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         // Phân Quyền cho user đăng nhập
-        menuQuanTri.setDisable(true);
-        if(nvLogin.getIdRoleName() == 1) {
-            // Admin
-            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
-            menuQuanTri.setDisable(false);
-        } else {
-            // Staff
-            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
-            System.out.println("Ko Phai admin");
-        }
+//        menuQuanTri.setDisable(true);
+//        if(nvLogin.getIdRoleName() == 1) {
+//            // Admin
+//            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
+//            menuQuanTri.setDisable(false);
+//        } else {
+//            // Staff
+//            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
+//            System.out.println("Ko Phai admin");
+//        }
         showAcdMenu();
         tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         showTable();
@@ -351,19 +349,19 @@ public class FXMLDocumentController implements Initializable {
     
     // Menu
     private void setEventClick() {
-        mnClose.setText("Exit");
-        mnClose.setOnAction((event) -> {
-            DBUtils_MonOrder.deleteAll();
-            if(DBUtils_LoaiMon.conn() != null) {
-                try {
-                    DBUtils_LoaiMon.conn().close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            System.exit(0);
-        });
+//        mnClose.setText("Exit");
+//        mnClose.setOnAction((event) -> {
+//            DBUtils_MonOrder.deleteAll();
+//            if(DBUtils_LoaiMon.conn() != null) {
+//                try {
+//                    DBUtils_LoaiMon.conn().close();
+//                } catch (SQLException ex) {
+//                    System.out.println(ex.getMessage());
+//                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//            System.exit(0);
+//        });
         
         mnTonKho.setOnAction((event) -> {
             try {
@@ -425,13 +423,13 @@ public class FXMLDocumentController implements Initializable {
             }
         });
         
-        mnAbout.setOnAction((event) -> {
-            try {
-                showDialog("/about/FXMLAbout.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
+//        mnAbout.setOnAction((event) -> {
+//            try {
+//                showDialog("/about/FXMLAbout.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        });
     }
     
     // End Menu
@@ -439,29 +437,29 @@ public class FXMLDocumentController implements Initializable {
     // Accordion
     private void showAcdMenu() {
         // Dynamic
-        acdMenu.getPanes().clear();
-        ArrayList<TitledPane> titles = new ArrayList<>();
-        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
-
-        for(int i = 0; i < listLoaiMon.size(); i++) {
-            TitledPane title = new TitledPane();
-            VBox content = new VBox();
-            if(listLoaiMon.get(i).isIsActive()) {
-                for (Mon m : DBUtils_Mon.getMon(i+1)) {
-                    if(m.isIsActive()) {
-                        Button btn = new Button(m.getTenMon());
-                        btn.setPrefWidth(layoutSale.getPrefWidth());
-
-                        eventShow(btn, m);
-                        content.getChildren().add(btn);
-                    }
-                }
-                title.setText(listLoaiMon.get(i).getLoaiMon());
-                title.setContent(content);
-                titles.add(title);
-            }
-        }
-        acdMenu.getPanes().addAll(titles);
+//        acdMenu.getPanes().clear();
+//        ArrayList<TitledPane> titles = new ArrayList<>();
+//        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
+//
+//        for(int i = 0; i < listLoaiMon.size(); i++) {
+//            TitledPane title = new TitledPane();
+//            VBox content = new VBox();
+//            if(listLoaiMon.get(i).isIsActive()) {
+//                for (Mon m : DBUtils_Mon.getMon(i+1)) {
+//                    if(m.isIsActive()) {
+//                        Button btn = new Button(m.getTenMon());
+//                        btn.setPrefWidth(layoutSale.getPrefWidth());
+//
+//                        eventShow(btn, m);
+//                        content.getChildren().add(btn);
+//                    }
+//                }
+//                title.setText(listLoaiMon.get(i).getLoaiMon());
+//                title.setContent(content);
+//                titles.add(title);
+//            }
+//        }
+//        acdMenu.getPanes().addAll(titles);
     }
     
     private void eventShow(Button btn, Mon mon) {
