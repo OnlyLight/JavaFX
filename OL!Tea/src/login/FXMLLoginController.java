@@ -145,23 +145,5 @@ public class FXMLLoginController implements Initializable {
         // TODO
         setEventClick();
     }    
-
-    @FXML
-    private void handleClickClose(MouseEvent event) {
-        System.exit(0);
-    }
-
-    @FXML
-    private void handleDrag(MouseEvent event) {
-        Stage stagee = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stagee.setX(event.getScreenX() -x);
-        stagee.setY(event.getScreenY() -y);
-    }
-
-    @FXML
-    private void handleMousePressed(MouseEvent event) {
-        x = event.getSceneX();
-        y = event.getSceneY();
-    }
     
 }

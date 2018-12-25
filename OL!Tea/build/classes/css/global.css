@@ -10,4 +10,10 @@ and open the template in the editor.
 
 .anchor {
     -fx-background-image:url('../images/bg-login.jpg');
+    -fx-background-size: cover;
+}
+
+.btn-login {
+    -fx-background-color: #00adb5;
+    -fx-cursor: hand;
 }
