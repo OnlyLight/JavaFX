@@ -37,6 +37,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -68,7 +69,6 @@ import tqduy.connect.DBUtils_MonOrder;
 public class FXMLDocumentController implements Initializable {
     @FXML private TextField txtPay, txtMoneyTotal, txtDiscount;
     @FXML private JFXTextField txtSdtCheck;
-    @FXML private BorderPane layoutSale;
     @FXML private JFXButton btnPay, btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     @FXML private TableView<MonOrder> tbInfomation;
     @FXML private TableColumn<MonOrder, String> tbColumnTenMon;
@@ -84,6 +84,8 @@ public class FXMLDocumentController implements Initializable {
     private Member m = FXMLSignInController.m;
     private double memberDiscount= 0;
     private int idMem = 0;
+    @FXML
+    private VBox sideBar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -99,6 +101,7 @@ public class FXMLDocumentController implements Initializable {
 //            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
 //            System.out.println("Ko Phai admin");
 //        }
+        sideBar.setEffect(new DropShadow());
         showAcdMenu();
         tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         showTable();

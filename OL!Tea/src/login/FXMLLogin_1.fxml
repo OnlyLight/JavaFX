@@ -94,12 +94,12 @@
                         <Font name="Bernard MT Condensed" size="43.0" />
                      </font>
                   </Label>
-            <VBox minWidth="-Infinity" prefHeight="610.0" prefWidth="584.0" spacing="37.0" style="-fx-background-color: rgba(255,255,255,0.3);" VBox.vgrow="ALWAYS">
+            <VBox minWidth="-Infinity" prefHeight="610.0" prefWidth="584.0" spacing="55.0" style="-fx-background-color: rgba(255,255,255,0.3);" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="40.0" />
                </VBox.margin>
                <children>
-                  <HBox alignment="BASELINE_LEFT">
+                  <HBox alignment="BOTTOM_LEFT">
                      <children>
                         <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                            <HBox.margin>
@@ -113,7 +113,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="BASELINE_LEFT">
+                  <HBox alignment="CENTER_LEFT">
                      <children>
                         <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                            <HBox.margin>
@@ -130,56 +130,56 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="BASELINE_LEFT">
+                  <HBox alignment="CENTER_LEFT">
                      <children>
                         <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em" HBox.hgrow="NEVER">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </FontAwesomeIcon>
-                        <Label alignment="CENTER" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper ultrices justo, vitae sagittis lectus" textFill="#222831" wrapText="true">
+                        <Label alignment="CENTER" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" textFill="#222831" wrapText="true">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="BASELINE_LEFT">
+                  <HBox alignment="CENTER_LEFT">
                      <children>
                         <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </FontAwesomeIcon>
-                        <Label text="Praesent ac rhoncus lorem. Maecenas non vulputate purus, vel pretium diam" textFill="#222831" wrapText="true">
+                        <Label prefWidth="577.0" text="Praesent ac rhoncus lorem" textFill="#222831" wrapText="true">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="BASELINE_LEFT">
+                  <HBox alignment="CENTER_LEFT">
                      <children>
                         <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </FontAwesomeIcon>
-                        <Label text="Nunc eu risus lobortis, luctus eros non, maximus urna. Sed sed erat sit amet risus pellentesque rhoncus vitae sed metus" textFill="#222831" wrapText="true">
+                        <Label prefWidth="577.0" text="Nunc eu risus lobortis, luctus eros non, maximus urna" textFill="#222831" wrapText="true">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="BASELINE_LEFT">
+                  <HBox alignment="CENTER_LEFT">
                      <children>
                         <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </FontAwesomeIcon>
-                        <Label text="Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos" textFill="#222831" wrapText="true">
+                        <Label prefWidth="577.0" text="Class aptent taciti sociosqu ad litora torquent per conubia" textFill="#222831" wrapText="true">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -188,7 +188,7 @@
                   </HBox>
                </children>
                <padding>
-                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                  <Insets bottom="40.0" left="50.0" right="40.0" top="40.0" />
                </padding>
             </VBox>
             <Label opacity="0.85" text="© Windy King + Only Light. All rights reserved." textFill="WHITE">

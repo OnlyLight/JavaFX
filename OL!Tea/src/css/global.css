@@ -14,7 +14,7 @@ and open the template in the editor.
 }
 
 .btn-login {
-    -fx-background-color: #00adb5;
+    -fx-background-color: linear-gradient(to left, #00adb5, #00cad1);
     -fx-cursor: hand;
 }
 
@@ -25,4 +25,38 @@ and open the template in the editor.
 
 .btn-checkout {
     -fx-background-color: linear-gradient(to left, #00adb5, #00cad1)
+}
+
+.btn-sideBar:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.milktea {
+    -fx-background-image:url('../images/milktea.jpg');
+    -fx-background-size: cover;
+}
+
+.coffee {
+    -fx-background-image:url('../images/coffee.jpg');
+    -fx-background-size: cover;
+}
+
+.juice {
+    -fx-background-image:url('../images/juice.jpg');
+    -fx-background-size: cover;
+}
+
+.smoothie {
+    -fx-background-image:url('../images/smoothie.jpg');
+    -fx-background-size: cover;
+}
+
+.soda {
+    -fx-background-image:url('../images/soda.jpg');
+    -fx-background-size: cover;
+}
+
+.bakery {
+    -fx-background-image:url('../images/bakery.jpg');
+    -fx-background-size: cover;
 }
