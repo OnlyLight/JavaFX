@@ -5,7 +5,9 @@
  */
 package login;
 
+import animatefx.animation.FadeIn;
 import insidefx.undecorator.UndecoratorScene;
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 /**
  *
@@ -29,9 +32,10 @@ public class Login extends Application {
     public static void setScene(Parent root) {
         guiStage.close();
         UndecoratorScene undecoratorScene = new UndecoratorScene(guiStage, (Region) root);
-        undecoratorScene.setFadeInTransition();
         guiStage.setScene(undecoratorScene);
+        new FadeIn(guiStage.getScene().getRoot());
         guiStage.show();
+        
     }
 
     @Override
@@ -40,13 +44,14 @@ public class Login extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin_1.fxml"));
         
         UndecoratorScene undecoratorScene = new UndecoratorScene(guiStage, (Region) root);
-        undecoratorScene.setFadeInTransition();
+//        undecoratorScene.setFadeInTransition();
         
         guiStage.getIcons().add(new Image("/images/download.jpg"));
         guiStage.setTitle("OL! Tea");
         guiStage.setMinHeight(590);
         guiStage.setMinWidth(967);
         guiStage.setScene(undecoratorScene);
+        new FadeIn(root).play();
         guiStage.show();
     }
 

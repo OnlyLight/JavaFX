@@ -21,11 +21,11 @@
    <center>
       <VBox prefHeight="815.0" prefWidth="1073.0">
          <children>
-            <ScrollPane prefHeight="164.0" prefWidth="1220.0" vbarPolicy="NEVER">
+            <ScrollPane prefHeight="161.0" prefWidth="1220.0" stylesheets="@../css/global.css" vbarPolicy="NEVER" vmax="0.0">
                <content>
                   <HBox spacing="4.0" style="-fx-background-color: #fff;">
                      <children>
-                        <JFXButton prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -36,7 +36,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="coffee" stylesheets="@../css/global.css" text="Coffee" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="coffee" stylesheets="@../css/global.css" text="Coffee" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -47,7 +47,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="juice" stylesheets="@../css/global.css" text="Juice" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="juice" stylesheets="@../css/global.css" text="Juice" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -58,7 +58,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="smoothie" stylesheets="@../css/global.css" text="Smoothie" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="smoothie" stylesheets="@../css/global.css" text="Smoothie" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -69,7 +69,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="soda" stylesheets="@../css/global.css" text="Soda" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="soda" stylesheets="@../css/global.css" text="Soda" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -80,7 +80,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="bakery" stylesheets="@../css/global.css" text="Bakery" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="bakery" stylesheets="@../css/global.css" text="Bakery" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -91,7 +91,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -102,7 +102,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="coffee" stylesheets="@../css/global.css" text="Coffee" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="coffee" stylesheets="@../css/global.css" text="Coffee" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -113,7 +113,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="juice" stylesheets="@../css/global.css" text="Juice" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="juice" stylesheets="@../css/global.css" text="Juice" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -124,7 +124,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="smoothie" stylesheets="@../css/global.css" text="Smoothie" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="smoothie" stylesheets="@../css/global.css" text="Smoothie" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -135,7 +135,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="soda" stylesheets="@../css/global.css" text="Soda" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="soda" stylesheets="@../css/global.css" text="Soda" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -146,7 +146,7 @@
                               <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                            </effect>
                         </JFXButton>
-                        <JFXButton prefWidth="200.0" styleClass="bakery" stylesheets="@../css/global.css" text="Bakery" textFill="WHITE">
+                        <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="bakery" stylesheets="@../css/global.css" text="Bakery" textFill="WHITE">
                            <padding>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                            </padding>
@@ -166,15 +166,15 @@
             </ScrollPane>
             <HBox prefHeight="608.0" prefWidth="1198.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TableView fx:id="tbInfomation" prefHeight="691.0" prefWidth="1070.0" HBox.hgrow="ALWAYS">
+                  <TableView fx:id="tbInfomation" prefHeight="691.0" prefWidth="1070.0" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="tbColumnTenMon" prefWidth="156.0" />
                         <TableColumn fx:id="tbColumnDonGia" prefWidth="138.0" />
-                        <TableColumn fx:id="tbColumnLoaiMon" minWidth="0.0" prefWidth="163.0" />
-                        <TableColumn fx:id="tbColumnAmount" prefWidth="137.0" />
+                        <TableColumn fx:id="tbColumnLoaiMon" minWidth="0.0" prefWidth="273.0" />
+                        <TableColumn fx:id="tbColumnAmount" prefWidth="248.0" />
                      </columns>
                   </TableView>
-                  <VBox alignment="BOTTOM_CENTER" prefHeight="683.0" prefWidth="675.0">
+                  <VBox fx:id="CheckoutSection" alignment="BOTTOM_CENTER" minWidth="335.0" style="-fx-background-color: #fff; -fx-border-width: 1; -fx-border-color: #393e46;" styleClass="border" HBox.hgrow="NEVER">
                      <children>
                         <HBox alignment="CENTER" VBox.vgrow="NEVER">
                            <children>

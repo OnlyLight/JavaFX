@@ -5,6 +5,11 @@
  */
 package sale;
 
+import animatefx.animation.AnimationFX;
+import animatefx.animation.GlowBackground;
+import animatefx.animation.Pulse;
+import animatefx.animation.Tada;
+import animatefx.animation.ZoomIn;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
@@ -16,11 +21,13 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
@@ -29,6 +36,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
@@ -40,11 +48,15 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import signIn.FXMLSignInController;
 import login.FXMLLoginController;
@@ -75,7 +87,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TableColumn<MonOrder, Integer> tbColumnDonGia;
     @FXML private TableColumn<MonOrder, String> tbColumnLoaiMon;
     @FXML private TableColumn<MonOrder, Integer> tbColumnAmount;
-    @FXML private Accordion acdMenu;
     
     public static Mon monInfo;
     public static String sdt = "";
@@ -86,6 +97,8 @@ public class FXMLDocumentController implements Initializable {
     private int idMem = 0;
     @FXML
     private VBox sideBar;
+    @FXML
+    private VBox CheckoutSection;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,7 +114,8 @@ public class FXMLDocumentController implements Initializable {
 //            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
 //            System.out.println("Ko Phai admin");
 //        }
-        sideBar.setEffect(new DropShadow());
+        sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
+        CheckoutSection.setEffect(new DropShadow(10, 0, 3, Color.rgb(34, 40, 49, 0.5)));
         showAcdMenu();
         tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         showTable();
@@ -547,6 +561,13 @@ public class FXMLDocumentController implements Initializable {
         
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    private void mouseEnterHover(MouseEvent event) {
+        JFXButton btn = (JFXButton) event.getSource();
+        ScaleTransition scale = new ScaleTransition();
+        new Pulse(btn).play();
     }
 }
 
