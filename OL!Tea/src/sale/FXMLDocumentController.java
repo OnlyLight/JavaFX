@@ -183,10 +183,10 @@ public class FXMLDocumentController implements Initializable {
     // Table
     // Định nghĩa cho table
     private void createTitle() {
-        tbColumnTenMon.setText("Tên Món");
-        tbColumnDonGia.setText("Đơn Giá");
-        tbColumnLoaiMon.setText("Loại Món");
-        tbColumnAmount.setText("Số Lượng");
+        tbColumnTenMon.setText("Name");
+        tbColumnDonGia.setText("Price");
+        tbColumnLoaiMon.setText("Type");
+        tbColumnAmount.setText("Quantity");
         
         tbColumnTenMon.setCellValueFactory(new PropertyValueFactory<>("tenMon"));
         tbColumnDonGia.setCellValueFactory(new PropertyValueFactory<>("donGia"));

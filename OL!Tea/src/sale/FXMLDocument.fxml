@@ -163,6 +163,9 @@
                      </padding>
                   </HBox>
                </content>
+               <VBox.margin>
+                  <Insets left="3.0" right="3.0" />
+               </VBox.margin>
             </ScrollPane>
             <HBox prefHeight="608.0" prefWidth="1198.0" VBox.vgrow="ALWAYS">
                <children>

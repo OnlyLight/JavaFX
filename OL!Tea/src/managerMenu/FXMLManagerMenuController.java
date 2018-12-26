@@ -112,9 +112,9 @@ public class FXMLManagerMenuController implements Initializable {
     private void loadTableMenu() {
         tbMenu.getColumns().clear();
         tbMenu.setEditable(true);
-        tbTenMonColumnMenu.setText("Tên Món");
-        tbDonGiaColumnMenu.setText("Đơn Giá");
-        tbLoaiMonColumnMenu.setText("Loại Món");
+        tbTenMonColumnMenu.setText("Name");
+        tbDonGiaColumnMenu.setText("Price");
+        tbLoaiMonColumnMenu.setText("Type");
         tbIsActiveMenuColumn.setText("Active");
         
         tbTenMonColumnMenu.setCellValueFactory(new PropertyValueFactory<>("tenMon"));
