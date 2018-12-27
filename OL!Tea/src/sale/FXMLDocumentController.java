@@ -6,6 +6,10 @@
 package sale;
 
 import animatefx.animation.AnimationFX;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInDown;
+import animatefx.animation.FadeInUp;
+import animatefx.animation.FadeOutUp;
 import animatefx.animation.GlowBackground;
 import animatefx.animation.Pulse;
 import animatefx.animation.Tada;
@@ -24,6 +28,8 @@ import java.util.logging.Logger;
 import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,11 +51,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -82,11 +91,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TextField txtPay, txtMoneyTotal, txtDiscount;
     @FXML private JFXTextField txtSdtCheck;
     @FXML private JFXButton btnPay, btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
-    @FXML private TableView<MonOrder> tbInfomation;
-    @FXML private TableColumn<MonOrder, String> tbColumnTenMon;
-    @FXML private TableColumn<MonOrder, Integer> tbColumnDonGia;
-    @FXML private TableColumn<MonOrder, String> tbColumnLoaiMon;
-    @FXML private TableColumn<MonOrder, Integer> tbColumnAmount;
+    private TableColumn<MonOrder, String> tbColumnTenMon;
+    private TableColumn<MonOrder, Integer> tbColumnDonGia;
+    private TableColumn<MonOrder, String> tbColumnLoaiMon;
+    private TableColumn<MonOrder, Integer> tbColumnAmount;
     
     public static Mon monInfo;
     public static String sdt = "";
@@ -99,6 +107,12 @@ public class FXMLDocumentController implements Initializable {
     private VBox sideBar;
     @FXML
     private VBox CheckoutSection;
+    @FXML
+    private VBox listView;
+    @FXML
+    private ScrollPane scrollMenu;
+    @FXML
+    private HBox mainHBox;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -115,11 +129,12 @@ public class FXMLDocumentController implements Initializable {
 //            System.out.println("Ko Phai admin");
 //        }
         sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
-        CheckoutSection.setEffect(new DropShadow(10, 0, 3, Color.rgb(34, 40, 49, 0.5)));
+        CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
+//        mainHBox.setEffect(new InnerShadow(15, 0, 3, Color.rgb(34, 40, 49, 0.7)));
         showAcdMenu();
-        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        showTable();
-        setOnKeyPress();
+//        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//        showTable();
+//        setOnKeyPress();
         payBill();
         showPay();
         setEventClick();
@@ -225,30 +240,30 @@ public class FXMLDocumentController implements Initializable {
 
                 showPay();
             } else {
-                tbInfomation.refresh();
+//                tbInfomation.refresh();
             }
         });
         
     }
     
     // Hiển thị thông tin cho table
-    public void showTable() {
-        tbInfomation.setEditable(true);
-        
-        createTitle();
-        
-        ObservableList<MonOrder> list = getListMon();
-        if(!list.isEmpty()) {
-            tbInfomation.getColumns().clear();
-            System.out.println("List: " + list.get(0).getId());
-            tbInfomation.setItems(list);
-
-            System.out.println(tbInfomation.getItems().get(0).getTenMon());
-
-            tbInfomation.getColumns().addAll(tbColumnTenMon, tbColumnDonGia, tbColumnLoaiMon, tbColumnAmount);
-            System.out.println("showTable");
-        }
-    }
+//    public void showTable() {
+//        tbInfomation.setEditable(true);
+//        
+//        createTitle();
+//        
+//        ObservableList<MonOrder> list = getListMon();
+//        if(!list.isEmpty()) {
+//            tbInfomation.getColumns().clear();
+//            System.out.println("List: " + list.get(0).getId());
+//            tbInfomation.setItems(list);
+//
+//            System.out.println(tbInfomation.getItems().get(0).getTenMon());
+//
+//            tbInfomation.getColumns().addAll(tbColumnTenMon, tbColumnDonGia, tbColumnLoaiMon, tbColumnAmount);
+//            System.out.println("showTable");
+//        }
+//    }
     
     private ObservableList<MonOrder> getListMon() {
         ObservableList<MonOrder> list = FXCollections.observableArrayList();
@@ -256,25 +271,25 @@ public class FXMLDocumentController implements Initializable {
         return list;
     }
     
-    private void setOnKeyPress() {
-        tbInfomation.setOnKeyPressed((event) -> {
-            if(event.getCode() == KeyCode.DELETE) {
-                deleteRowTable();
-            }
-        });
-    }
+//    private void setOnKeyPress() {
+//        tbInfomation.setOnKeyPressed((event) -> {
+//            if(event.getCode() == KeyCode.DELETE) {
+//                deleteRowTable();
+//            }
+//        });
+//    }
     
-    private void deleteRowTable() {
-        ObservableList<MonOrder> list = tbInfomation.getSelectionModel().getSelectedItems();
-        ArrayList<MonOrder> rows = new ArrayList<>(list);
-        rows.forEach((row) -> {
-            System.out.println("row.getIdMon(): " + row.getId());
-            DBUtils_MonOrder.delete(row.getId());
-        });
-        tbInfomation.getColumns().clear();
-        showTable();
-        showPay();
-    }
+//    private void deleteRowTable() {
+//        ObservableList<MonOrder> list = tbInfomation.getSelectionModel().getSelectedItems();
+//        ArrayList<MonOrder> rows = new ArrayList<>(list);
+//        rows.forEach((row) -> {
+//            System.out.println("row.getIdMon(): " + row.getId());
+//            DBUtils_MonOrder.delete(row.getId());
+//        });
+//        tbInfomation.getColumns().clear();
+//        showTable();
+//        showPay();
+//    }
     // End Table
     
     // Pay Bill
@@ -341,7 +356,7 @@ public class FXMLDocumentController implements Initializable {
         
         // Clear
         DBUtils_MonOrder.deleteAll();
-        tbInfomation.getItems().clear();
+//        tbInfomation.getItems().clear();
         showPay();
         memberDiscount = 0;
         txtDiscount.setText(String.valueOf(memberDiscount));
@@ -453,7 +468,7 @@ public class FXMLDocumentController implements Initializable {
     
     // Accordion
     private void showAcdMenu() {
-        // Dynamic
+//         Dynamic
 //        acdMenu.getPanes().clear();
 //        ArrayList<TitledPane> titles = new ArrayList<>();
 //        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
@@ -565,9 +580,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void mouseEnterHover(MouseEvent event) {
-        JFXButton btn = (JFXButton) event.getSource();
-        ScaleTransition scale = new ScaleTransition();
-        new Pulse(btn).play();
+//        JFXButton btn = (JFXButton) event.getSource();
+//        listView.toFront();
+//        FadeInDown fadein = new FadeInDown();
+//        fadein.setNode(listView);
+//        fadein.setSpeed(3.0);
+//        fadein.play();
     }
 }
 

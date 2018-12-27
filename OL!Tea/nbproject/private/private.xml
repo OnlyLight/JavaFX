@@ -18,8 +18,9 @@
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/FXMLDocumentController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/login/FXMLLoginController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/bean/MonOrder.java</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/src/warehouse/FXMLWareHouseController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerMember/FXMLMember.fxml</file>
-            <file>file:/E:/Projects/JavaFX/OL!Tea/src/login/FXMLLogin_1.fxml</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerMenu/FXMLManagerMenuController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/bean/Mon.java</file>
         </group>
     </open-files>
