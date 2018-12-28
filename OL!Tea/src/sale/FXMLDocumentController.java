@@ -10,8 +10,9 @@ import animatefx.animation.FadeIn;
 import animatefx.animation.FadeInDown;
 import animatefx.animation.FadeInLeft;
 import animatefx.animation.FadeInUp;
+import animatefx.animation.FadeOutDown;
 import animatefx.animation.FadeOutLeft;
-import animatefx.animation.FadeOutUp;
+import animatefx.animation.FadeOut;
 import animatefx.animation.GlowBackground;
 import animatefx.animation.Pulse;
 import animatefx.animation.Tada;
@@ -98,7 +99,8 @@ import tqduy.connect.DBUtils_MonOrder;
 public class FXMLDocumentController implements Initializable {
     @FXML private TextField txtPay, txtMoneyTotal, txtDiscount;
     @FXML private JFXTextField txtSdtCheck;
-    @FXML private JFXButton btnPay, btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
+    private JFXButton btnPay;
+    @FXML private JFXButton btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     private TableColumn<MonOrder, String> tbColumnTenMon;
     private TableColumn<MonOrder, Integer> tbColumnDonGia;
     private TableColumn<MonOrder, String> tbColumnLoaiMon;
@@ -122,9 +124,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private HBox mainHBox;
     @FXML
-    private VBox mainStackPane;
-    @FXML
     private StackPane bigStackPane;
+    @FXML
+    private VBox orderScreen;
+    @FXML
+    private JFXButton orderBtn;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -145,11 +149,14 @@ public class FXMLDocumentController implements Initializable {
         bigStackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
         });
+        bigStackPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
+        });
         showAcdMenu();
 //        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 //        showTable();
 //        setOnKeyPress();
-        payBill();
+//        payBill();
         showPay();
         setEventClick();
         checkSDT();
@@ -340,23 +347,23 @@ public class FXMLDocumentController implements Initializable {
         return pay;
     }
     
-    private void payBill() {
-        btnPay.setOnAction((event) -> {
-            System.out.println("IDMember: "+idMem+" - IDNV: " + nvLogin.getIdNV() + " - " + nvLogin.getUserName() + " - " + txtPay.getText());
-            
-            // show alert thanh toán
-            double pay = showPay();
-            if(pay <= 0) {
-                createAlert("Chưa chọn món !!");
-            } else {
-                Optional<ButtonType> result = createAlert("Thanh toán: " + pay);
-
-                if(result.get() == ButtonType.OK) {
-                    clearAndPostData(pay);
-                }
-            }
-        });
-    }
+//    private void payBill() {
+//        btnPay.setOnAction((event) -> {
+//            System.out.println("IDMember: "+idMem+" - IDNV: " + nvLogin.getIdNV() + " - " + nvLogin.getUserName() + " - " + txtPay.getText());
+//            
+//            // show alert thanh toán
+//            double pay = showPay();
+//            if(pay <= 0) {
+//                createAlert("Chưa chọn món !!");
+//            } else {
+//                Optional<ButtonType> result = createAlert("Thanh toán: " + pay);
+//
+//                if(result.get() == ButtonType.OK) {
+//                    clearAndPostData(pay);
+//                }
+//            }
+//        });
+//    }
     
     private void clearAndPostData(double pay) {
         // Insert Data for Table Bill
@@ -392,27 +399,42 @@ public class FXMLDocumentController implements Initializable {
     }
     
     // End Pay Bill
-    private void openScreen(String url) {
-         Node vbox = null;
-            try {
-                vbox = FXMLLoader.load(getClass().getResource(url));
+    private void openScreen(String url, Node node) {
+         Node screen = node;
+         if (screen == null) {
+             try {
+                screen = FXMLLoader.load(getClass().getResource(url));
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            ObservableList<Node> listNode = mainStackPane.getChildren();
+         }
+            ObservableList<Node> listNode = bigStackPane.getChildren();
+            System.out.println("data 0"+ listNode.get(0).getUserData());
+            if (listNode.size() == 2 && listNode.get(1).getUserData() == url ||
+                    listNode.size() == 1 && listNode.get(0).getUserData() == url) {
+                return;
+            };
             if (listNode.size() == 2) {
-               if (listNode.get(1).getUserData() == url) {
-                   return;
-               }
-               listNode.remove(1);
+                listNode.remove(0); 
             }
-            vbox.setUserData(url);
-            listNode.add(vbox);
-            mainStackPane.toFront();
-            FadeInLeft fadeInDown = new FadeInLeft();
-            fadeInDown.setNode(mainStackPane);
-            fadeInDown.setSpeed(3.0);
-            fadeInDown.play();
+                new FadeOut(listNode.get(0)).setSpeed(2.0).play();
+                screen.setUserData(url);
+                listNode.add(screen);
+                new FadeIn(listNode.get(1)).setSpeed(2.0).play();
+             
+//            if (listNode.size() == 2) {
+//               if (listNode.get(1).getUserData() == url) {
+//                   return;
+//               }
+//               listNode.remove(1);
+//            }
+//            screen.setUserData(url);
+//            listNode.add(screen);
+//            mainStackPane.toFront();
+//            FadeInLeft fadeInDown = new FadeInLeft();
+//            fadeInDown.setNode(mainStackPane);
+//            fadeInDown.setSpeed(3.0);
+//            fadeInDown.play();
     }
     // Menu
     private void setEventClick() {
@@ -429,14 +451,18 @@ public class FXMLDocumentController implements Initializable {
 //            }
 //            System.exit(0);
 //        });
+        orderBtn.setOnAction((event) -> {
+           openScreen(null, orderScreen);
+        });
         
         mnTonKho.setOnAction((event) -> {
+            mnTonKho.requestFocus();
 //            try {
 //                showDialog("/warehouse/FXMLWareHouse.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
 //            } catch (IOException ex) {
 //                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-            openScreen("/warehouse/FXMLWareHouse.fxml");
+            openScreen("/warehouse/FXMLWareHouse.fxml", null);
         });
         
         mnThucDon.setOnAction((event) -> {
@@ -446,7 +472,7 @@ public class FXMLDocumentController implements Initializable {
 //                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //            closeStage(btnPay);
-            openScreen("/managerMenu/FXMLManagerMenu.fxml");
+            openScreen("/managerMenu/FXMLManagerMenu.fxml", null);
         });
         
         mnNhanVien.setOnAction((event) -> {
@@ -455,7 +481,7 @@ public class FXMLDocumentController implements Initializable {
 //            } catch (IOException ex) {
 //                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-            openScreen("/managerNV/FXMLNhanVien.fxml");
+            openScreen("/managerNV/FXMLNhanVien.fxml", null);
         });
         
         mnMember.setOnAction((event) -> {
@@ -464,7 +490,7 @@ public class FXMLDocumentController implements Initializable {
 //            } catch (IOException ex) {
 //                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-            openScreen("/managerMember/FXMLMember.fxml");
+            openScreen("/managerMember/FXMLMember.fxml", null);
         });
         
         mnCus.setOnAction((event) -> {
@@ -473,7 +499,7 @@ public class FXMLDocumentController implements Initializable {
 //            } catch (IOException ex) {
 //                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-            openScreen("/managerCus/FXMLCustomer_1.fxml");
+            openScreen("/managerCus/FXMLCustomer_1.fxml", null);
         });
         
         mnLogout.setOnAction((event) -> {
@@ -505,7 +531,7 @@ public class FXMLDocumentController implements Initializable {
 //            } catch (IOException ex) {
 //                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-            openScreen("/bill/FXMLBill.fxml");
+            openScreen("/bill/FXMLBill.fxml", null);
         });
         
 //        mnAbout.setOnAction((event) -> {
@@ -641,7 +667,6 @@ public class FXMLDocumentController implements Initializable {
 //        fadein.play();
     }
 
-    @FXML
     private void fadeOut(MouseEvent event) {
         Node parent = ((Node) event.getSource()).getParent();
         FadeOutLeft fadeOut = new FadeOutLeft();
