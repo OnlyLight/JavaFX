@@ -126,10 +126,8 @@ public class FXMLLoginController implements Initializable {
         stage.close();
         UndecoratorScene scene = new UndecoratorScene(stage, (Region) root);
         stage.setScene(scene);
-        stage.setMaximized(true);
         stage.show();
         new FadeIn(root).play();
-        System.out.println("Close");
     }
     
     private void showDialog(String url, StageStyle style, Modality modal) throws IOException {

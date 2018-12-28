@@ -8,7 +8,9 @@ package sale;
 import animatefx.animation.AnimationFX;
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeInDown;
+import animatefx.animation.FadeInLeft;
 import animatefx.animation.FadeInUp;
+import animatefx.animation.FadeOutLeft;
 import animatefx.animation.FadeOutUp;
 import animatefx.animation.GlowBackground;
 import animatefx.animation.Pulse;
@@ -16,7 +18,9 @@ import animatefx.animation.Tada;
 import animatefx.animation.ZoomIn;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import insidefx.undecorator.UndecoratorScene;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -60,8 +64,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -69,6 +76,7 @@ import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import signIn.FXMLSignInController;
 import login.FXMLLoginController;
+import login.Login;
 import tqduy.bean.CusMember;
 import tqduy.bean.LoaiMon;
 import tqduy.bean.Member;
@@ -113,6 +121,10 @@ public class FXMLDocumentController implements Initializable {
     private ScrollPane scrollMenu;
     @FXML
     private HBox mainHBox;
+    @FXML
+    private VBox mainStackPane;
+    @FXML
+    private StackPane bigStackPane;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -130,7 +142,9 @@ public class FXMLDocumentController implements Initializable {
 //        }
         sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
         CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
-//        mainHBox.setEffect(new InnerShadow(15, 0, 3, Color.rgb(34, 40, 49, 0.7)));
+        bigStackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
+        });
         showAcdMenu();
 //        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 //        showTable();
@@ -378,7 +392,28 @@ public class FXMLDocumentController implements Initializable {
     }
     
     // End Pay Bill
-    
+    private void openScreen(String url) {
+         Node vbox = null;
+            try {
+                vbox = FXMLLoader.load(getClass().getResource(url));
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ObservableList<Node> listNode = mainStackPane.getChildren();
+            if (listNode.size() == 2) {
+               if (listNode.get(1).getUserData() == url) {
+                   return;
+               }
+               listNode.remove(1);
+            }
+            vbox.setUserData(url);
+            listNode.add(vbox);
+            mainStackPane.toFront();
+            FadeInLeft fadeInDown = new FadeInLeft();
+            fadeInDown.setNode(mainStackPane);
+            fadeInDown.setSpeed(3.0);
+            fadeInDown.play();
+    }
     // Menu
     private void setEventClick() {
 //        mnClose.setText("Exit");
@@ -396,63 +431,81 @@ public class FXMLDocumentController implements Initializable {
 //        });
         
         mnTonKho.setOnAction((event) -> {
-            try {
-                showDialog("/warehouse/FXMLWareHouse.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                showDialog("/warehouse/FXMLWareHouse.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            openScreen("/warehouse/FXMLWareHouse.fxml");
         });
         
         mnThucDon.setOnAction((event) -> {
-            try {
-                showDialogMenu("/managerMenu/FXMLManagerMenu.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            closeStage(btnPay);
+//            try {
+//                showDialogMenu("/managerMenu/FXMLManagerMenu.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            closeStage(btnPay);
+            openScreen("/managerMenu/FXMLManagerMenu.fxml");
         });
         
         mnNhanVien.setOnAction((event) -> {
-            try {
-                showDialog("/managerNV/FXMLNhanVien.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                showDialog("/managerNV/FXMLNhanVien.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            openScreen("/managerNV/FXMLNhanVien.fxml");
         });
         
         mnMember.setOnAction((event) -> {
-            try {
-                showDialog("/managerMember/FXMLMember.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                showDialog("/managerMember/FXMLMember.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            openScreen("/managerMember/FXMLMember.fxml");
         });
         
         mnCus.setOnAction((event) -> {
-            try {
-                showDialog("/managerCus/FXMLCustomer_1.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                showDialog("/managerCus/FXMLCustomer_1.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            openScreen("/managerCus/FXMLCustomer_1.fxml");
         });
         
         mnLogout.setOnAction((event) -> {
             nvLogin = null;
             DBUtils_MonOrder.deleteAll();
-            try {
-                showDialog("/login/FXMLLogin_1.fxml", StageStyle.UNDECORATED, Modality.NONE);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            closeStage(btnPay);
+//            try {
+//                showDialog("/login/FXMLLogin_1.fxml", StageStyle.UNDECORATED, Modality.NONE);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            closeStage(btnPay);
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/login/FXMLLogin_1.fxml"));
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Stage stage = Login.getStage();
+                stage.close();
+                UndecoratorScene scene = new UndecoratorScene(stage, (Region) root);
+                stage.setScene(scene);
+                stage.show();
+                new FadeIn(root).play();
         });
         
         mnHoaDon.setOnAction((event) -> {
-            try {
-                showDialog("/bill/FXMLBill.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                showDialog("/bill/FXMLBill.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            openScreen("/bill/FXMLBill.fxml");
         });
         
 //        mnAbout.setOnAction((event) -> {
@@ -586,6 +639,22 @@ public class FXMLDocumentController implements Initializable {
 //        fadein.setNode(listView);
 //        fadein.setSpeed(3.0);
 //        fadein.play();
+    }
+
+    @FXML
+    private void fadeOut(MouseEvent event) {
+        Node parent = ((Node) event.getSource()).getParent();
+        FadeOutLeft fadeOut = new FadeOutLeft();
+        fadeOut.setNode(parent);
+        fadeOut.setResetOnFinished(true);
+        fadeOut.setSpeed(3.0);
+        fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                parent.toBack();
+            }
+        });
+        fadeOut.play();
     }
 }
 
