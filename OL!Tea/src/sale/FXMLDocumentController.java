@@ -146,12 +146,24 @@ public class FXMLDocumentController implements Initializable {
 //        }
         sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
         CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
-        bigStackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
+//        bigStackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+//            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
+//        });
+//        bigStackPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+//            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
+//        });
+        ObservableList<Node> btnSideBar = sideBar.getChildren();
+        btnSideBar.forEach((t) -> {
+            System.out.println(t.getId());
+            t.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (t.focusedProperty().get()) {
+                    t.setStyle("-fx-background-color: rgba(255, 255, 255, 0.3)");
+                } else {
+                    t.setStyle("-fx-background-color: transparent");
+                }
+            });
         });
-        bigStackPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
-        });
+        btnSideBar.get(0).requestFocus();
         showAcdMenu();
 //        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 //        showTable();
@@ -409,7 +421,6 @@ public class FXMLDocumentController implements Initializable {
             }
          }
             ObservableList<Node> listNode = bigStackPane.getChildren();
-            System.out.println("data 0"+ listNode.get(0).getUserData());
             if (listNode.size() == 2 && listNode.get(1).getUserData() == url ||
                     listNode.size() == 1 && listNode.get(0).getUserData() == url) {
                 return;
@@ -456,7 +467,6 @@ public class FXMLDocumentController implements Initializable {
         });
         
         mnTonKho.setOnAction((event) -> {
-            mnTonKho.requestFocus();
 //            try {
 //                showDialog("/warehouse/FXMLWareHouse.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
 //            } catch (IOException ex) {

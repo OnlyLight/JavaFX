@@ -27,6 +27,10 @@ and open the template in the editor.
     -fx-background-color: linear-gradient(to left, #00adb5, #00ccd3);
 }
 
+.btn-sideBar {
+    -fx-background-radius: 0;
+}
+
 .btn-sideBar:hover {
     -fx-background-color: rgba(255, 255, 255, 0.3);
 }
@@ -180,4 +184,22 @@ and open the template in the editor.
 .bg-dark-green {
     -fx-background-color: #00a0a5;
     -fx-background-radius: 10;
+}
+
+/*.jfx-tab-pane:top > .depth-container > .tab-header-area {
+    -fx-padding: 10;
+}*/
+
+.tab-header-background {
+    -fx-background-color: #393e46;
+    
+}
+
+.tab-label {
+    -fx-padding: 11
+}
+
+.tab-selected-line {
+    -fx-background-color: #00adb5;
+    -fx-min-heigth: 5;
 }

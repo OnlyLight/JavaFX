@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -10,7 +11,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -20,18 +20,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
+<VBox prefHeight="682.0" prefWidth="842.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
    <children>
-      <TabPane prefHeight="730.0" prefWidth="802.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
+      <JFXTabPane prefHeight="520.0" prefWidth="802.0" stylesheets="@../css/global.css" VBox.vgrow="ALWAYS">
+         <tabs>
           <Tab text="Quản Lý Kho">
                <content>
                   <SplitPane dividerPositions="0.60875" prefHeight="248.0" prefWidth="802.0">
                      <items>
                         <SplitPane dividerPositions="0.497164461247637" orientation="VERTICAL" prefHeight="193.0" prefWidth="484.0">
                            <items>
-                              <TableView fx:id="tbNhap" prefHeight="399.0" prefWidth="483.0">
+                              <TableView fx:id="tbNhap" prefHeight="399.0" prefWidth="483.0" stylesheets="@../css/global.css">
                                 <columns>
                                   <TableColumn fx:id="tbTenSpNhapColumn" prefWidth="100.0" text="Tên sản phẩm" />
                                   <TableColumn fx:id="tbTenLoaiNhapColumn" prefWidth="92.0" text="Loại" />
@@ -41,7 +40,7 @@
                                     <TableColumn fx:id="tbNgayNhapColumn" prefWidth="108.0" text="Ngày nhập" />
                                 </columns>
                               </TableView>
-                              <TableView fx:id="tbXuat" prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="tbXuat" prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/global.css">
                                 <columns>
                                     <TableColumn fx:id="tbTenSpXuatColumn" prefWidth="100.0" text="Tên sản phẩm" />
                                     <TableColumn fx:id="tbTenLoaiXuatColumn" prefWidth="92.0" text="Loại" />
@@ -217,7 +216,7 @@
                   </BorderPane>
                </content>
           </Tab>
-        </tabs>
-      </TabPane>
+         </tabs>
+      </JFXTabPane>
    </children>
 </VBox>
