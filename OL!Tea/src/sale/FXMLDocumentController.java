@@ -153,17 +153,17 @@ public class FXMLDocumentController implements Initializable {
 //            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
 //        });
         ObservableList<Node> btnSideBar = sideBar.getChildren();
-        btnSideBar.forEach((t) -> {
-            System.out.println(t.getId());
-            t.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if (t.focusedProperty().get()) {
-                    t.setStyle("-fx-background-color: rgba(255, 255, 255, 0.3)");
-                } else {
-                    t.setStyle("-fx-background-color: transparent");
-                }
-            });
-        });
-        btnSideBar.get(0).requestFocus();
+//        btnSideBar.forEach((t) -> {
+//            System.out.println(t.getId());
+//            t.focusedProperty().addListener((observable, oldValue, newValue) -> {
+//                if (t.focusedProperty().get()) {
+//                    t.setStyle("-fx-background-color: rgba(255, 255, 255, 0.3)");
+//                } else {
+//                    t.setStyle("-fx-background-color: transparent");
+//                }
+//            });
+//        });
+        ((JFXButton) btnSideBar.get(0)).fire();
         showAcdMenu();
 //        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 //        showTable();
@@ -428,10 +428,10 @@ public class FXMLDocumentController implements Initializable {
             if (listNode.size() == 2) {
                 listNode.remove(0); 
             }
-                new FadeOut(listNode.get(0)).setSpeed(2.0).play();
+                new FadeOut(listNode.get(0)).setSpeed(3.0).play();
                 screen.setUserData(url);
                 listNode.add(screen);
-                new FadeIn(listNode.get(1)).setSpeed(2.0).play();
+                new FadeIn(listNode.get(1)).setSpeed(3.0).play();
              
 //            if (listNode.size() == 2) {
 //               if (listNode.get(1).getUserData() == url) {

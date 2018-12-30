@@ -929,7 +929,7 @@
    <left>
       <VBox fx:id="sideBar" alignment="TOP_CENTER" minHeight="800.0" minWidth="90.0" prefHeight="630.0" prefWidth="90.0" style="-fx-background-color: #393e46;">
          <children>
-            <JFXButton fx:id="orderBtn" contentDisplay="TOP" prefHeight="0.0" prefWidth="90.0" style="-fx-background-color: rgba(255, 255, 255, 0.3);" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Order" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <JFXButton fx:id="orderBtn" contentDisplay="TOP" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Order" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="CLIPBOARD" size="2em" textOrigin="CENTER" />
                </graphic>

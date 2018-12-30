@@ -7,6 +7,8 @@ package login;
 
 import animatefx.animation.FadeIn;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -19,6 +21,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.ScaleTransition;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,11 +29,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -52,12 +60,32 @@ public class FXMLLoginController implements Initializable {
     
     public static NhanVien nvLogin;
     @FXML
-    private FontAwesomeIcon btnExit;
+    private StackPane mainLoginScreen;
+    
+    private void showDialog(String text) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Infomation"));
+        content.setBody(new Text(text));
+        JFXDialog dialog = new JFXDialog(mainLoginScreen, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton btnConfirm = new JFXButton("OK");
+        btnConfirm.setStyle("-fx-background-color: linear-gradient(to left, #00adb5, #00ccd3);\n" +
+        "-fx-cursor: hand; -fx-text-fill: #fff; -fx-font-weight: bold;");
+        btnConfirm.setOnAction((eventt) -> {
+            dialog.close();
+        });
+        btnConfirm.defaultButtonProperty().bind(btnConfirm.focusedProperty());
+        content.setActions(btnConfirm);
+        dialog.show();
+    }
     
     private void setEventClick() {
+        txtUserName.setOnKeyPressed((event) -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                btnLogin.fire();
+            }
+        });
         txtPassWord.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
-                System.out.println("Hello Enter");
                 btnLogin.fire();
             }
         });
@@ -68,20 +96,19 @@ public class FXMLLoginController implements Initializable {
 //        
         ArrayList<NhanVien> nvs = DBUtils_NhanVien.getListForCheck();
         btnLogin.setOnAction((event) -> {
-            String user = txtUserName.getText().toString().trim();
-            String pass = MD5Library.md5(txtPassWord.getText().toString().trim());
-            nvLogin = new NhanVien();
-            
-            if(checkUser(nvs, user, pass)) {
-                
-//                try {
-//                    showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-                closeStage();
+            if (mainLoginScreen.getChildren().size() == 1) {
+                String user = txtUserName.getText().toString().trim();
+                String pass = MD5Library.md5(txtPassWord.getText().toString().trim());
+                nvLogin = new NhanVien();
+                if (user.length() == 0 || txtPassWord.getText().toString().trim().length() == 0) {
+                    showDialog("Please enter username, password!");
+                } else if(checkUser(nvs, user, pass)) {
+                    closeStage();
+                } else {
+                    showDialog("Wrong username or password!");
+                }
             } else {
-                createAlert("User hoặc passWord không đúng");
+                ((JFXDialog) mainLoginScreen.getChildren().get(1)).close();
             }
         });
     }
@@ -159,7 +186,7 @@ public class FXMLLoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         setEventClick();
-        btnLogin.setEffect(new DropShadow());
+        btnLogin.defaultButtonProperty().bind(btnLogin.focusedProperty());
     }    
     
 }

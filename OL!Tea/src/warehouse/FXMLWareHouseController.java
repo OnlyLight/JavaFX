@@ -35,7 +35,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import tqduy.bean.DVT;
@@ -66,11 +68,11 @@ public class FXMLWareHouseController implements Initializable {
     @FXML private TableColumn<XuatTable, String> tbTenSpXuatColumn;
     @FXML private TableColumn<XuatTable, Integer> tbSoLuongXuatColumn;
     @FXML private TableColumn<XuatTable, Date> tbNgayXuatColumn;
-    @FXML private TextField txtTenSpNhap, txtSoLuongNhap, txtDonGiaNhap, txtSoLuongXuat;
-    @FXML private DatePicker dpNgayNhap, dpNgayXuat, dpDayStartNhap, dpDayFinishNhap, dpDayStartXuat, dpDayFinishXuat;
-    @FXML private ComboBox<LoaiNX> cbTenLoaiNhap, cbTenLoaiXuat, cbLoaiThongKe;
+    @FXML private TextField txtTenSpNhap, txtSoLuongNhap, txtDonGiaNhap;
+    @FXML private DatePicker dpNgayNhap, dpDayStartNhap, dpDayFinishNhap;
+    @FXML private ComboBox<LoaiNX> cbTenLoaiNhap, cbLoaiThongKe;
     @FXML private ComboBox<String> cbTenSpXuat;
-    @FXML private Button btnNhap, btnXuat, btnFind, btnPrintInfo, btnReset;
+    @FXML private Button btnNhap, btnFind, btnPrintInfo, btnReset;
     @FXML private TableView<TKTable> tbThongKe;
     @FXML private TableColumn<TKTable, String> tbTenSpTKColumn, tbLoaiTKColumn;
     @FXML private TableColumn<TKTable, Integer> tbDonGiaTKColumn, tbSoLuongNhapTKColumn, tbSoLuongXuatTKColumn;
@@ -187,30 +189,30 @@ public class FXMLWareHouseController implements Initializable {
         if(!list.isEmpty()) cbTenSpXuat.setItems(list);
     }
     
-    private void showComboboxTenXuat() {
-        cbTenSpXuat.setOnMouseClicked((event) -> {
-            cbTenSpXuat.getItems().clear();
-            loadCombobox();
-        });
-        
-        cbTenSpXuat.setOnAction((event) -> {
-            tenSpXuat = cbTenSpXuat.getSelectionModel().getSelectedItem();
-            System.out.println("Ten sp Xuat: " + tenSpXuat);
-            
-            if(tenSpXuat != null) {
-                ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
-                for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
-                    loai.add(loaiNX);
-                }
-
-                if(!loai.isEmpty()) {
-                    cbTenLoaiXuat.getItems().clear();
-                    cbTenLoaiXuat.setItems(loai);
-                }
-            }
-//            showBoxNhap();
-        });
-    }
+//    private void showComboboxTenXuat() {
+//        cbTenSpXuat.setOnMouseClicked((event) -> {
+//            cbTenSpXuat.getItems().clear();
+//            loadCombobox();
+//        });
+//        
+//        cbTenSpXuat.setOnAction((event) -> {
+//            tenSpXuat = cbTenSpXuat.getSelectionModel().getSelectedItem();
+//            System.out.println("Ten sp Xuat: " + tenSpXuat);
+//            
+//            if(tenSpXuat != null) {
+//                ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
+//                for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
+//                    loai.add(loaiNX);
+//                }
+//
+//                if(!loai.isEmpty()) {
+//                    cbTenLoaiXuat.getItems().clear();
+//                    cbTenLoaiXuat.setItems(loai);
+//                }
+//            }
+////            showBoxNhap();
+//        });
+//    }
     
     private void showBoxNhap() {
         ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
@@ -234,7 +236,7 @@ public class FXMLWareHouseController implements Initializable {
         }
         
         showBoxNhap();
-        cbTenLoaiXuat.setItems(loai);
+//        cbTenLoaiXuat.setItems(loai);
         cbLoaiThongKe.setItems(loai);
     }
     
@@ -266,47 +268,47 @@ public class FXMLWareHouseController implements Initializable {
         // End Box Nhap
         
         // Box Xuat
-        txtSoLuongXuat.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*") && !newValue.equals("0")) {
-                try {
-                    soLuongXuat = Integer.parseInt(newValue);
-                } catch (Exception e) {
-                    
-                }
-            } else {
-                txtSoLuongXuat.setText(oldValue);
-            }
-        });
+//        txtSoLuongXuat.textProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue.matches("\\d*") && !newValue.equals("0")) {
+//                try {
+//                    soLuongXuat = Integer.parseInt(newValue);
+//                } catch (Exception e) {
+//                    
+//                }
+//            } else {
+//                txtSoLuongXuat.setText(oldValue);
+//            }
+//        });
         // End Box Xuat
     }
     
     private void eventDatePicker() {
         dpNgayNhap.setValue(LocalDate.now());
-        dpNgayXuat.setValue(LocalDate.now());
+//        dpNgayXuat.setValue(LocalDate.now());
         dpDayStartNhap.setValue(LocalDate.now());
         dpDayFinishNhap.setValue(LocalDate.now());
-        dpDayStartXuat.setValue(LocalDate.now());
-        dpDayFinishXuat.setValue(LocalDate.now());
+//        dpDayStartXuat.setValue(LocalDate.now());
+//        dpDayFinishXuat.setValue(LocalDate.now());
         
         // fomat for Datepicker dd/MM/yyyy
         fomatterForDatePicker(dpNgayNhap);
-        fomatterForDatePicker(dpNgayXuat);
+//        fomatterForDatePicker(dpNgayXuat);
         fomatterForDatePicker(dpDayStartNhap);
         fomatterForDatePicker(dpDayFinishNhap);
-        fomatterForDatePicker(dpDayStartXuat);
-        fomatterForDatePicker(dpDayFinishXuat);
+//        fomatterForDatePicker(dpDayStartXuat);
+//        fomatterForDatePicker(dpDayFinishXuat);
         
         // Set Limit for datepicker statistical
         setDayLimitForDatePicker(dpDayStartNhap, dpDayFinishNhap);
-        setDayLimitForDatePicker(dpDayStartXuat, dpDayFinishXuat);
+//        setDayLimitForDatePicker(dpDayStartXuat, dpDayFinishXuat);
         
         dpNgayNhap.setOnAction((event) -> {
             dateNhap = dpNgayNhap.getValue();
         });
         
-        dpNgayXuat.setOnAction((event) -> {
-            dateXuat = dpNgayXuat.getValue();
-        });
+//        dpNgayXuat.setOnAction((event) -> {
+//            dateXuat = dpNgayXuat.getValue();
+//        });
         
         dpDayStartNhap.setOnAction((event) -> {
             dayStartNhap = dpDayStartNhap.getValue();
@@ -316,13 +318,13 @@ public class FXMLWareHouseController implements Initializable {
             dayFinishNhap = dpDayFinishNhap.getValue();
         });
         
-        dpDayStartXuat.setOnAction((event) -> {
-            dayStartXuat = dpDayStartXuat.getValue();
-        });
-        
-        dpDayFinishXuat.setOnAction((event) -> {
-            dayFinishXuat = dpDayFinishXuat.getValue();
-        });
+//        dpDayStartXuat.setOnAction((event) -> {
+//            dayStartXuat = dpDayStartXuat.getValue();
+//        });
+//        
+//        dpDayFinishXuat.setOnAction((event) -> {
+//            dayFinishXuat = dpDayFinishXuat.getValue();
+//        });
     }
     
     private void setDayLimitForDatePicker(DatePicker dayStart, DatePicker dayFinish) {
@@ -396,29 +398,29 @@ public class FXMLWareHouseController implements Initializable {
         // End Box Nhap
     }
     
-    private void boxXuat() {
-        // Box Xuat
-        cbTenLoaiXuat.setOnAction((event) -> {
-            tenLoaiXuat = cbTenLoaiXuat.getSelectionModel().getSelectedItem();
-            System.out.println(tenLoaiXuat);
-        });
-        
-        btnXuat.setOnAction((event) -> {
-            if(tenSpXuat.isEmpty() || txtSoLuongXuat.getText().toString().trim().isEmpty() || tenLoaiXuat == null) {
-                createAlert("Xin Nhập đầy đủ thông tin !!!");
-            } else {
-                DBUtils_Xuat.insert(tenSpXuat, tenLoaiXuat.getIdLoaiNX(), soLuongXuat, dateXuat);
-                txtSoLuongXuat.setText("");
-                
-                ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());
-                if(!listXuatDisplay.isEmpty()) {
-                    tbXuat.getItems().clear();
-                    tbXuat.setItems(listXuatDisplay);
-                }
-            }
-        });
-        // End Box Xuat
-    }
+//    private void boxXuat() {
+//        // Box Xuat
+//        cbTenLoaiXuat.setOnAction((event) -> {
+//            tenLoaiXuat = cbTenLoaiXuat.getSelectionModel().getSelectedItem();
+//            System.out.println(tenLoaiXuat);
+//        });
+//        
+//        btnXuat.setOnAction((event) -> {
+//            if(tenSpXuat.isEmpty() || txtSoLuongXuat.getText().toString().trim().isEmpty() || tenLoaiXuat == null) {
+//                createAlert("Xin Nhập đầy đủ thông tin !!!");
+//            } else {
+//                DBUtils_Xuat.insert(tenSpXuat, tenLoaiXuat.getIdLoaiNX(), soLuongXuat, dateXuat);
+//                txtSoLuongXuat.setText("");
+//                
+//                ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());
+//                if(!listXuatDisplay.isEmpty()) {
+//                    tbXuat.getItems().clear();
+//                    tbXuat.setItems(listXuatDisplay);
+//                }
+//            }
+//        });
+//        // End Box Xuat
+//    }
     
     private void eventClickButtonADD() {
         checkInput();
@@ -426,7 +428,7 @@ public class FXMLWareHouseController implements Initializable {
         eventDatePicker();
         
         boxNhap();
-        boxXuat();
+//        boxXuat();
     }
     
     private void createAlert(String content) {
@@ -726,7 +728,7 @@ public class FXMLWareHouseController implements Initializable {
         eventSearch();
         eventClickTK();
         displayBarChart();
-        showComboboxTenXuat();
+//        showComboboxTenXuat();
     }    
     
 }
