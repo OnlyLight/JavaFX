@@ -3,15 +3,14 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -22,16 +21,109 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
+
+<StackPane fx:id="mainStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
    <children>
-      <JFXTabPane stylesheets="@../css/global.css" VBox.vgrow="ALWAYS">
+            <GridPane fx:id="filterPopup" hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="160.0" prefWidth="760.0" style="-fx-background-color: #fff; -fx-background-radius: 5;" stylesheets="@../css/global.css" vgap="20.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints valignment="CENTER" />
+                <RowConstraints valignment="CENTER" />
+              </rowConstraints>
+               <children>
+                  <VBox spacing="5.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label styleClass="font-bold" text="Xuất từ Ngày" />
+                  <JFXDatePicker fx:id="dpDayStartXuat" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
+                     <padding>
+                        <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
+                     </padding>
+                  </JFXDatePicker>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label styleClass="font-bold" text="Đến Ngày" />
+                  <JFXDatePicker fx:id="dpDayFinishXuat" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
+                     <padding>
+                        <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
+                     </padding>
+                  </JFXDatePicker>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="font-bold" text="Nhập từ Ngày" />
+                  <JFXDatePicker fx:id="dpDayStartNhap" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
+                     <padding>
+                        <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
+                     </padding>
+                  </JFXDatePicker>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label styleClass="font-bold" text="Đến Ngày" />
+                  <JFXDatePicker fx:id="dpDayFinishNhap" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
+                     <padding>
+                        <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
+                     </padding>
+                  </JFXDatePicker>
+                     </children>
+                  </VBox>
+            <VBox spacing="5.0" GridPane.columnIndex="2">
+               <children>
+                        <Label styleClass="font-bold" text="Loại" />
+                  <ComboBox fx:id="cbLoaiThongKe" prefHeight="44.0" prefWidth="241.0" promptText="Choose type" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-border-radius: 3; -fx-padding: 2 2 2 0;" />
+               </children>
+            </VBox>
+            <HBox alignment="BOTTOM_RIGHT" spacing="20.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <JFXButton fx:id="btnFind" defaultButton="true" prefHeight="44.0" prefWidth="110.0" style="-fx-background-color: #00adb5; -fx-border-width: 1;" text="Filter" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="FILTER" size="1.5em" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="btnReset" contentDisplay="GRAPHIC_ONLY" prefHeight="44.0" style="-fx-background-color: #00adb5;" text="Reset" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="REFRESH" size="1.5em" wrappingWidth="21.85714340209961" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </HBox>
+               </children>
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </padding>
+            </GridPane>
+      <JFXTabPane stylesheets="@../css/global.css">
          <tabs>
           <Tab text="Management">
                <content>
-                  <HBox spacing="30.0" style="-fx-background-color: #eee;">
+                  <HBox prefWidth="1084.0" spacing="20.0" style="-fx-background-color: #eee;">
                      <children>
                         <VBox minWidth="350.0" HBox.hgrow="NEVER">
                            <children>
@@ -48,31 +140,33 @@
                                     <VBox spacing="5.0">
                                        <children>
                                           <Label styleClass="font-bold" text="Product name" />
-                                          <TextField fx:id="txtTenSpNhap" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1;">
+                                          <TextField fx:id="txtTenSpNhap" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
                                              <font>
                                                 <Font size="17.0" />
-                                             </font></TextField>
+                                             </font>
+                                          </TextField>
                                        </children>
                                     </VBox>
                                     <VBox spacing="5.0">
                                        <children>
                                           <Label styleClass="font-bold" text="Quantity" />
-                                          <TextField fx:id="txtSoLuongNhap" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1;">
+                                          <TextField fx:id="txtSoLuongNhap" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
                                              <font>
                                                 <Font size="17.0" />
-                                             </font></TextField>
+                                             </font>
+                                          </TextField>
                                        </children>
                                     </VBox>
                                     <VBox spacing="5.0">
                                        <children>
                                           <Label styleClass="font-bold" text="Type" />
-                                          <ComboBox fx:id="cbTenLoaiNhap" prefHeight="40.0" prefWidth="192.0" promptText="Choose type" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17;" />
+                                          <ComboBox fx:id="cbTenLoaiNhap" prefHeight="40.0" prefWidth="192.0" promptText="Choose type" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-border-radius: 3;" />
                                        </children>
                                     </VBox>
                                     <VBox spacing="5.0">
                                        <children>
                                           <Label styleClass="font-bold" text="Date" />
-                                          <JFXDatePicker fx:id="dpNgayNhap" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17;" stylesheets="@../css/global.css">
+                                          <JFXDatePicker fx:id="dpNgayNhap" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
                                              <padding>
                                                 <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
                                              </padding>
@@ -82,10 +176,11 @@
                                     <VBox spacing="5.0">
                                        <children>
                                           <Label styleClass="font-bold" text="Price" />
-                                          <TextField fx:id="txtDonGiaNhap" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1;">
+                                          <TextField fx:id="txtDonGiaNhap" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
                                              <font>
                                                 <Font size="17.0" />
-                                             </font></TextField>
+                                             </font>
+                                          </TextField>
                                        </children>
                                     </VBox>
                                     <JFXButton fx:id="btnNhap" styleClass="btn-login" text="Submit" textFill="WHITE">
@@ -109,7 +204,7 @@
                               <Insets left="20.0" top="10.0" />
                            </HBox.margin>
                         </VBox>
-                        <VBox spacing="30.0" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="rightSideMng" spacing="20.0" HBox.hgrow="ALWAYS">
                            <children>
                               <VBox VBox.vgrow="ALWAYS">
                                  <children>
@@ -121,7 +216,7 @@
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </Label>
-                                    <TableView fx:id="tbXuat" stylesheets="@../css/global.css">
+                                    <TableView fx:id="tbXuat" stylesheets="@../css/global.css" VBox.vgrow="ALWAYS">
                                       <columns>
                                           <TableColumn fx:id="tbTenSpXuatColumn" prefWidth="100.0" text="Tên sản phẩm" />
                                           <TableColumn fx:id="tbTenLoaiXuatColumn" prefWidth="92.0" text="Loại" />
@@ -129,12 +224,12 @@
                                         <TableColumn fx:id="tbSoLuongXuatColumn" prefWidth="127.0" text="Số lượng xuất" />
                                           <TableColumn fx:id="tbNgayXuatColumn" minWidth="1.0" prefWidth="108.0" text="Ngày xuất" />
                                       </columns>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
                                        <effect>
                                           <DropShadow color="#00000033" />
                                        </effect>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
                                     </TableView>
                                  </children>
                               </VBox>
@@ -157,12 +252,12 @@
                                           <TableColumn fx:id="tbSoLuongNhapColumn" prefWidth="127.0" text="Số lượng nhập" />
                                           <TableColumn fx:id="tbNgayNhapColumn" prefWidth="108.0" text="Ngày nhập" />
                                       </columns>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
                                        <effect>
                                           <DropShadow color="#00000033" />
                                        </effect>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
                                     </TableView>
                                  </children>
                               </VBox>
@@ -177,54 +272,52 @@
           </Tab>
           <Tab fx:id="tabTK" text="Statistical">
                <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <left>
-                        <VBox prefHeight="150.0" prefWidth="802.0" BorderPane.alignment="CENTER">
+                        <VBox spacing="20.0" style="-fx-background-color: #eee; -fx-padding: 10 20;" BorderPane.alignment="CENTER">
                            <children>
-                              <GridPane prefHeight="115.0" prefWidth="802.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="409.0" minWidth="10.0" prefWidth="102.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="459.66668701171875" minWidth="10.0" prefWidth="203.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="459.66668701171875" minWidth="10.0" prefWidth="99.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="499.0" minWidth="10.0" prefWidth="232.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="463.0" minWidth="10.0" prefWidth="168.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints maxHeight="32.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="53.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                        <VBox>
+                           <children>
+                              <HBox>
                                  <children>
-                                    <DatePicker fx:id="dpDayStartXuat" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <DatePicker fx:id="dpDayFinishXuat" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <Label text="Xuất từ Ngày" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                                    <Label text="Đến Ngày" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                                    <Button fx:id="btnFind" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Tìm" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                    <Label text="Nhập từ Ngày" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <Label text="Đến Ngày" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <DatePicker fx:id="dpDayStartNhap" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <DatePicker fx:id="dpDayFinishNhap" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <Button fx:id="btnPrintInfo" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="In Thông tin" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                    <Label alignment="TOP_LEFT" style="-fx-font-size: 20;" styleClass="font-bold" text="IMPORT / EXPORT STATISTICAL">
+                                       <padding>
+                                          <Insets bottom="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <HBox alignment="TOP_RIGHT" spacing="15.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <JFXButton fx:id="btnOpenFind" contentDisplay="GRAPHIC_ONLY" defaultButton="true" prefHeight="44.0" style="-fx-background-color: #00adb5; -fx-border-width: 1;" text="Filter" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                             <graphic>
+                                                <FontAwesomeIcon fill="WHITE" iconName="FILTER" size="1.5em" />
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </JFXButton>
+                                          <JFXButton fx:id="btnPrintInfo" contentDisplay="GRAPHIC_ONLY" prefHeight="44.0" style="-fx-background-color: #00adb5;" text="Print" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                             <graphic>
+                                                <FontAwesomeIcon fill="WHITE" iconName="PRINT" size="1.5em" />
+                                             </graphic>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
                                  </children>
-                              </GridPane>
-                              <GridPane prefHeight="46.0" prefWidth="802.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="396.0" minWidth="10.0" prefWidth="111.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="543.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="178.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Label text="Loại" GridPane.halignment="CENTER" />
-                                    <ComboBox fx:id="cbLoaiThongKe" prefHeight="25.0" prefWidth="475.0" GridPane.columnIndex="1" />
-                                    <Button fx:id="btnReset" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Xem toàn bộ" GridPane.columnIndex="2" />
-                                 </children>
-                              </GridPane>
-                              <SplitPane dividerPositions="0.37572254335260113" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" VBox.vgrow="ALWAYS">
-                                 <items>
-                                    <TableView fx:id="tbThongKe" prefHeight="200.0" prefWidth="200.0">
+                              </HBox>
+                                    <TableView fx:id="tbThongKe" style="-fx-background-color: #fff;">
                                       <columns>
                                         <TableColumn fx:id="tbTenSpTKColumn" prefWidth="83.0" text="Tên SP" />
                                         <TableColumn fx:id="tbDonGiaTKColumn" prefWidth="82.0" text="Đơn Giá" />
@@ -234,24 +327,46 @@
                                           <TableColumn fx:id="tbNgayXuatTKColumn" prefWidth="130.0" text="Ngày Xuất" />
                                           <TableColumn fx:id="tbLoaiTKColumn" prefWidth="154.0" text="Loại" />
                                       </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                                 <effect>
+                                    <DropShadow color="#00000033" />
+                                 </effect>
                                     </TableView>
-                                    <BarChart fx:id="bcThongKe">
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label alignment="BOTTOM_LEFT" style="-fx-font-size: 20;" styleClass="font-bold" text="IMPORT / EXPORT STATISTICAL CHART">
+                                 <padding>
+                                    <Insets bottom="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                                    <BarChart fx:id="bcThongKe" style="-fx-background-color: #fff;">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                                       </xAxis>
                                       <yAxis>
                                         <NumberAxis fx:id="yAxis" side="LEFT" />
                                       </yAxis>
+                                 <effect>
+                                    <DropShadow color="#00000033" />
+                                 </effect>
                                     </BarChart>
-                                 </items>
-                              </SplitPane>
                            </children>
                         </VBox>
-                     </left>
-                  </BorderPane>
+                           </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                        </VBox>
                </content>
           </Tab>
          </tabs>
       </JFXTabPane>
    </children>
-</VBox>
+</StackPane>

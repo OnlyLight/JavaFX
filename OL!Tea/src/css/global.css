@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : ADMIN
 */
 
+.btn-dark {
+    -fx-background-color:  #5c6470;
+}
+
 .anchor {
     -fx-background-image:url('../images/bg-login.jpg');
     -fx-background-size: cover;

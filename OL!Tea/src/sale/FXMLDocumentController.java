@@ -152,18 +152,6 @@ public class FXMLDocumentController implements Initializable {
 //        bigStackPane.heightProperty().addListener((observable, oldValue, newValue) -> {
 //            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
 //        });
-        ObservableList<Node> btnSideBar = sideBar.getChildren();
-//        btnSideBar.forEach((t) -> {
-//            System.out.println(t.getId());
-//            t.focusedProperty().addListener((observable, oldValue, newValue) -> {
-//                if (t.focusedProperty().get()) {
-//                    t.setStyle("-fx-background-color: rgba(255, 255, 255, 0.3)");
-//                } else {
-//                    t.setStyle("-fx-background-color: transparent");
-//                }
-//            });
-//        });
-        ((JFXButton) btnSideBar.get(0)).fire();
         showAcdMenu();
 //        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 //        showTable();
@@ -421,17 +409,13 @@ public class FXMLDocumentController implements Initializable {
             }
          }
             ObservableList<Node> listNode = bigStackPane.getChildren();
-            if (listNode.size() == 2 && listNode.get(1).getUserData() == url ||
-                    listNode.size() == 1 && listNode.get(0).getUserData() == url) {
+            if (listNode.size() == 1 && listNode.get(0).getUserData() == url) {
                 return;
             };
-            if (listNode.size() == 2) {
-                listNode.remove(0); 
-            }
-                new FadeOut(listNode.get(0)).setSpeed(3.0).play();
-                screen.setUserData(url);
-                listNode.add(screen);
-                new FadeIn(listNode.get(1)).setSpeed(3.0).play();
+            listNode.remove(0);
+            screen.setUserData(url);
+            listNode.add(screen);
+            new FadeIn(listNode.get(0)).setSpeed(3.0).play();
              
 //            if (listNode.size() == 2) {
 //               if (listNode.get(1).getUserData() == url) {

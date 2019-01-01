@@ -5,6 +5,10 @@
  */
 package warehouse;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -37,7 +41,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import tqduy.bean.DVT;
@@ -71,7 +79,7 @@ public class FXMLWareHouseController implements Initializable {
     @FXML private TextField txtTenSpNhap, txtSoLuongNhap, txtDonGiaNhap;
     @FXML private DatePicker dpNgayNhap, dpDayStartNhap, dpDayFinishNhap;
     @FXML private ComboBox<LoaiNX> cbTenLoaiNhap, cbLoaiThongKe;
-    @FXML private ComboBox<String> cbTenSpXuat;
+    private ComboBox<String> cbTenSpXuat;
     @FXML private Button btnNhap, btnFind, btnPrintInfo, btnReset;
     @FXML private TableView<TKTable> tbThongKe;
     @FXML private TableColumn<TKTable, String> tbTenSpTKColumn, tbLoaiTKColumn;
@@ -90,6 +98,18 @@ public class FXMLWareHouseController implements Initializable {
     private int soLuongNhap = 1, donGiaNhap = 1, countNhap = 0, countTK = 0, soLuongXuat = 1, countXuat = 0;
     private LoaiNX tenLoaiNhap = new LoaiNX(), tenLoaiXuat = new LoaiNX(), loaiTK = new LoaiNX();
     private String tenSpXuat = "";
+    @FXML
+    private StackPane mainStackPane;
+    @FXML
+    private GridPane filterPopup;
+    @FXML
+    private JFXDatePicker dpDayStartXuat;
+    @FXML
+    private JFXDatePicker dpDayFinishXuat;
+    @FXML
+    private VBox rightSideMng;
+    @FXML
+    private JFXButton btnOpenFind;
     
     // Bản thông kê
     private void displayBarChart() {
@@ -103,9 +123,6 @@ public class FXMLWareHouseController implements Initializable {
                 tbThongKe.setItems(list);
             }
         });
-        
-        xAxis.setLabel("Year");
-        yAxis.setLabel("Data");
         
         XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<>();
         dataSeries1.setName("Nhập");
@@ -121,7 +138,6 @@ public class FXMLWareHouseController implements Initializable {
         bcThongKe.getData().add(dataSeries1);
         bcThongKe.getData().add(dataSeries2);
         
-        bcThongKe.setTitle("Thống Kê Nhập Xuất");
         System.out.println("BarChart");
     }
     
@@ -132,7 +148,9 @@ public class FXMLWareHouseController implements Initializable {
             if(!list.isEmpty()) {
                 tbThongKe.getItems().clear();
                 tbThongKe.setItems(list);
-            }
+            };
+            JFXDialog dialog = (JFXDialog) mainStackPane.getChildren().get(1);
+            dialog.close();
         });
         
         btnPrintInfo.setOnAction((event) -> {
@@ -141,6 +159,13 @@ public class FXMLWareHouseController implements Initializable {
     }
     
     private void eventSearch() {
+        btnOpenFind.setOnAction((event) -> {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setBody(filterPopup);
+        JFXDialog dialog = new JFXDialog(mainStackPane, filterPopup, JFXDialog.DialogTransition.NONE);
+        dialog.show();
+        });
+        
         cbLoaiThongKe.setOnAction((event) -> {
             loaiTK = cbLoaiThongKe.getSelectionModel().getSelectedItem();
             System.out.println(loaiTK);
@@ -153,7 +178,9 @@ public class FXMLWareHouseController implements Initializable {
             if(!list.isEmpty()) {
                 tbThongKe.getItems().clear();
                 tbThongKe.setItems(list);
-            }
+            };
+            JFXDialog dialog = (JFXDialog) mainStackPane.getChildren().get(1);
+            dialog.close();
         });
     }
     // End Set event for Tab Thong ke
@@ -721,6 +748,7 @@ public class FXMLWareHouseController implements Initializable {
         // TODO
         tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        System.out.println("max: " + tbLoaiTKColumn.getMaxWidth());
         setEvent();
         showCombobox();
         eventClickButtonADD();
