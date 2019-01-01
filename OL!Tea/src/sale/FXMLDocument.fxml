@@ -806,7 +806,7 @@
                               <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
                            </padding>
                         </VBox>
-                        <VBox fx:id="CheckoutSection" alignment="BOTTOM_CENTER" prefHeight="646.0" prefWidth="455.0" style="-fx-background-color: #fff;" stylesheets="@../css/global.css" HBox.hgrow="NEVER">
+                        <VBox fx:id="CheckoutSection" alignment="BOTTOM_CENTER" maxWidth="700.0" prefHeight="626.0" prefWidth="320.0" style="-fx-background-color: #fff;" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                                  <children>

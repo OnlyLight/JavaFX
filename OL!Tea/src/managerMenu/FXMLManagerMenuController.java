@@ -61,7 +61,6 @@ public class FXMLManagerMenuController implements Initializable {
     @FXML private TableView<InsertNX> tbLoaiNX;
     @FXML private TableColumn<InsertNX, String> tbLoaiNXColumn;
     @FXML private TableColumn<InsertNX, String> tbDVTColumn;
-    @FXML private Tab tabLoaiMon, tabMenu, tabDVT, tabLoaiNX;
     
     private int donGiaMenu = 0;
     private LoaiMon loaiMenu = new LoaiMon();
@@ -341,19 +340,11 @@ public class FXMLManagerMenuController implements Initializable {
     }
     
     private void chooseTab() {
-        tabMenu.setOnSelectionChanged((event) -> {
-            loadTableMenu();
-            loadComboBox();
-        });
-        
-        tabDVT.setOnSelectionChanged((event) -> {
-            loadListViewDVT();
-        });
-        
-        tabLoaiNX.setOnSelectionChanged((event) -> {
-            loadTableNX();
-            loadComboBox();
-        });
+        loadTableMenu();
+        loadComboBox();
+        loadListViewDVT();
+        loadTableNX();
+        loadComboBox();
     }
 
     /**
