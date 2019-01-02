@@ -859,7 +859,7 @@
                                  <children>
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <Label prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Telephone:">
+                                          <Label prefWidth="80.0" style="-fx-font-size: 15;" styleClass="font-bold" stylesheets="@../css/global.css" text="Telephone:">
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
@@ -872,21 +872,21 @@
                                           <Label prefHeight="17.0" prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Amount: " />
                                           <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label fx:id="txtPay" style="-fx-font-size: 15;" styleClass="font-bold" text="0" textFill="#00adb5" />
+                                                <Label fx:id="txtPay" style="-fx-font-size: 20;" styleClass="font-bold" text="0" textFill="#00adb5" />
                                              </children>
                                           </VBox>
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" GridPane.columnIndex="1">
                                        <children>
-                                          <Label prefHeight="17.0" prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Discount:">
+                                          <Label prefHeight="17.0" prefWidth="80.0" style="-fx-font-size: 15;" styleClass="font-bold" stylesheets="@../css/global.css" text="Discount:">
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </Label>
                                           <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label fx:id="txtDiscount" style="-fx-font-size: 15;" styleClass="font-bold" text="0" textFill="#00adb5" />
+                                                <Label fx:id="txtDiscount" style="-fx-font-size: 20;" styleClass="font-bold" text="0" textFill="#00adb5" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -896,7 +896,7 @@
                                           <Label prefHeight="17.0" prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Total:" HBox.hgrow="ALWAYS" />
                                           <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label fx:id="txtMoneyTotal" style="-fx-font-size: 15;" styleClass="font-bold" text="0" textFill="#00adb5" />
+                                                <Label fx:id="txtMoneyTotal" style="-fx-font-size: 20;" styleClass="font-bold" text="0" textFill="#00adb5" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -973,6 +973,17 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
+            <JFXButton fx:id="mnThucDon" contentDisplay="TOP" prefHeight="53.0" prefWidth="134.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Menu" textFill="WHITE" VBox.vgrow="ALWAYS">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" iconName="FILE_TEXT_ALT" size="2em" textOrigin="CENTER" />
+               </graphic>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
             <JFXButton fx:id="mnTonKho" contentDisplay="TOP" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Warehouse" textFill="WHITE">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="HOME" size="2em" textOrigin="CENTER" />
@@ -995,31 +1006,20 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnCus" contentDisplay="TOP" prefHeight="53.0" prefWidth="121.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Customers" textFill="WHITE" VBox.vgrow="ALWAYS">
-               <graphic>
-                  <FontAwesomeIcon fill="WHITE" iconName="USERS" size="2em" textOrigin="CENTER" />
-               </graphic>
-               <padding>
-                  <Insets bottom="20.0" top="20.0" />
-               </padding>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
-            <JFXButton fx:id="mnThucDon" contentDisplay="TOP" prefHeight="53.0" prefWidth="134.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Menu" textFill="WHITE" VBox.vgrow="ALWAYS">
-               <graphic>
-                  <FontAwesomeIcon fill="WHITE" iconName="FILE_TEXT_ALT" size="2em" textOrigin="CENTER" />
-               </graphic>
-               <padding>
-                  <Insets bottom="20.0" top="20.0" />
-               </padding>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
             <JFXButton fx:id="mnNhanVien" contentDisplay="TOP" prefHeight="53.0" prefWidth="147.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Staffs" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="USER_PLUS" size="2em" textOrigin="CENTER" />
+               </graphic>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <JFXButton fx:id="mnCus" contentDisplay="TOP" prefHeight="53.0" prefWidth="121.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Customers" textFill="WHITE" VBox.vgrow="ALWAYS">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" iconName="USERS" size="2em" textOrigin="CENTER" />
                </graphic>
                <padding>
                   <Insets bottom="20.0" top="20.0" />

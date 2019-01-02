@@ -134,7 +134,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <VBox spacing="15.0" style="-fx-background-color: #fff;" VBox.vgrow="NEVER">
+                              <VBox spacing="15.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                                  <children>
                                     <VBox spacing="5.0">
                                        <children>
@@ -200,7 +200,7 @@
                               </VBox>
                            </children>
                            <HBox.margin>
-                              <Insets left="20.0" top="10.0" />
+                              <Insets bottom="20.0" left="20.0" top="10.0" />
                            </HBox.margin>
                         </VBox>
                         <VBox fx:id="rightSideMng" spacing="20.0" HBox.hgrow="ALWAYS">
