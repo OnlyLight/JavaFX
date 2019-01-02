@@ -72,6 +72,7 @@ public class FXMLManagerMenuController implements Initializable {
         tbIDColumnLoaiMon.setText("STT");
         tbTenLoaiMonColumn.setText("Loại");
         tbIsActiveLoaiMonColumn.setText("Active");
+        tbIsActiveLoaiMonColumn.getStyleClass().add("align-center");
         
         tbIDColumnLoaiMon.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbTenLoaiMonColumn.setCellValueFactory(new PropertyValueFactory<>("loaiMon"));
@@ -115,6 +116,7 @@ public class FXMLManagerMenuController implements Initializable {
         tbDonGiaColumnMenu.setText("Price");
         tbLoaiMonColumnMenu.setText("Type");
         tbIsActiveMenuColumn.setText("Active");
+        tbIsActiveMenuColumn.getStyleClass().add("align-center");
         
         tbTenMonColumnMenu.setCellValueFactory(new PropertyValueFactory<>("tenMon"));
         tbDonGiaColumnMenu.setCellValueFactory(new PropertyValueFactory<>("donGia"));
