@@ -10,7 +10,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.BorderPane?>
@@ -24,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="830.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.FXMLDocumentController">
+<BorderPane minWidth="1334.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="830.0" prefWidth="1334.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.FXMLDocumentController">
    <center>
       <StackPane fx:id="bigStackPane" minWidth="1064.0">
          <children>
@@ -865,13 +864,17 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="txtSdtCheck" prefWidth="208.0" HBox.hgrow="ALWAYS" />
+                                          <JFXTextField fx:id="txtSdtCheck" alignment="CENTER_RIGHT" focusColor="#00adb5" prefHeight="25.0" prefWidth="67.0" style="-fx-font-size: 15;" styleClass="font-bold" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" GridPane.rowIndex="1">
                                        <children>
                                           <Label prefHeight="17.0" prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Amount: " />
-                                          <TextField fx:id="txtPay" disable="true" HBox.hgrow="ALWAYS" />
+                                          <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="txtPay" style="-fx-font-size: 15;" styleClass="font-bold" text="0" textFill="#00adb5" />
+                                             </children>
+                                          </VBox>
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" GridPane.columnIndex="1">
@@ -881,13 +884,21 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="txtDiscount" disable="true" HBox.hgrow="ALWAYS" />
+                                          <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="txtDiscount" style="-fx-font-size: 15;" styleClass="font-bold" text="0" textFill="#00adb5" />
+                                             </children>
+                                          </VBox>
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
                                           <Label prefHeight="17.0" prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Total:" HBox.hgrow="ALWAYS" />
-                                          <TextField fx:id="txtMoneyTotal" disable="true" prefHeight="25.0" prefWidth="208.0" HBox.hgrow="ALWAYS" />
+                                          <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="txtMoneyTotal" style="-fx-font-size: 15;" styleClass="font-bold" text="0" textFill="#00adb5" />
+                                             </children>
+                                          </VBox>
                                        </children>
                                     </HBox>
                                  </children>

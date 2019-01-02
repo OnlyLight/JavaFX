@@ -45,6 +45,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -97,7 +98,7 @@ import tqduy.connect.DBUtils_MonOrder;
  * @author QuangDuy
  */
 public class FXMLDocumentController implements Initializable {
-    @FXML private TextField txtPay, txtMoneyTotal, txtDiscount;
+    @FXML private Label txtDiscount, txtPay, txtMoneyTotal;
     @FXML private JFXTextField txtSdtCheck;
     private JFXButton btnPay;
     @FXML private JFXButton btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
