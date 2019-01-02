@@ -30,7 +30,7 @@
          <children>
             <VBox fx:id="orderScreen" prefHeight="815.0" prefWidth="1073.0">
                <children>
-                  <ScrollPane fx:id="scrollMenu" minHeight="174.0" prefHeight="161.0" prefWidth="1220.0" stylesheets="@../css/global.css" vbarPolicy="NEVER" vmax="0.0">
+                  <ScrollPane fx:id="scrollMenu" minHeight="163.0" prefHeight="163.0" prefWidth="1238.0" stylesheets="@../css/global.css" vbarPolicy="NEVER" vmax="0.0">
                      <content>
                         <HBox spacing="4.0" style="-fx-background-color: #fff;">
                            <children>
@@ -45,7 +45,51 @@
                                     <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                  </effect>
                               </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="coffee" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                 </effect>
+                              </JFXButton>
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="juice" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                 </effect>
+                              </JFXButton>
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="smoothie" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                 </effect>
+                              </JFXButton>
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="soda" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                 </effect>
+                              </JFXButton>
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="bakery" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                                  </padding>
@@ -67,7 +111,7 @@
                                     <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                  </effect>
                               </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="coffee" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                                  </padding>
@@ -78,7 +122,7 @@
                                     <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                  </effect>
                               </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="juice" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                                  </padding>
@@ -89,7 +133,7 @@
                                     <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                  </effect>
                               </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="smoothie" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                                  </padding>
@@ -100,7 +144,7 @@
                                     <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                  </effect>
                               </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="soda" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                                  </padding>
@@ -111,29 +155,7 @@
                                     <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                  </effect>
                               </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
-                                 <padding>
-                                    <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                                 <effect>
-                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
-                                 </effect>
-                              </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
-                                 <padding>
-                                    <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                                 <effect>
-                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
-                                 </effect>
-                              </JFXButton>
-                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
+                              <JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="bakery" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE">
                                  <padding>
                                     <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
                                  </padding>

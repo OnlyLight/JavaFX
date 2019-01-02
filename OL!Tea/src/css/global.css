@@ -43,13 +43,6 @@ and open the template in the editor.
     -fx-background-image:url('../images/milktea.jpg');
     -fx-background-size: cover;
     -fx-cursor: hand;
-    -fx-border-width: 4;
-    -fx-border-color: transparent;
-}
-
-.milktea:focused, .milktea:focused {
-    -fx-text-fill: #00ccd3;
-    -fx-border-color: #00ccd3;
 }
 
 .coffee {
