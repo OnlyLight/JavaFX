@@ -157,19 +157,19 @@ public class FXMLDocumentController implements Initializable {
 //        }
         sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
         CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
-        for (int i = 0; i < 10; i++) {
-            try {
-                GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
-                menuList.getChildren().add(item);
-                JFXButton btn = (JFXButton) item.lookup("#increaseQty");
-                btn.setOnAction((event) -> {
-                    
-                });
-                System.out.println("item" + ((JFXTextField)item.lookup("#itemQuantity")).getText());
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        for (int i = 0; i < 10; i++) {
+//            try {
+//                GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
+//                menuList.getChildren().add(item);
+//                JFXButton btn = (JFXButton) item.lookup("#increaseQty");
+//                btn.setOnAction((event) -> {
+//                    
+//                });
+//                System.out.println("item" + ((JFXTextField)item.lookup("#itemQuantity")).getText());
+//            } catch (IOException ex) {
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
 //        bigStackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
 //            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
 //        });
@@ -586,7 +586,7 @@ public class FXMLDocumentController implements Initializable {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-            changeMenuItemList((JFXButton)listMenuType.getChildren().get(0));
+        changeMenuItemList((JFXButton)listMenuType.getChildren().get(0));
 //        acdMenu.getPanes().addAll(titles);
     }
     

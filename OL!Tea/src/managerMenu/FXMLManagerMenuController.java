@@ -6,6 +6,8 @@
 package managerMenu;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.Optional;
@@ -25,9 +27,12 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import tqduy.bean.DVT;
 import tqduy.bean.InsertNX;
@@ -44,7 +49,7 @@ import tqduy.connect.DBUtils_Mon;
  * @author QuangDuy
  */
 public class FXMLManagerMenuController implements Initializable {
-    @FXML private JFXTextField txtTenLoaiMon, txtTenMonMenu, txtDonGiaMenu, txtDVT, txtLoaiNhapXuat;
+    @FXML private TextField txtTenLoaiMon, txtTenMonMenu, txtDonGiaMenu, txtDVT, txtLoaiNhapXuat;
     @FXML private JFXButton btnThemLoaiMon, btnThemMenu, btnThemDVT, btnThemLoaiNX;
     @FXML private ListView<DVT> lvDVT;
     @FXML private ComboBox<LoaiMon> cbLoaiMonMenu;
@@ -65,6 +70,20 @@ public class FXMLManagerMenuController implements Initializable {
     private int donGiaMenu = 0;
     private LoaiMon loaiMenu = new LoaiMon();
     private DVT dvtSelected = new DVT();
+    @FXML
+    private VBox addForm;
+    @FXML
+    private JFXButton btnOpenFind;
+    @FXML
+    private JFXButton btnOpenFind3;
+    @FXML
+    private JFXButton btnOpenFind2;
+    @FXML
+    private JFXButton btnOpenAddForm;
+    @FXML
+    private StackPane menuStackPane;
+    @FXML
+    private JFXButton btnCloseAddMenu;
     
     private void loadTableLoaiMon() {
         tbLoaiMon.getColumns().clear();
@@ -185,6 +204,14 @@ public class FXMLManagerMenuController implements Initializable {
     }
     
     private void setClick() {
+        btnOpenAddForm.setOnAction((event) -> {
+            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
+            dialog.show();
+            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+            btnClose.setOnAction((eventt) -> {
+                dialog.close();
+            });
+        });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
                 System.out.println("Hello Enter");
@@ -290,6 +317,8 @@ public class FXMLManagerMenuController implements Initializable {
             
             if(!tenMon.isEmpty() && donGiaMenu > 0 && loaiMenu != null) {
                 DBUtils_Mon.insert(tenMon, donGiaMenu, loaiMenu.getId());
+                txtTenLoaiMon.clear();
+                txtDonGiaMenu.clear();
 
                 ObservableList<Menu> listLoai = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
 
@@ -297,6 +326,9 @@ public class FXMLManagerMenuController implements Initializable {
                     tbMenu.getItems().clear();
                     tbMenu.setItems(listLoai);
                 }
+                
+                JFXDialog dialog = (JFXDialog) menuStackPane.getChildren().get(1);
+                dialog.close();
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }
