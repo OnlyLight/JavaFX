@@ -40,9 +40,9 @@ and open the template in the editor.
 }
 
 .milktea {
-    -fx-background-image:url('../images/milktea.jpg');
     -fx-background-size: cover;
     -fx-cursor: hand;
+    -fx-background-color: linear-gradient(to bottom, #eee, #000);
 }
 
 .coffee {

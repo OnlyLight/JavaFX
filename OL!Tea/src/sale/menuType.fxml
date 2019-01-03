@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.text.Font?>
+
+<JFXButton onMouseClicked="#mouseEnterHover" prefWidth="200.0" styleClass="milktea" stylesheets="@../css/global.css" text="Milk Tea" textFill="WHITE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.MenuTypeController">
+   <padding>
+      <Insets bottom="10.0" left="50.0" right="50.0" top="100.0" />
+   </padding>
+   <font>
+      <Font name="System Bold" size="20.0" />
+   </font>
+   <effect>
+      <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+   </effect>
+</JFXButton>

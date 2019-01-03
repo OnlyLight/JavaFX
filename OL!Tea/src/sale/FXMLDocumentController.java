@@ -9,6 +9,7 @@ import animatefx.animation.AnimationFX;
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeInDown;
 import animatefx.animation.FadeInLeft;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeInUp;
 import animatefx.animation.FadeOutDown;
 import animatefx.animation.FadeOutLeft;
@@ -64,6 +65,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -100,6 +103,7 @@ import tqduy.connect.DBUtils_MonOrder;
 public class FXMLDocumentController implements Initializable {
     @FXML private Label txtDiscount, txtPay, txtMoneyTotal;
     @FXML private JFXTextField txtSdtCheck;
+    @FXML
     private JFXButton btnPay;
     @FXML private JFXButton btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     private TableColumn<MonOrder, String> tbColumnTenMon;
@@ -130,6 +134,12 @@ public class FXMLDocumentController implements Initializable {
     private VBox orderScreen;
     @FXML
     private JFXButton orderBtn;
+    @FXML
+    private FlowPane menuList;
+    @FXML
+    private HBox listMenuType;
+    @FXML
+    private Label menuItemName;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -147,6 +157,19 @@ public class FXMLDocumentController implements Initializable {
 //        }
         sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
         CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
+        for (int i = 0; i < 10; i++) {
+            try {
+                GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
+                menuList.getChildren().add(item);
+                JFXButton btn = (JFXButton) item.lookup("#increaseQty");
+                btn.setOnAction((event) -> {
+                    
+                });
+                System.out.println("item" + ((JFXTextField)item.lookup("#itemQuantity")).getText());
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 //        bigStackPane.widthProperty().addListener((observable, oldValue, newValue) -> {
 //            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
 //        });
@@ -545,27 +568,49 @@ public class FXMLDocumentController implements Initializable {
 //         Dynamic
 //        acdMenu.getPanes().clear();
 //        ArrayList<TitledPane> titles = new ArrayList<>();
-//        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
-//
-//        for(int i = 0; i < listLoaiMon.size(); i++) {
-//            TitledPane title = new TitledPane();
-//            VBox content = new VBox();
-//            if(listLoaiMon.get(i).isIsActive()) {
-//                for (Mon m : DBUtils_Mon.getMon(i+1)) {
-//                    if(m.isIsActive()) {
-//                        Button btn = new Button(m.getTenMon());
-//                        btn.setPrefWidth(layoutSale.getPrefWidth());
-//
-//                        eventShow(btn, m);
-//                        content.getChildren().add(btn);
-//                    }
-//                }
-//                title.setText(listLoaiMon.get(i).getLoaiMon());
-//                title.setContent(content);
-//                titles.add(title);
-//            }
-//        }
+        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
+        listMenuType.getChildren().clear();
+        for(int i = 0; i < listLoaiMon.size(); i++) {
+            try {
+                JFXButton btn = (JFXButton) FXMLLoader.load(getClass().getResource("menuType.fxml"));
+                btn.setUserData(i);
+                btn.setText(listLoaiMon.get(i).getLoaiMon());
+                String url = "-fx-background-image: url('../images/bg-"+ i +".jpg');";
+                System.out.println(url);
+                btn.setStyle(url);
+                listMenuType.getChildren().add(btn);
+                btn.setOnAction((event) -> {
+                   changeMenuItemList(btn);
+                });
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            changeMenuItemList((JFXButton)listMenuType.getChildren().get(0));
 //        acdMenu.getPanes().addAll(titles);
+    }
+    
+    private void changeMenuItemList(JFXButton btn) {
+        if (menuList.getUserData() != btn.getUserData()) {
+            menuList.setUserData(btn.getUserData());
+            menuList.getChildren().clear();
+            ArrayList<LoaiMon> listMenu = DBUtils_LoaiMon.getList();
+            menuItemName.setText(listMenu.get(Integer.parseInt(btn.getUserData().toString())).getLoaiMon());
+            new FadeInUp(menuItemName).setSpeed(2.0).play();
+            for (Mon m : DBUtils_Mon.getMon(Integer.parseInt(btn.getUserData().toString()) + 1)) {
+                if(m.isIsActive()) {
+                    try {
+                        GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
+                        ((Label) item.lookup("#menuItemName")).setText(m.getTenMon().toUpperCase());
+                        ((Label) item.lookup("#menuItemPrice")).setText(((Integer)m.getDonGia()).toString() + " VND");
+                        menuList.getChildren().add(item);
+                        new FadeInUp(menuList.getChildren().get(menuList.getChildren().size() - 1)).setSpeed(2.0).play();
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                }
+            }
+        }   
     }
     
     private void eventShow(Button btn, Mon mon) {
@@ -652,15 +697,6 @@ public class FXMLDocumentController implements Initializable {
         stage.show();
     }
 
-    @FXML
-    private void mouseEnterHover(MouseEvent event) {
-//        JFXButton btn = (JFXButton) event.getSource();
-//        listView.toFront();
-//        FadeInDown fadein = new FadeInDown();
-//        fadein.setNode(listView);
-//        fadein.setSpeed(3.0);
-//        fadein.play();
-    }
 
     private void fadeOut(MouseEvent event) {
         Node parent = ((Node) event.getSource()).getParent();
