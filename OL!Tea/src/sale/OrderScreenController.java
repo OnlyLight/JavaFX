@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -99,7 +100,7 @@ public class OrderScreenController implements Initializable {
                 StackPane btnWrapper = FXMLLoader.load(getClass().getResource("menuType.fxml"));
                 JFXButton btn = (JFXButton) btnWrapper.lookup("#btnMenuType");
                 btn.setUserData(i);
-                btn.setText(listLoaiMon.get(i).getLoaiMon());
+                btn.setText(listLoaiMon.get(i).getLoaiMon().toUpperCase());
                 String url = "-fx-background-image: url('../images/bg-"+ i +".jpg');";
                 System.out.println(url);
                 btn.setStyle(url);
@@ -127,7 +128,8 @@ public class OrderScreenController implements Initializable {
                     try {
                         GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
                         ((Label) item.lookup("#menuItemName")).setText(m.getTenMon().toUpperCase());
-                        ((Label) item.lookup("#menuItemPrice")).setText(((Integer)m.getDonGia()).toString() + " VND");
+                        String price = String.format(Locale.US, "%,d", m.getDonGia()).replace(",", ".");
+                        ((Label) item.lookup("#menuItemPrice")).setText(price + " VND");
                         menuList.getChildren().add(item);
                         new FadeInUp(menuList.getChildren().get(menuList.getChildren().size() - 1)).setSpeed(2.0).play();
                     } catch (IOException ex) {

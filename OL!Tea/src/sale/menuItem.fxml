@@ -28,7 +28,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="menuItemPrice" styleClass="font-bold" text="30.000 VND" textFill="WHITE" GridPane.rowIndex="1" />
+      <Label fx:id="menuItemPrice" style="-fx-font-size: 15;" styleClass="font-bold" text="30.000 VND" textFill="WHITE" GridPane.rowIndex="1" />
       <HBox alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
          <children>
             <JFXButton fx:id="increaseQty" contentDisplay="GRAPHIC_ONLY" onMouseClicked="#addQty">

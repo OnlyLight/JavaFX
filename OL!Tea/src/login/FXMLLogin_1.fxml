@@ -6,6 +6,8 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,7 +17,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <BorderPane id="AnchorPane" prefHeight="811.0" prefWidth="1172.0" style="-fx-background-color: #eee;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.FXMLLoginController">
    <top>
@@ -88,14 +89,26 @@
                               <Insets bottom="90.0" />
                            </VBox.margin>
                         </GridPane>
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="280.0">
+                           <children>
+                              <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.9" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
+                                 <effect>
+                                    <BoxBlur height="15.0" iterations="2" width="17.86" />
+                                 </effect>
+                              </HBox>
                               <JFXButton fx:id="btnLogin" prefHeight="50.0" prefWidth="280.0" styleClass="btn-login" stylesheets="@../css/global.css" text="LOGIN" textFill="WHITE">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
                                  <font>
                                     <Font name="Arial Black" size="19.0" />
                                  </font>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
+                                 <effect>
+                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                 </effect>
                               </JFXButton>
+                           </children>
+                        </StackPane>
                      </children>
                   </VBox>
                   <VBox prefHeight="781.0" prefWidth="765.0" styleClass="anchor" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
