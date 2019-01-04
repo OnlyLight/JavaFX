@@ -160,7 +160,7 @@ public class FXMLWareHouseController implements Initializable {
     
     private void eventSearch() {
         btnOpenFind.setOnAction((event) -> {
-            JFXDialog dialog = new JFXDialog(mainStackPane, filterPopup, JFXDialog.DialogTransition.NONE);
+            JFXDialog dialog = new JFXDialog(mainStackPane, filterPopup, JFXDialog.DialogTransition.CENTER);
             dialog.show();
         });
         

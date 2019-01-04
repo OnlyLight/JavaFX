@@ -101,11 +101,8 @@ import tqduy.connect.DBUtils_MonOrder;
  * @author QuangDuy
  */
 public class FXMLDocumentController implements Initializable {
-    @FXML private Label txtDiscount, txtPay, txtMoneyTotal;
-    @FXML private JFXTextField txtSdtCheck;
-    @FXML
-    private JFXButton btnPay;
-    @FXML private JFXButton btnCheck, mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
+
+    @FXML private JFXButton mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
     private TableColumn<MonOrder, String> tbColumnTenMon;
     private TableColumn<MonOrder, Integer> tbColumnDonGia;
     private TableColumn<MonOrder, String> tbColumnLoaiMon;
@@ -121,25 +118,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private VBox sideBar;
     @FXML
-    private VBox CheckoutSection;
-    @FXML
-    private VBox listView;
-    @FXML
-    private ScrollPane scrollMenu;
-    @FXML
-    private HBox mainHBox;
-    @FXML
     private StackPane bigStackPane;
     @FXML
-    private VBox orderScreen;
-    @FXML
     private JFXButton orderBtn;
-    @FXML
-    private FlowPane menuList;
-    @FXML
-    private HBox listMenuType;
-    @FXML
-    private Label menuItemName;
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -155,8 +137,9 @@ public class FXMLDocumentController implements Initializable {
 //            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
 //            System.out.println("Ko Phai admin");
 //        }
+        openScreen("orderScreen.fxml", null);
         sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
-        CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
+       
 //        for (int i = 0; i < 10; i++) {
 //            try {
 //                GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
@@ -176,69 +159,15 @@ public class FXMLDocumentController implements Initializable {
 //        bigStackPane.heightProperty().addListener((observable, oldValue, newValue) -> {
 //            bigStackPane.setClip(new Rectangle(bigStackPane.getWidth(), bigStackPane.getHeight()));
 //        });
-        showAcdMenu();
 //        tbInfomation.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 //        showTable();
 //        setOnKeyPress();
 //        payBill();
-        showPay();
         setEventClick();
-        checkSDT();
+       
     }
     
     // Check xem user đã đăng ký thành viên chưa
-    private boolean check(ArrayList<CusMember> arrCus, String sdtCheck) {
-        for (CusMember arrCu : arrCus) {
-            if(arrCu.getSdt().equals(sdtCheck)) {
-                customer = arrCu;
-                System.out.println(arrCu.getSdt() + " - " + sdtCheck);
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private void checkSDT() {
-        txtSdtCheck.setText(sdt);
-        ArrayList<CusMember> arrCusFirst = DBUtils_CusMember.getListForCheck();
-        if(check(arrCusFirst, sdt)) {
-            idMem = customer.getIdMember();
-            showPay();
-        }
-        
-        txtSdtCheck.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*")) {
-                try {
-                    sdt = newValue;
-                } catch (Exception e) {
-                    
-                }
-            } else {
-                txtSdtCheck.setText(oldValue);
-            }
-        });
-        
-        btnCheck.setOnAction((event) -> {
-            ArrayList<CusMember> arrCus = DBUtils_CusMember.getListForCheck();
-            if(check(arrCus, sdt)) {
-                idMem = customer.getIdMember();
-                Optional<ButtonType> result = createAlert("Welcome " + customer.getTenCus());
-            
-                if(result.get() == ButtonType.OK) {
-                    showPay();
-                }
-            } else {
-                System.out.println("Sign in !!");
-                System.out.println("SDTMain: " + sdt);
-                try {
-                    showDialogMenu("/signIn/FXMLSignIn.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                closeStage(btnCheck);
-            }
-        });
-    }
     
     // Table
     // Định nghĩa cho table
@@ -283,7 +212,6 @@ public class FXMLDocumentController implements Initializable {
 
                 DBUtils_MonOrder.update(idMon, newValue);
 
-                showPay();
             } else {
 //                tbInfomation.refresh();
             }
@@ -338,38 +266,7 @@ public class FXMLDocumentController implements Initializable {
     // End Table
     
     // Pay Bill
-    private double showPay() {
-        double pay = 0;
-        for (Member member : DBUtils_Member.getList()) {
-            if(member.isActive()) {
-                if(member.getIdMember() == idMem) {
-                    memberDiscount = member.getDiscount();
-                }
-            }
-        }
-        
-        txtDiscount.setText(String.valueOf(memberDiscount));
-        
-        ObservableList<MonOrder> list = getListMon();
-        if(!list.isEmpty()) {
-            int sumPay = 0;
-            for (MonOrder monOrder : list) {
-                sumPay += monOrder.getDonGia() * monOrder.getSoLuong();
-            }
-            double discount = sumPay * (memberDiscount/100);
-            pay = sumPay - discount;
-            if(pay < 0) pay = 0;
-            System.out.println("sumPay: " + sumPay + " - discount: " + discount + " - pay: " + pay);
-
-            txtMoneyTotal.setText(String.valueOf(sumPay));
-            txtPay.setText(String.valueOf(pay));
-        } else {
-            txtMoneyTotal.setText("0");
-            txtPay.setText("0");
-        }
-        System.out.println("Pay: " + pay);
-        return pay;
-    }
+    
     
 //    private void payBill() {
 //        btnPay.setOnAction((event) -> {
@@ -389,24 +286,24 @@ public class FXMLDocumentController implements Initializable {
 //        });
 //    }
     
-    private void clearAndPostData(double pay) {
-        // Insert Data for Table Bill
-        if(customer.getIdCus() > 0) {
-            System.out.println("IDNV: " + nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
-            DBUtils_DK.insert(nvLogin.getIdNV(), customer.getIdCus());
-        }
-
-        System.out.println("IDNV: " + nvLogin.getIdNV() + " - pay: " + pay + " - " + LocalDate.now());
-        DBUtils_Bill.insert(nvLogin.getIdNV(), (int)pay, LocalDate.now());
-        
-        // Clear
-        DBUtils_MonOrder.deleteAll();
-//        tbInfomation.getItems().clear();
-        showPay();
-        memberDiscount = 0;
-        txtDiscount.setText(String.valueOf(memberDiscount));
-        System.out.println("Clear");
-    }
+//    private void clearAndPostData(double pay) {
+//        // Insert Data for Table Bill
+//        if(customer.getIdCus() > 0) {
+//            System.out.println("IDNV: " + nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
+//            DBUtils_DK.insert(nvLogin.getIdNV(), customer.getIdCus());
+//        }
+//
+//        System.out.println("IDNV: " + nvLogin.getIdNV() + " - pay: " + pay + " - " + LocalDate.now());
+//        DBUtils_Bill.insert(nvLogin.getIdNV(), (int)pay, LocalDate.now());
+//        
+//        // Clear
+//        DBUtils_MonOrder.deleteAll();
+////        tbInfomation.getItems().clear();
+//        showPay();
+//        memberDiscount = 0;
+//        txtDiscount.setText(String.valueOf(memberDiscount));
+//        System.out.println("Clear");
+//    }
     
     private Optional<ButtonType> createAlert(String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -436,7 +333,7 @@ public class FXMLDocumentController implements Initializable {
             if (listNode.size() == 1 && listNode.get(0).getUserData() == url) {
                 return;
             };
-            listNode.remove(0);
+            if (listNode.size() > 0) listNode.remove(0);
             screen.setUserData(url);
             listNode.add(screen);
             new FadeIn(listNode.get(0)).setSpeed(3.0).play();
@@ -471,7 +368,7 @@ public class FXMLDocumentController implements Initializable {
 //            System.exit(0);
 //        });
         orderBtn.setOnAction((event) -> {
-           openScreen(null, orderScreen);
+           openScreen("orderScreen.fxml", null);
         });
         
         mnTonKho.setOnAction((event) -> {
@@ -564,54 +461,7 @@ public class FXMLDocumentController implements Initializable {
     // End Menu
     
     // Accordion
-    private void showAcdMenu() {
-//         Dynamic
-//        acdMenu.getPanes().clear();
-//        ArrayList<TitledPane> titles = new ArrayList<>();
-        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
-        listMenuType.getChildren().clear();
-        for(int i = 0; i < listLoaiMon.size(); i++) {
-            try {
-                JFXButton btn = (JFXButton) FXMLLoader.load(getClass().getResource("menuType.fxml"));
-                btn.setUserData(i);
-                btn.setText(listLoaiMon.get(i).getLoaiMon());
-                String url = "-fx-background-image: url('../images/bg-"+ i +".jpg');";
-                System.out.println(url);
-                btn.setStyle(url);
-                listMenuType.getChildren().add(btn);
-                btn.setOnAction((event) -> {
-                   changeMenuItemList(btn);
-                });
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        changeMenuItemList((JFXButton)listMenuType.getChildren().get(0));
-//        acdMenu.getPanes().addAll(titles);
-    }
-    
-    private void changeMenuItemList(JFXButton btn) {
-        if (menuList.getUserData() != btn.getUserData()) {
-            menuList.setUserData(btn.getUserData());
-            menuList.getChildren().clear();
-            ArrayList<LoaiMon> listMenu = DBUtils_LoaiMon.getList();
-            menuItemName.setText(listMenu.get(Integer.parseInt(btn.getUserData().toString())).getLoaiMon());
-            new FadeInUp(menuItemName).setSpeed(2.0).play();
-            for (Mon m : DBUtils_Mon.getMon(Integer.parseInt(btn.getUserData().toString()) + 1)) {
-                if(m.isIsActive()) {
-                    try {
-                        GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
-                        ((Label) item.lookup("#menuItemName")).setText(m.getTenMon().toUpperCase());
-                        ((Label) item.lookup("#menuItemPrice")).setText(((Integer)m.getDonGia()).toString() + " VND");
-                        menuList.getChildren().add(item);
-                        new FadeInUp(menuList.getChildren().get(menuList.getChildren().size() - 1)).setSpeed(2.0).play();
-                    } catch (IOException ex) {
-                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                       }
-                }
-            }
-        }   
-    }
+
     
     private void eventShow(Button btn, Mon mon) {
         btn.setOnAction((event) -> {
