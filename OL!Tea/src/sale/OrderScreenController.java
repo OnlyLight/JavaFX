@@ -26,6 +26,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -53,7 +54,7 @@ public class OrderScreenController implements Initializable {
     @FXML
     private ScrollPane scrollMenu;
     @FXML
-    private HBox listMenuType;
+    private FlowPane listMenuType;
     @FXML
     private HBox mainHBox;
     @FXML
@@ -95,21 +96,22 @@ public class OrderScreenController implements Initializable {
         listMenuType.getChildren().clear();
         for(int i = 0; i < listLoaiMon.size(); i++) {
             try {
-                JFXButton btn = (JFXButton) FXMLLoader.load(getClass().getResource("menuType.fxml"));
+                StackPane btnWrapper = FXMLLoader.load(getClass().getResource("menuType.fxml"));
+                JFXButton btn = (JFXButton) btnWrapper.lookup("#btnMenuType");
                 btn.setUserData(i);
                 btn.setText(listLoaiMon.get(i).getLoaiMon());
                 String url = "-fx-background-image: url('../images/bg-"+ i +".jpg');";
                 System.out.println(url);
                 btn.setStyle(url);
-                listMenuType.getChildren().add(btn);
                 btn.setOnAction((event) -> {
                    changeMenuItemList(btn);
                 });
+                listMenuType.getChildren().add(btnWrapper);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        changeMenuItemList((JFXButton)listMenuType.getChildren().get(0));
+        changeMenuItemList((JFXButton)listMenuType.getChildren().get(0).lookup("#btnMenuType"));
 //        acdMenu.getPanes().addAll(titles);
     }
     

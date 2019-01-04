@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OL!Tea.jar" size="3655521" download="eager" />
+    <jar href="OL!Tea.jar" size="3655642" download="eager" />
     <jar href="lib\UndecoratorBis.jar" size="121176" download="eager" />
     <jar href="lib\animatefx-1.2.1.jar" size="94267" download="eager" />
     <jar href="lib\fontawesomefx-8.1.jar" size="179086" download="eager" />

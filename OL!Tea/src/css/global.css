@@ -42,7 +42,7 @@ and open the template in the editor.
 .milktea {
     -fx-background-size: cover;
     -fx-cursor: hand;
-    -fx-background-color: linear-gradient(to bottom, #eee, #000);
+    -fx-background-color: linear-gradient(to top,  #00adb5, #00ccd3);
 }
 
 .coffee {
