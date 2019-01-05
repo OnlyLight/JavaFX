@@ -8,6 +8,34 @@ and open the template in the editor.
     Author     : ADMIN
 */
 
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Regular.ttf');
+}
+
+@font-face {
+    src: url('Oswald-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-weight: bold;
+    src: url('Roboto-Bold.ttf');
+}
+
+.root {
+    -fx-font-family: "Roboto";
+}
+
+.roboto-regular {
+    -fx-font-family: "Roboto";
+}
+
+.btn-danger {
+    -fx-background-color: linear-gradient(to left, #e84545, #f75d5d);
+    -fx-cursor: hand;
+}
+
 .btn-dark {
     -fx-background-color:  #5c6470;
 }
@@ -174,7 +202,7 @@ and open the template in the editor.
 }
 
 .font-bold {
-    -fx-font-weight: bold
+    -fx-font-weight: bold;
 }
 
 .border-green {

@@ -24,7 +24,7 @@
    <children>
       <VBox>
          <children>
-            <Label fx:id="menuItemName1" styleClass="border-bottom" text="TYPE LIST">
+            <Label fx:id="menuItemName1" text="TYPE LIST">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -53,7 +53,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" style="-fx-background-color: #fff;" styleClass="blue-scroll" VBox.vgrow="ALWAYS">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                      <content>
                         <FlowPane fx:id="menuList" hgap="20.0" style="-fx-background-color: #fff;" styleClass="scroll-pane" vgap="20.0" />
                      </content>

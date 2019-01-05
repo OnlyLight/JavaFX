@@ -152,6 +152,7 @@ public class FXMLLoginController implements Initializable {
         Stage stage = Login.getStage();
         stage.close();
         UndecoratorScene scene = new UndecoratorScene(stage, (Region) root);
+        scene.getStylesheets().add(getClass().getResource("/css/global.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
         new FadeIn(root).play();

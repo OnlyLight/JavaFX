@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -31,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -73,17 +75,21 @@ public class FXMLManagerMenuController implements Initializable {
     @FXML
     private VBox addForm;
     @FXML
-    private JFXButton btnOpenFind;
-    @FXML
-    private JFXButton btnOpenFind3;
-    @FXML
-    private JFXButton btnOpenFind2;
-    @FXML
     private JFXButton btnOpenAddForm;
     @FXML
     private StackPane menuStackPane;
     @FXML
     private JFXButton btnCloseAddMenu;
+    @FXML
+    private JFXButton btnOpenAddForm12;
+    @FXML
+    private VBox addTypeForm;
+    @FXML
+    private JFXButton btnOpenAddTypeForm;
+    @FXML
+    private StackPane typeMenuStackPane;
+    @FXML
+    private JFXButton btnOpenAddForm11;
     
     private void loadTableLoaiMon() {
         tbLoaiMon.getColumns().clear();
@@ -203,25 +209,48 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
+    private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {
+        btn.setDisable(true);
+        JFXDialog dialog = new JFXDialog(toStackPane, dialogContent, JFXDialog.DialogTransition.NONE);
+        dialog.setOverlayClose(false);
+        dialog.show();
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+        btnClose.setOnAction((eventt) -> {
+            dialog.close();
+            btn.setDisable(false);
+        });
+    }
+    
     private void setClick() {
         btnOpenAddForm.setOnAction((event) -> {
-            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
-            dialog.setOverlayClose(false);
-            dialog.show();
-            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
-            btnClose.setOnAction((eventt) -> {
-                dialog.close();
-            });
+            creatDialog(btnOpenAddForm, addForm, menuStackPane);
+//            btnOpenAddForm.setDisable(true);
+//            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
+//            dialog.setOverlayClose(false);
+//            dialog.show();
+//            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+//            btnClose.setOnAction((eventt) -> {
+//                dialog.close();
+//                btnOpenAddForm.setDisable(false);
+//            });
+        });
+        btnOpenAddTypeForm.setOnAction((event) -> {
+            creatDialog(btnOpenAddTypeForm, addTypeForm, typeMenuStackPane);
+//            btnOpenAddTypeForm.setDisable(true);
+//            JFXDialog dialog = new JFXDialog(typeMenuStackPane, addTypeForm, JFXDialog.DialogTransition.NONE);
+//            dialog.setOverlayClose(false);
+//            dialog.show();
+//            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+//            btnClose.setOnAction((eventt) -> {
+//                dialog.close();
+//                btnOpenAddTypeForm.setDisable(false);
+//            });
         });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
                 System.out.println("Hello Enter");
                 btnThemLoaiMon.fire();
             }
-        });
-        btnThemLoaiMon.setDisable(true);
-        txtTenLoaiMon.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemLoaiMon.setDisable(newValue.trim().isEmpty());
         });
         
         txtDVT.setOnKeyPressed((event) -> {
@@ -230,21 +259,20 @@ public class FXMLManagerMenuController implements Initializable {
                 btnThemDVT.fire();
             }
         });
-        btnThemDVT.setDisable(true);
-        txtDVT.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemDVT.setDisable(newValue.trim().isEmpty());
-        });
         
         btnThemLoaiMon.setOnAction((event) -> {
             if(!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
                 DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
-            }
+            };
             
             ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
             if(!listMon.isEmpty()) {
                 tbLoaiMon.getItems().clear();
                 tbLoaiMon.setItems(listMon);
-            }
+            };
+            JFXDialog dialog = (JFXDialog) typeMenuStackPane.getChildren().get(1);
+            btnOpenAddTypeForm.setDisable(false);
+            dialog.close();
         });
         
         btnThemDVT.setOnAction((event) -> {
@@ -303,16 +331,6 @@ public class FXMLManagerMenuController implements Initializable {
             }
         });
         
-        btnThemLoaiNX.setDisable(true);
-        txtLoaiNhapXuat.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemLoaiNX.setDisable(newValue.trim().isEmpty());
-        });
-        
-        btnThemMenu.setDisable(true);
-        txtTenMonMenu.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemMenu.setDisable(newValue.trim().isEmpty());
-        });
-        
         btnThemMenu.setOnAction((event) -> {
             String tenMon = txtTenMonMenu.getText().toString().trim();
             
@@ -330,6 +348,7 @@ public class FXMLManagerMenuController implements Initializable {
                 
                 JFXDialog dialog = (JFXDialog) menuStackPane.getChildren().get(1);
                 dialog.close();
+                btnOpenAddForm.setDisable(false);
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }

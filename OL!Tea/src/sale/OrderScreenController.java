@@ -101,9 +101,12 @@ public class OrderScreenController implements Initializable {
                 JFXButton btn = (JFXButton) btnWrapper.lookup("#btnMenuType");
                 btn.setUserData(i);
                 btn.setText(listLoaiMon.get(i).getLoaiMon().toUpperCase());
-                String url = "-fx-background-image: url('../images/bg-"+ i +".jpg');";
-                System.out.println(url);
-                btn.setStyle(url);
+                int mainColor = 50 + i*20;
+                HBox shadow = (HBox) btnWrapper.lookup("#shadowHbox");
+                String mainHsl = "hsb("+ mainColor +", 78%, 75%)";
+                String secondHsl = "hsb("+ mainColor +", 78%, 85%)";
+                shadow.setStyle("-fx-background-color:" + mainHsl);
+                btn.setStyle("-fx-background-color: linear-gradient(to left, "+ mainHsl +", "+ secondHsl +");");
                 btn.setOnAction((event) -> {
                    changeMenuItemList(btn);
                 });
@@ -130,6 +133,11 @@ public class OrderScreenController implements Initializable {
                         ((Label) item.lookup("#menuItemName")).setText(m.getTenMon().toUpperCase());
                         String price = String.format(Locale.US, "%,d", m.getDonGia()).replace(",", ".");
                         ((Label) item.lookup("#menuItemPrice")).setText(price + " VND");
+                        int mainColor = 50 + Integer.parseInt(btn.getUserData().toString())*20;
+                        String mainHsl = "hsb("+ mainColor +", 78%, 75%)";
+                        String secondHsl = "hsb("+ mainColor +", 78%, 85%)";
+                        item.setStyle("-fx-background-color: "+ secondHsl);
+                        item.setEffect(new DropShadow(10, 3, 3, Color.hsb(Float.intBitsToFloat(mainColor), 0.88, 0.75, 0.0)));
                         menuList.getChildren().add(item);
                         new FadeInUp(menuList.getChildren().get(menuList.getChildren().size() - 1)).setSpeed(2.0).play();
                     } catch (IOException ex) {
