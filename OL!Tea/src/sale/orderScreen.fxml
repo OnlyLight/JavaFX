@@ -22,16 +22,27 @@
 
 <VBox fx:id="orderScreen" prefHeight="815.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.OrderScreenController">
    <children>
-      <FlowPane fx:id="listMenuType" hgap="10.0" style="-fx-background-color: #fff;" vgap="20.0">
+      <VBox>
+         <children>
+            <Label fx:id="menuItemName1" styleClass="border-bottom" text="TYPE LIST">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+            </Label>
+            <FlowPane fx:id="listMenuType" hgap="10.0" vgap="20.0" />
+         </children>
          <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
          </padding>
-      </FlowPane>
+      </VBox>
       <HBox fx:id="mainHBox" prefHeight="608.0" prefWidth="1198.0" styleClass="border-top" stylesheets="@../css/global.css" VBox.vgrow="ALWAYS">
          <children>
             <VBox fx:id="listView" prefHeight="646.0" prefWidth="659.0" style="-fx-background-color: #fff;" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="menuItemName" styleClass="border-bottom" text="MILK TEA">
+                  <Label fx:id="menuItemName" text="MILK TEA">
                      <padding>
                         <Insets bottom="5.0" right="10.0" top="10.0" />
                      </padding>
@@ -39,7 +50,7 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
                   <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" style="-fx-background-color: #fff;" styleClass="blue-scroll" VBox.vgrow="ALWAYS">
@@ -52,7 +63,7 @@
                   <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox fx:id="CheckoutSection" alignment="BOTTOM_CENTER" maxWidth="700.0" prefHeight="626.0" prefWidth="320.0" style="-fx-background-color: #fff;" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
+            <VBox fx:id="CheckoutSection" alignment="BOTTOM_CENTER" maxWidth="700.0" minWidth="-Infinity" prefHeight="775.0" prefWidth="506.0" style="-fx-background-color: #fff;" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                      <children>
@@ -94,7 +105,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.rowIndex="1">
                            <children>
-                              <Label prefHeight="17.0" prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Amount: " />
+                              <Label prefHeight="17.0" prefWidth="80.0" style="-fx-font-size: 15;" styleClass="font-bold" stylesheets="@../css/global.css" text="Amount: " />
                               <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label fx:id="txtPay" style="-fx-font-size: 20;" styleClass="font-bold" text="0" textFill="#00adb5" />
@@ -118,7 +129,7 @@
                         </HBox>
                         <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Label prefHeight="17.0" prefWidth="80.0" styleClass="font-bold" stylesheets="@../css/global.css" text="Total:" HBox.hgrow="ALWAYS" />
+                              <Label prefHeight="17.0" prefWidth="80.0" style="-fx-font-size: 15;" styleClass="font-bold" stylesheets="@../css/global.css" text="Total:" HBox.hgrow="ALWAYS" />
                               <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label fx:id="txtMoneyTotal" style="-fx-font-size: 20;" styleClass="font-bold" text="0" textFill="#00adb5" />
@@ -185,7 +196,7 @@
             </VBox>
          </children>
          <effect>
-            <InnerShadow blurType="GAUSSIAN" color="#00000066" height="124.83" offsetY="2.0" radius="30.7075" width="0.0" />
+            <InnerShadow blurType="GAUSSIAN" color="#0000004d" height="74.205" offsetY="10.0" radius="18.05125" width="0.0" />
          </effect>
       </HBox>
    </children>

@@ -121,7 +121,7 @@ public class OrderScreenController implements Initializable {
             menuList.setUserData(btn.getUserData());
             menuList.getChildren().clear();
             ArrayList<LoaiMon> listMenu = DBUtils_LoaiMon.getList();
-            menuItemName.setText(listMenu.get(Integer.parseInt(btn.getUserData().toString())).getLoaiMon());
+            menuItemName.setText(listMenu.get(Integer.parseInt(btn.getUserData().toString())).getLoaiMon().toUpperCase());
             new FadeInUp(menuItemName).setSpeed(2.0).play();
             for (Mon m : DBUtils_Mon.getMon(Integer.parseInt(btn.getUserData().toString()) + 1)) {
                 if(m.isIsActive()) {

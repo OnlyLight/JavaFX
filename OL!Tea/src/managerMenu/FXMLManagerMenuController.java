@@ -205,7 +205,7 @@ public class FXMLManagerMenuController implements Initializable {
     
     private void setClick() {
         btnOpenAddForm.setOnAction((event) -> {
-            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.CENTER);
+            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
             dialog.setOverlayClose(false);
             dialog.show();
             JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");

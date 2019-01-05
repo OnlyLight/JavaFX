@@ -15,7 +15,7 @@
             <BoxBlur height="15.0" iterations="2" width="17.86" />
          </effect>
       </HBox>
-      <JFXButton fx:id="btnMenuType" onMouseClicked="#mouseEnterHover" prefWidth="190.0" styleClass="btn-login" stylesheets="@../css/global.css" text="Checkout" textFill="WHITE">
+      <JFXButton fx:id="btnMenuType" onMouseClicked="#mouseEnterHover" prefWidth="190.0" styleClass="btn-login" stylesheets="@../css/global.css" text="MILK TEA" textFill="WHITE">
          <padding>
             <Insets bottom="10.0" top="10.0" />
          </padding>
