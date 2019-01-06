@@ -6,10 +6,15 @@
 package managerMenu;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -25,9 +30,12 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import tqduy.bean.DVT;
 import tqduy.bean.InsertNX;
@@ -44,7 +52,7 @@ import tqduy.connect.DBUtils_Mon;
  * @author QuangDuy
  */
 public class FXMLManagerMenuController implements Initializable {
-    @FXML private JFXTextField txtTenLoaiMon, txtTenMonMenu, txtDonGiaMenu, txtDVT, txtLoaiNhapXuat;
+    @FXML private TextField txtTenLoaiMon, txtTenMonMenu, txtDonGiaMenu, txtDVT, txtLoaiNhapXuat;
     @FXML private JFXButton btnThemLoaiMon, btnThemMenu, btnThemDVT, btnThemLoaiNX;
     @FXML private ListView<DVT> lvDVT;
     @FXML private ComboBox<LoaiMon> cbLoaiMonMenu;
@@ -61,18 +69,32 @@ public class FXMLManagerMenuController implements Initializable {
     @FXML private TableView<InsertNX> tbLoaiNX;
     @FXML private TableColumn<InsertNX, String> tbLoaiNXColumn;
     @FXML private TableColumn<InsertNX, String> tbDVTColumn;
-    @FXML private Tab tabLoaiMon, tabMenu, tabDVT, tabLoaiNX;
     
     private int donGiaMenu = 0;
     private LoaiMon loaiMenu = new LoaiMon();
     private DVT dvtSelected = new DVT();
+    @FXML
+    private VBox addForm;
+    @FXML
+    private JFXButton btnOpenFind;
+    @FXML
+    private JFXButton btnOpenFind3;
+    @FXML
+    private JFXButton btnOpenFind2;
+    @FXML
+    private JFXButton btnOpenAddForm;
+    @FXML
+    private StackPane menuStackPane;
+    @FXML
+    private JFXButton btnCloseAddMenu;
     
-    private void loadTableLoaiMon() {
+    private void loadTableLoaiMon() throws SQLException {
         tbLoaiMon.getColumns().clear();
         tbLoaiMon.setEditable(true);
         tbIDColumnLoaiMon.setText("STT");
         tbTenLoaiMonColumn.setText("Loại");
         tbIsActiveLoaiMonColumn.setText("Active");
+        tbIsActiveLoaiMonColumn.getStyleClass().add("align-center");
         
         tbIDColumnLoaiMon.setCellValueFactory(new PropertyValueFactory<>("id"));
         tbTenLoaiMonColumn.setCellValueFactory(new PropertyValueFactory<>("loaiMon"));
@@ -109,13 +131,14 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
-    private void loadTableMenu() {
+    private void loadTableMenu() throws SQLException {
         tbMenu.getColumns().clear();
         tbMenu.setEditable(true);
-        tbTenMonColumnMenu.setText("Tên Món");
-        tbDonGiaColumnMenu.setText("Đơn Giá");
-        tbLoaiMonColumnMenu.setText("Loại Món");
+        tbTenMonColumnMenu.setText("Name");
+        tbDonGiaColumnMenu.setText("Price");
+        tbLoaiMonColumnMenu.setText("Type");
         tbIsActiveMenuColumn.setText("Active");
+        tbIsActiveMenuColumn.getStyleClass().add("align-center");
         
         tbTenMonColumnMenu.setCellValueFactory(new PropertyValueFactory<>("tenMon"));
         tbDonGiaColumnMenu.setCellValueFactory(new PropertyValueFactory<>("donGia"));
@@ -154,7 +177,7 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
-    private void loadTableNX() {
+    private void loadTableNX() throws SQLException {
         tbLoaiNX.getColumns().clear();
         tbLoaiNXColumn.setText("Loại NX");
         tbDVTColumn.setText("Đơn vị tính");
@@ -184,6 +207,15 @@ public class FXMLManagerMenuController implements Initializable {
     }
     
     private void setClick() {
+        btnOpenAddForm.setOnAction((event) -> {
+            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.CENTER);
+            dialog.setOverlayClose(false);
+            dialog.show();
+            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+            btnClose.setOnAction((eventt) -> {
+                dialog.close();
+            });
+        });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
                 System.out.println("Hello Enter");
@@ -211,7 +243,12 @@ public class FXMLManagerMenuController implements Initializable {
                 DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
             }
             
-            ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+            ObservableList<LoaiMon> listMon = null;
+            try {
+                listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if(!listMon.isEmpty()) {
                 tbLoaiMon.getItems().clear();
                 tbLoaiMon.setItems(listMon);
@@ -251,7 +288,12 @@ public class FXMLManagerMenuController implements Initializable {
             if(!tenLoaiNX.isEmpty() && dvtSelected != null) {
                 DBUtils_LoaiNX.insert(tenLoaiNX, dvtSelected.getIdDVT());
 
-                ObservableList<InsertNX> listLoai = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
+                ObservableList<InsertNX> listLoai = null;
+                try {
+                    listLoai = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 if(!listLoai.isEmpty()) {
                     tbLoaiNX.getItems().clear();
@@ -289,13 +331,23 @@ public class FXMLManagerMenuController implements Initializable {
             
             if(!tenMon.isEmpty() && donGiaMenu > 0 && loaiMenu != null) {
                 DBUtils_Mon.insert(tenMon, donGiaMenu, loaiMenu.getId());
+                txtTenLoaiMon.clear();
+                txtDonGiaMenu.clear();
 
-                ObservableList<Menu> listLoai = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
+                ObservableList<Menu> listLoai = null;
+                try {
+                    listLoai = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 if(!listLoai.isEmpty()) {
                     tbMenu.getItems().clear();
                     tbMenu.setItems(listLoai);
                 }
+                
+                JFXDialog dialog = (JFXDialog) menuStackPane.getChildren().get(1);
+                dialog.close();
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }
@@ -316,7 +368,7 @@ public class FXMLManagerMenuController implements Initializable {
         return result;
     }
     
-    private void loadComboBox() {
+    private void loadComboBox() throws SQLException {
         ObservableList<LoaiMon> listLoai = FXCollections.observableArrayList();
         ObservableList<DVT> arrDVT = FXCollections.observableArrayList();
         
@@ -340,20 +392,12 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
-    private void chooseTab() {
-        tabMenu.setOnSelectionChanged((event) -> {
-            loadTableMenu();
-            loadComboBox();
-        });
-        
-        tabDVT.setOnSelectionChanged((event) -> {
-            loadListViewDVT();
-        });
-        
-        tabLoaiNX.setOnSelectionChanged((event) -> {
-            loadTableNX();
-            loadComboBox();
-        });
+    private void chooseTab() throws SQLException {
+        loadTableMenu();
+        loadComboBox();
+        loadListViewDVT();
+        loadTableNX();
+        loadComboBox();
     }
 
     /**
@@ -361,9 +405,17 @@ public class FXMLManagerMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        loadTableLoaiMon();
-        chooseTab();
+        try {
+            // TODO
+            loadTableLoaiMon();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            chooseTab();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setClick();
     }    
     

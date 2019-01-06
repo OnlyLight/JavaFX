@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -53,7 +54,7 @@ public class FXMLSignInController implements Initializable {
     private String sdt = FXMLDocumentController.sdt;
     public static Member m = new Member();
             
-    private void inputData() {
+    private void inputData() throws SQLException {
         ObservableList<Member> listLoai = FXCollections.observableArrayList();
         
         for (Member member : DBUtils_Member.getList()) {
@@ -184,8 +185,12 @@ public class FXMLSignInController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        inputData();
+        try {
+            // TODO
+            inputData();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLSignInController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setClickBtn();
     }    
     

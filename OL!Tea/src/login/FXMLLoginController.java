@@ -5,26 +5,41 @@
  */
 package login;
 
+import animatefx.animation.FadeIn;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import insidefx.undecorator.UndecoratorScene;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.ScaleTransition;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -41,42 +56,61 @@ import tqduy.connect.DBUtils_NhanVien;
 public class FXMLLoginController implements Initializable {
     @FXML private JFXTextField txtUserName;
     @FXML private JFXPasswordField txtPassWord;
-    @FXML private JFXButton btnLogin, btnExit;
+    @FXML private JFXButton btnLogin;
+    double x,y;
     
     public static NhanVien nvLogin;
+    @FXML
+    private StackPane mainLoginScreen;
     
-    private void setEventClick() {
-        txtPassWord.setOnKeyPressed((event) -> {
+    private void showDialog(String text) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Infomation"));
+        content.setBody(new Text(text));
+        JFXDialog dialog = new JFXDialog(mainLoginScreen, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton btnConfirm = new JFXButton("OK");
+        btnConfirm.setStyle("-fx-background-color: linear-gradient(to left, #00adb5, #00ccd3);\n" +
+        "-fx-cursor: hand; -fx-text-fill: #fff; -fx-font-weight: bold;");
+        btnConfirm.setOnAction((eventt) -> {
+            dialog.close();
+        });
+        btnConfirm.defaultButtonProperty().bind(btnConfirm.focusedProperty());
+        content.setActions(btnConfirm);
+        dialog.show();
+    }
+    
+    private void setEventClick() throws SQLException {
+        txtUserName.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
-                System.out.println("Hello Enter");
                 btnLogin.fire();
             }
         });
-        btnLogin.setDisable(true);
-        txtUserName.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnLogin.setDisable(newValue.trim().isEmpty());
-        });
-        
-        ArrayList<NhanVien> nvs = DBUtils_NhanVien.getListForCheck();
-        btnLogin.setOnAction((event) -> {
-            String user = txtUserName.getText().toString().trim();
-            String pass = MD5Library.md5(txtPassWord.getText().toString().trim());
-            nvLogin = new NhanVien();
-            
-            if(checkUser(nvs, user, pass)) {
-                try {
-                    showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                closeStage(btnLogin);
-            } else {
-                createAlert("User hoặc passWord không đúng");
+        txtPassWord.setOnKeyPressed((event) -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                btnLogin.fire();
             }
         });
-        
-        btnExit.setOnAction((event) -> {
-            System.exit(0);
+//        btnLogin.setDisable(true);
+//        txtUserName.textProperty().addListener((observable, oldValue, newValue) -> {
+//            btnLogin.setDisable(newValue.trim().isEmpty());
+//        });
+//        
+        ArrayList<NhanVien> nvs = DBUtils_NhanVien.getListForCheck();
+        btnLogin.setOnAction((event) -> {
+            if (mainLoginScreen.getChildren().size() == 1) {
+                String user = txtUserName.getText().toString().trim();
+                String pass = MD5Library.md5(txtPassWord.getText().toString().trim());
+                nvLogin = new NhanVien();
+                if (user.length() == 0 || txtPassWord.getText().toString().trim().length() == 0) {
+                    showDialog("Please enter username, password!");
+                } else if(checkUser(nvs, user, pass)) {
+                    closeStage();
+                } else {
+                    showDialog("Wrong username or password!");
+                }
+            } else {
+                ((JFXDialog) mainLoginScreen.getChildren().get(1)).close();
+            }
         });
     }
     
@@ -109,10 +143,19 @@ public class FXMLLoginController implements Initializable {
         return result;
     }
     
-    private void closeStage(Button btn) {
-        Stage stage = (Stage) btn.getScene().getWindow();
+    private void closeStage() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/sale/FXMLDocument.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Stage stage = Login.getStage();
         stage.close();
-        System.out.println("Close");
+        UndecoratorScene scene = new UndecoratorScene(stage, (Region) root);
+        stage.setScene(scene);
+        stage.show();
+        new FadeIn(root).play();
     }
     
     private void showDialog(String url, StageStyle style, Modality modal) throws IOException {
@@ -137,11 +180,18 @@ public class FXMLLoginController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        setEventClick();
+        try {
+            // TODO
+            setEventClick();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        btnLogin.defaultButtonProperty().bind(btnLogin.focusedProperty());
     }    
     
 }

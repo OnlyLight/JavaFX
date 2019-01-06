@@ -9,11 +9,14 @@ import com.jfoenix.controls.JFXButton;
 import tqduy.bean.Bill;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -69,7 +72,7 @@ public class FXMLBillController implements Initializable {
     }
     
     // SHOW DATA FOR TABLE
-    private void showTable() {
+    private void showTable() throws SQLException {
         tbBill.getColumns().clear(); // CLEAR TABLE
         
         // SET NAME FOR COLUMN
@@ -111,11 +114,10 @@ public class FXMLBillController implements Initializable {
     }
     
     // DISPLAY AREACHART
-    private void showAreaChart() {
+    private void showAreaChart() throws SQLException {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         
         // SET TITLE
-        areaChart.setTitle("Thông Kê Hóa Đơn");
         areaChart.setLegendSide(Side.LEFT);
         System.out.println("AreaChart");
         
@@ -139,9 +141,17 @@ public class FXMLBillController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        showAreaChart();
-        showTable();
+        try {
+            // TODO
+            showAreaChart();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLBillController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            showTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLBillController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setEvent();
     }    
     

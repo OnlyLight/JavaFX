@@ -5,6 +5,7 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -38,18 +39,22 @@ public class DBUtils_LoaiMon {
     }
     
     // TABLE LOAI MON
-    public static ArrayList<LoaiMon> getList() {
+    public static ArrayList<LoaiMon> getList() throws SQLException {
         ArrayList<LoaiMon> arrLoaiMon = new ArrayList<>();
         
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + " ORDER BY id";
-
-        ResultSet res = query(sql);
+        CallableStatement command = con.prepareCall("{call pr_getListLoaiMon}");
+            
+        ResultSet result = command.executeQuery();
+        
+//        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + " ORDER BY id";
+//
+//        ResultSet res = query(sql);
 
         try {
-            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
-                int id = res.getInt("id");
-                String loaiMon = res.getString("loaiMon");
-                boolean isActive = res.getBoolean("isActive");
+            while (result.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
+                int id = result.getInt("id");
+                String loaiMon = result.getString("loaiMon");
+                boolean isActive = result.getBoolean("isActive");
                 
                 LoaiMon lm = new LoaiMon(id, loaiMon, isActive);
                 arrLoaiMon.add(lm);
@@ -69,11 +74,17 @@ public class DBUtils_LoaiMon {
         }
     }
     
-    public static LoaiMon getMon(int idLM) {
+    public static LoaiMon getMon(int idLM) throws SQLException {
         LoaiMon lm = new LoaiMon();
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + " WHERE id="+idLM+"";
+        
+        CallableStatement command = con.prepareCall("{call pr_getListLoaiMonById (?)}");
+        command.setInt(1, idLM);
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + " WHERE id="+idLM+"";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

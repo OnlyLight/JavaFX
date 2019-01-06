@@ -1,0 +1,222 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 21, 2018, 3:25:41 PM
+    Author     : ADMIN
+*/
+
+.btn-dark {
+    -fx-background-color:  #5c6470;
+}
+
+.anchor {
+    -fx-background-image:url('../images/bg-login.jpg');
+    -fx-background-size: cover;
+}
+
+.btn-login {
+    -fx-background-color: linear-gradient(to left, #00adb5, #00ccd3);
+    -fx-cursor: hand;
+}
+
+.bg-dark {
+    -fx-background-color: #222831;
+    -fx-pref-height: 30; 
+}
+
+.btn-checkout {
+    -fx-background-color: linear-gradient(to left, #00adb5, #00ccd3);
+}
+
+.btn-sideBar {
+    -fx-background-radius: 0;
+}
+
+.btn-sideBar:hover, .btn-sideBar:focused {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+.milktea {
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+    -fx-background-color: linear-gradient(to top,  #00adb5, #00ccd3);
+}
+
+.coffee {
+    -fx-background-image:url('../images/coffee.jpg');
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+}
+
+.juice {
+    -fx-background-image:url('../images/juice.jpg');
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+}
+
+.smoothie {
+    -fx-background-image:url('../images/smoothie.jpg');
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+}
+
+.soda {
+    -fx-background-image:url('../images/soda.jpg');
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+}
+
+.bakery {
+    -fx-background-image:url('../images/bakery.jpg');
+    -fx-background-size: cover;
+    -fx-cursor: hand;
+}
+
+.scroll-pane {
+    -fx-background-color: #fff;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.increment-arrow, .decrement-arrow {
+    -fx-text-fill: #393e46;
+      -fx-background-color: #393e46;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #393e46;
+    -fx-background-radius: 5em;
+}
+
+.blue-scroll .scroll-bar:horizontal .thumb,
+.blue-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: linear-gradient(to top, #00adb5, #00ccd3);
+    -fx-background-radius: 5em;
+}
+
+.table-view .column-header {
+    -fx-border-width: 2;
+    -fx-border-color: transparent transparent rgba(57, 62, 70, 0.5) transparent;
+}
+
+.table-view .column-header,
+.table-view .column-header-background .filler{
+    -fx-background-color: #fff;
+}
+ .column-header{
+    
+}
+
+.table-view .column-header .label{
+   -fx-text-fill: #222831;
+   -fx-font-weight: bold; 
+   -fx-padding: 10;
+   -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .column-header.align-center .label {
+  -fx-alignment: CENTER;
+}
+
+.table-view .column-header .label:last-child {
+    -fx-alignment: CENTER_RIGHT;
+}
+
+.table-view{
+    -fx-border-color: #fff;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-selection-bar: #00adb5;
+}
+
+.border-right {
+    -fx-border-color: transparent transparent transparent rgba(57, 62, 70, 0.3);
+    -fx-border-width: 4;
+}
+
+.border-bottom {
+    -fx-border-color: transparent transparent rgba(57, 62, 70, 1) transparent;
+    -fx-border-width: 4;
+}
+
+.border-bottom-green {
+    -fx-border-color: transparent transparent #00adb5 transparent;
+    -fx-border-width: 4;
+}
+
+.border-primary {
+     -fx-border-color: rgba(57, 62, 70, 0.5);
+    -fx-border-width: 3;
+}
+
+.border-primary-y {
+     -fx-border-color: rgba(57, 62, 70, 0.5) transparent rgba(57, 62, 70, 0.5) transparent;
+    -fx-border-width: 2;
+}
+
+.font-bold {
+    -fx-font-weight: bold
+}
+
+.border-green {
+    -fx-border-color: transparent;
+    -fx-border-width: 4;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.text-white {
+    -fx-text-fill: #fff;
+}
+
+.bg-dark-green {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-background-radius: 10;
+}
+
+/*.jfx-tab-pane:top > .depth-container > .tab-header-area {
+    -fx-padding: 10;
+}*/
+
+.tab-header-background {
+    -fx-background-color: #393e46;
+    
+}
+
+.tab-label {
+    -fx-padding: 11
+}
+
+.tab-selected-line {
+    -fx-background-color: #00adb5;
+    -fx-pref-height: 3;
+}
+
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 0 0 0 10;
+    -fx-font-size: 16;
+}
+
+.date-picker-display-node .input-line, .date-picker-display-node .input-focused-line {
+    -fx-pref-height: 0;
+}

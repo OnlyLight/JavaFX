@@ -5,10 +5,12 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.Role;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -17,12 +19,16 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_Role {
-    public static ArrayList<Role> getList() {
+    public static ArrayList<Role> getList() throws SQLException {
         ArrayList<Role> arrRole = new ArrayList<>();
         
-        String sql = "SELECT * FROM dbo.Role";
+        CallableStatement command = con.prepareCall("{call pr_getListRole}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM dbo.Role";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
