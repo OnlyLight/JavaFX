@@ -7,30 +7,6 @@ and open the template in the editor.
     Created on : Dec 21, 2018, 3:25:41 PM
     Author     : ADMIN
 */
-
-@font-face {
-    font-family: 'Roboto';
-    src: url('Roboto-Regular.ttf');
-}
-
-@font-face {
-    src: url('Oswald-Medium.ttf');
-}
-
-@font-face {
-    font-family: 'Roboto';
-    font-weight: bold;
-    src: url('Roboto-Bold.ttf');
-}
-
-.root {
-    -fx-font-family: "Roboto";
-}
-
-.roboto-regular {
-    -fx-font-family: "Roboto";
-}
-
 .btn-danger {
     -fx-background-color: linear-gradient(to left, #e84545, #f75d5d);
     -fx-cursor: hand;
@@ -173,7 +149,6 @@ and open the template in the editor.
     -fx-border-color: #fff;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-selection-bar: #00adb5;
 }
 
 .border-right {
@@ -241,7 +216,7 @@ and open the template in the editor.
 
 .table-view .table-cell{
     -fx-border-color: transparent;
-    -fx-padding: 0 0 0 10;
+    -fx-padding: 10;
     -fx-font-size: 16;
 }
 

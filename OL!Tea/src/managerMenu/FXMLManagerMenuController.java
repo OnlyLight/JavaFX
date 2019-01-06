@@ -81,15 +81,23 @@ public class FXMLManagerMenuController implements Initializable {
     @FXML
     private JFXButton btnCloseAddMenu;
     @FXML
-    private JFXButton btnOpenAddForm12;
-    @FXML
     private VBox addTypeForm;
     @FXML
     private JFXButton btnOpenAddTypeForm;
     @FXML
     private StackPane typeMenuStackPane;
     @FXML
-    private JFXButton btnOpenAddForm11;
+    private VBox addImportTypeForm;
+    @FXML
+    private JFXButton btnOpenImportTypeForm;
+    @FXML
+    private StackPane typeImportStackPane;
+    @FXML
+    private VBox addUntiForm;
+    @FXML
+    private JFXButton btnOpenAddUnitForm;
+    @FXML
+    private StackPane unitStackPane;
     
     private void loadTableLoaiMon() {
         tbLoaiMon.getColumns().clear();
@@ -223,6 +231,7 @@ public class FXMLManagerMenuController implements Initializable {
     
     private void setClick() {
         btnOpenAddForm.setOnAction((event) -> {
+            loadComboBox();
             creatDialog(btnOpenAddForm, addForm, menuStackPane);
 //            btnOpenAddForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
@@ -245,6 +254,13 @@ public class FXMLManagerMenuController implements Initializable {
 //                dialog.close();
 //                btnOpenAddTypeForm.setDisable(false);
 //            });
+        });
+        btnOpenImportTypeForm.setOnAction((event) -> {
+            loadComboBox();
+            creatDialog(btnOpenImportTypeForm, addImportTypeForm, typeImportStackPane);
+        });
+        btnOpenAddUnitForm.setOnAction((event) -> {
+            creatDialog(btnOpenAddUnitForm, addUntiForm, unitStackPane);
         });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
@@ -289,7 +305,10 @@ public class FXMLManagerMenuController implements Initializable {
             if(!listDVT.isEmpty()) {
                 lvDVT.getItems().clear();
                 lvDVT.setItems(listDVT);
-            }
+            };
+            JFXDialog dialog = (JFXDialog) unitStackPane.getChildren().get(1);
+            btnOpenAddUnitForm.setDisable(false);
+            dialog.close();
         });
         
         cbLoaiMonMenu.setOnAction((event) -> {
@@ -313,7 +332,10 @@ public class FXMLManagerMenuController implements Initializable {
                 if(!listLoai.isEmpty()) {
                     tbLoaiNX.getItems().clear();
                     tbLoaiNX.setItems(listLoai);
-                }
+                };
+                JFXDialog dialog = (JFXDialog) typeImportStackPane.getChildren().get(1);
+                btnOpenImportTypeForm.setDisable(false);
+                dialog.close();
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }
@@ -398,7 +420,6 @@ public class FXMLManagerMenuController implements Initializable {
         loadComboBox();
         loadListViewDVT();
         loadTableNX();
-        loadComboBox();
     }
 
     /**

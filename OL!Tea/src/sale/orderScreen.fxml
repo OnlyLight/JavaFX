@@ -24,14 +24,6 @@
    <children>
       <VBox>
          <children>
-            <Label fx:id="menuItemName1" text="TYPE LIST">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-               <padding>
-                  <Insets bottom="5.0" />
-               </padding>
-            </Label>
             <FlowPane fx:id="listMenuType" hgap="10.0" vgap="20.0" />
          </children>
          <padding>
