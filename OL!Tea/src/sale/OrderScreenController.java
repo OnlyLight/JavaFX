@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Optional;
@@ -84,12 +85,16 @@ public class OrderScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-         CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
-         showAcdMenu();
+        try {
+            // TODO
+            CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
+            showAcdMenu();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
      
-    private void showAcdMenu() {
+    private void showAcdMenu() throws SQLException {
 //         Dynamic
 //        acdMenu.getPanes().clear();
 //        ArrayList<TitledPane> titles = new ArrayList<>();
@@ -105,7 +110,11 @@ public class OrderScreenController implements Initializable {
                 System.out.println(url);
                 btn.setStyle(url);
                 btn.setOnAction((event) -> {
-                   changeMenuItemList(btn);
+                    try {
+                        changeMenuItemList(btn);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 });
                 listMenuType.getChildren().add(btnWrapper);
             } catch (IOException ex) {
@@ -116,7 +125,7 @@ public class OrderScreenController implements Initializable {
 //        acdMenu.getPanes().addAll(titles);
     }
     
-    private void changeMenuItemList(JFXButton btn) {
+    private void changeMenuItemList(JFXButton btn) throws SQLException {
         if (menuList.getUserData() != btn.getUserData()) {
             menuList.setUserData(btn.getUserData());
             menuList.getChildren().clear();

@@ -5,12 +5,14 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import tqduy.bean.CusMember;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -19,13 +21,17 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_CusMember {
-    public static ArrayList<CusMember> getList() {
+    public static ArrayList<CusMember> getList() throws SQLException {
         ArrayList<CusMember> arrCusMem = new ArrayList<>();
         
-        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.Role.roleName, dbo.Customer.tenCus, dbo.Customer.sdt, dbo.Member.idMember, dbo.Member.tenLoaiMember, dbo.Customer.ngayLap FROM dbo.Member JOIN dbo.Customer ON Customer.idMember = Member.idMember JOIN dbo.DKMember ON DKMember.idCustomer = Customer.idCustomer JOIN dbo.NhanVien ON dbo.DKMember.idNhanVien = dbo.NhanVien.idNV JOIN dbo.Role ON Role.idRole = NhanVien.role";
-
-        ResultSet res = query(sql);
-        System.out.println("SQL: " + sql);
+        CallableStatement command = con.prepareCall("{call pr_getListCusMember}");
+            
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.Role.roleName, dbo.Customer.tenCus, dbo.Customer.sdt, dbo.Member.idMember, dbo.Member.tenLoaiMember, dbo.Customer.ngayLap FROM dbo.Member JOIN dbo.Customer ON Customer.idMember = Member.idMember JOIN dbo.DKMember ON DKMember.idCustomer = Customer.idCustomer JOIN dbo.NhanVien ON dbo.DKMember.idNhanVien = dbo.NhanVien.idNV JOIN dbo.Role ON Role.idRole = NhanVien.role";
+//
+//        ResultSet res = query(sql);
+//        System.out.println("SQL: " + sql);
         
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -51,13 +57,17 @@ public class DBUtils_CusMember {
         }
     }
     
-    public static ArrayList<CusMember> getListForCheck() {
+    public static ArrayList<CusMember> getListForCheck() throws SQLException {
         ArrayList<CusMember> arrCusMem = new ArrayList<>();
         
-        String sql = "SELECT * FROM dbo.Customer";
+        CallableStatement command = con.prepareCall("{call pr_getListForCheckCusMember}");
 
-        ResultSet res = query(sql);
-        System.out.println("SQL: " + sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM dbo.Customer";
+//
+//        ResultSet res = query(sql);
+//        System.out.println("SQL: " + sql);
         
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

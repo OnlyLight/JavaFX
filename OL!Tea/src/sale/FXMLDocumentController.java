@@ -196,7 +196,12 @@ public class FXMLDocumentController implements Initializable {
             int row = pos.getRow();
             System.out.println("Row: "+row);
             
-            int idMon = getListMon().get(row).getId();
+            int idMon = 0;
+            try {
+                idMon = getListMon().get(row).getId();
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             int newValue = 1;
             try {
@@ -238,7 +243,7 @@ public class FXMLDocumentController implements Initializable {
 //        }
 //    }
     
-    private ObservableList<MonOrder> getListMon() {
+    private ObservableList<MonOrder> getListMon() throws SQLException {
         ObservableList<MonOrder> list = FXCollections.observableArrayList();
         list.addAll(DBUtils_MonOrder.getList());
         return list;

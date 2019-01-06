@@ -15,6 +15,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import insidefx.undecorator.UndecoratorScene;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -78,7 +79,7 @@ public class FXMLLoginController implements Initializable {
         dialog.show();
     }
     
-    private void setEventClick() {
+    private void setEventClick() throws SQLException {
         txtUserName.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
                 btnLogin.fire();
@@ -184,8 +185,12 @@ public class FXMLLoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        setEventClick();
+        try {
+            // TODO
+            setEventClick();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         btnLogin.defaultButtonProperty().bind(btnLogin.focusedProperty());
     }    
     

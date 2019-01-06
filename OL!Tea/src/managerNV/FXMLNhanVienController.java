@@ -9,8 +9,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -56,7 +59,7 @@ public class FXMLNhanVienController implements Initializable {
     
     private Role roleSelected = new Role();
     
-    private void showTableRole() {
+    private void showTableRole() throws SQLException {
         tbRole.getColumns().clear();
         tbRole.setEditable(true);
         
@@ -99,7 +102,7 @@ public class FXMLNhanVienController implements Initializable {
         }
     }
     
-    private void showTBNV() {
+    private void showTBNV() throws SQLException {
         tbNhanVien.getColumns().clear();
         tbNhanVien.setEditable(true);
         
@@ -142,7 +145,7 @@ public class FXMLNhanVienController implements Initializable {
         }
     }
     
-    private void loadComboBox() {
+    private void loadComboBox() throws SQLException {
         ObservableList<Role> listLoai = FXCollections.observableArrayList();
         
         for (Role role : DBUtils_Role.getList()) {
@@ -177,7 +180,12 @@ public class FXMLNhanVienController implements Initializable {
             
                 if(result.get() == ButtonType.OK) {
                     DBUtils_Role.insert(ten);
-                    ObservableList<Role> list = FXCollections.observableArrayList(DBUtils_Role.getList());
+                    ObservableList<Role> list = null;
+                    try {
+                        list = FXCollections.observableArrayList(DBUtils_Role.getList());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     System.out.println("List: " + list);
                     if(!list.isEmpty()) {
                         tbRole.getItems().clear();
@@ -206,7 +214,12 @@ public class FXMLNhanVienController implements Initializable {
                     DBUtils_NhanVien.insert(userName, pass, roleSelected.getIdRole());
                     System.out.println(userName + " - " + passWord + " - " + roleSelected.getIdRole());
                     
-                    ObservableList<NhanVien> list = FXCollections.observableArrayList(DBUtils_NhanVien.getList());
+                    ObservableList<NhanVien> list = null;
+                    try {
+                        list = FXCollections.observableArrayList(DBUtils_NhanVien.getList());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     System.out.println("List: " + list);
                     if(!list.isEmpty()) {
                         tbNhanVien.getItems().clear();
@@ -233,7 +246,7 @@ public class FXMLNhanVienController implements Initializable {
         return result;
     }
     
-    private void chooseTab() {
+    private void chooseTab() throws SQLException {
         showTableRole();
         showTBNV();
         loadComboBox();
@@ -244,9 +257,17 @@ public class FXMLNhanVienController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        showTableRole();
-        chooseTab();
+        try {
+            // TODO
+            showTableRole();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            chooseTab();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setEventClick();
     }    
     

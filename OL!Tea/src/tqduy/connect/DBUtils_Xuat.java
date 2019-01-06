@@ -5,12 +5,14 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import tqduy.bean.Xuat;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -21,12 +23,16 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
 public class DBUtils_Xuat {
     
     // TABLE Xuat
-    public static ArrayList<Xuat> getList() {
+    public static ArrayList<Xuat> getList() throws SQLException {
         ArrayList<Xuat> arrXuat = new ArrayList<>();
         
-        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_XUAT + "";
+        CallableStatement command = con.prepareCall("{call pr_getListXuat}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_XUAT + "";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -47,12 +53,17 @@ public class DBUtils_Xuat {
         }
     }
     
-    public static int getXuat(int dayNeed) {
+    public static int getXuat(int dayNeed) throws SQLException {
         int sL = 0;
-        String sql = "SELECT dbo.Xuat.soLuong FROM dbo.Xuat WHERE YEAR(dbo.Xuat.ngayXuat) = "+dayNeed+"";
+        
+        CallableStatement command = con.prepareCall("{call pr_getXuat (?)}");
+        command.setInt(1, dayNeed);
 
-        System.out.println("SQL: " + sql);
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+//        String sql = "SELECT dbo.Xuat.soLuong FROM dbo.Xuat WHERE YEAR(dbo.Xuat.ngayXuat) = "+dayNeed+"";
+//
+//        System.out.println("SQL: " + sql);
+//        ResultSet res = query(sql);
 
         try {
             if(res.next()) {

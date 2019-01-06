@@ -8,10 +8,11 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OL!Tea.jar" size="3656784" download="eager" />
+    <jar href="OL!Tea.jar" size="3660288" download="eager" />
     <jar href="lib\UndecoratorBis.jar" size="121176" download="eager" />
     <jar href="lib\animatefx-1.2.1.jar" size="94267" download="eager" />
     <jar href="lib\fontawesomefx-8.1.jar" size="179086" download="eager" />
+    <jar href="lib\jfoenix-8.0.7.jar" size="2631271" download="eager" />
     <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
     <jar href="lib\sqljdbc4-2.0.jar" size="466359" download="eager" />
   </resources>

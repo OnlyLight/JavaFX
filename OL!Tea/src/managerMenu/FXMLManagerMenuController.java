@@ -10,8 +10,11 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -85,7 +88,7 @@ public class FXMLManagerMenuController implements Initializable {
     @FXML
     private JFXButton btnCloseAddMenu;
     
-    private void loadTableLoaiMon() {
+    private void loadTableLoaiMon() throws SQLException {
         tbLoaiMon.getColumns().clear();
         tbLoaiMon.setEditable(true);
         tbIDColumnLoaiMon.setText("STT");
@@ -128,7 +131,7 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
-    private void loadTableMenu() {
+    private void loadTableMenu() throws SQLException {
         tbMenu.getColumns().clear();
         tbMenu.setEditable(true);
         tbTenMonColumnMenu.setText("Name");
@@ -174,7 +177,7 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
-    private void loadTableNX() {
+    private void loadTableNX() throws SQLException {
         tbLoaiNX.getColumns().clear();
         tbLoaiNXColumn.setText("Loại NX");
         tbDVTColumn.setText("Đơn vị tính");
@@ -205,7 +208,7 @@ public class FXMLManagerMenuController implements Initializable {
     
     private void setClick() {
         btnOpenAddForm.setOnAction((event) -> {
-            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
+            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.CENTER);
             dialog.setOverlayClose(false);
             dialog.show();
             JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
@@ -240,7 +243,12 @@ public class FXMLManagerMenuController implements Initializable {
                 DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
             }
             
-            ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+            ObservableList<LoaiMon> listMon = null;
+            try {
+                listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if(!listMon.isEmpty()) {
                 tbLoaiMon.getItems().clear();
                 tbLoaiMon.setItems(listMon);
@@ -280,7 +288,12 @@ public class FXMLManagerMenuController implements Initializable {
             if(!tenLoaiNX.isEmpty() && dvtSelected != null) {
                 DBUtils_LoaiNX.insert(tenLoaiNX, dvtSelected.getIdDVT());
 
-                ObservableList<InsertNX> listLoai = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
+                ObservableList<InsertNX> listLoai = null;
+                try {
+                    listLoai = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 if(!listLoai.isEmpty()) {
                     tbLoaiNX.getItems().clear();
@@ -321,7 +334,12 @@ public class FXMLManagerMenuController implements Initializable {
                 txtTenLoaiMon.clear();
                 txtDonGiaMenu.clear();
 
-                ObservableList<Menu> listLoai = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
+                ObservableList<Menu> listLoai = null;
+                try {
+                    listLoai = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 if(!listLoai.isEmpty()) {
                     tbMenu.getItems().clear();
@@ -350,7 +368,7 @@ public class FXMLManagerMenuController implements Initializable {
         return result;
     }
     
-    private void loadComboBox() {
+    private void loadComboBox() throws SQLException {
         ObservableList<LoaiMon> listLoai = FXCollections.observableArrayList();
         ObservableList<DVT> arrDVT = FXCollections.observableArrayList();
         
@@ -374,7 +392,7 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
-    private void chooseTab() {
+    private void chooseTab() throws SQLException {
         loadTableMenu();
         loadComboBox();
         loadListViewDVT();
@@ -387,9 +405,17 @@ public class FXMLManagerMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        loadTableLoaiMon();
-        chooseTab();
+        try {
+            // TODO
+            loadTableLoaiMon();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            chooseTab();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setClick();
     }    
     
