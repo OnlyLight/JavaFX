@@ -6,8 +6,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
@@ -27,7 +25,7 @@
             <FlowPane fx:id="listMenuType" hgap="10.0" vgap="20.0" />
          </children>
          <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
       <HBox fx:id="mainHBox" prefHeight="608.0" prefWidth="1198.0" styleClass="border-top" stylesheets="@../css/global.css" VBox.vgrow="ALWAYS">
@@ -45,7 +43,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
+                  <ScrollPane fx:id="scrollMenu" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                      <content>
                         <FlowPane fx:id="menuList" hgap="20.0" style="-fx-background-color: #fff;" styleClass="scroll-pane" vgap="20.0" />
                      </content>
@@ -55,27 +53,51 @@
                   <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
                </padding>
             </VBox>
-            <VBox fx:id="CheckoutSection" alignment="BOTTOM_CENTER" maxWidth="700.0" minWidth="-Infinity" prefHeight="775.0" prefWidth="506.0" style="-fx-background-color: #fff;" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
+            <VBox fx:id="CheckoutSection" alignment="BOTTOM_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="506.0" style="-fx-background-color: #fff;" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                  <VBox spacing="10.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0" stylesheets="@../css/global.css" VBox.vgrow="ALWAYS">
-                           <columns>
-                              <TableColumn prefWidth="237.0" style="-fx-alignment: left;" text="Name" />
-                              <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Price" />
-                              <TableColumn maxWidth="49.0" minWidth="75.0" prefWidth="49.0" text="Qty" />
-                              <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Total" />
-                           </columns>
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="51.0" prefWidth="446.0" style="-fx-border-color: transparent transparent #000 transparent;">
+                           <children>
+                              <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Name" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="51.0" prefWidth="88.0">
+                                 <children>
+                                    <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Price" />
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER" prefHeight="51.0" prefWidth="78.0">
+                                 <children>
+                                    <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Quantity" />
+                                 </children>
+                              </HBox>
+                              <VBox alignment="CENTER" prefHeight="51.0" prefWidth="74.0">
+                                 <children>
+                                    <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Subtotal" />
+                                 </children>
+                              </VBox>
+                           </children>
                            <VBox.margin>
-                              <Insets bottom="30.0" />
+                              <Insets />
                            </VBox.margin>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
+                           <padding>
+                              <Insets right="16.0" />
+                           </padding>
+                        </HBox>
+                        <ScrollPane fx:id="orderedScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
+                           <content>
+                              <VBox fx:id="orderedList" fillWidth="false" maxWidth="430.0" minHeight="-Infinity" minWidth="430.0" prefWidth="430.0" spacing="10.0" style="-fx-background-color: #fff;" />
+                           </content>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ScrollPane>
                      </children>
                   </VBox>
-                  <GridPane hgap="15.0" styleClass="border-primary-y" stylesheets="@../css/global.css" vgap="30.0">
+                  <GridPane hgap="15.0" maxHeight="-Infinity" minHeight="-Infinity" styleClass="border-primary-y" stylesheets="@../css/global.css" vgap="30.0" VBox.vgrow="NEVER">
                      <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" />
                         <ColumnConstraints hgrow="ALWAYS" />
@@ -137,7 +159,7 @@
                         <Insets left="2.0" right="2.0" />
                      </VBox.margin>
                   </GridPane>
-                  <HBox alignment="BOTTOM_CENTER">
+                  <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" minHeight="-Infinity" VBox.vgrow="NEVER">
                      <children>
                         <JFXButton fx:id="btnCheck" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: linear-gradient(to left,  #222831, #3c4756);" text="Check" textFill="WHITE">
                            <font>

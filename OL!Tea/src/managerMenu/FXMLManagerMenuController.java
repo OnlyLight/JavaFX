@@ -118,7 +118,6 @@ public class FXMLManagerMenuController implements Initializable {
                 
                 booleanProperty.addListener((observable, oldValue, newValue) -> {
                     loaiMon.setIsActive(newValue);
-                    System.out.println(loaiMon.getId() + " - Ten: " + loaiMon.getLoaiMon() + " - Active: " + loaiMon.isIsActive());
                     DBUtils_LoaiMon.update(loaiMon.getId(), loaiMon.isIsActive());
                 });
                 return booleanProperty;

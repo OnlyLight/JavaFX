@@ -43,7 +43,7 @@
             </JFXTextField>
          </children>
       </HBox>
-      <JFXButton styleClass="bg-dark-green" text="ADD" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <JFXButton fx:id="addToOrder" styleClass="bg-dark-green" text="ADD" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

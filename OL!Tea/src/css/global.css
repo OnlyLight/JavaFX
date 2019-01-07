@@ -7,6 +7,10 @@ and open the template in the editor.
     Created on : Dec 21, 2018, 3:25:41 PM
     Author     : ADMIN
 */
+.scroll-pane > .viewport {
+   -fx-background-color: #fff;
+}
+
 .btn-danger {
     -fx-background-color: linear-gradient(to left, #e84545, #f75d5d);
     -fx-cursor: hand;
@@ -84,7 +88,7 @@ and open the template in the editor.
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
-    -fx-background-color:transparent;
+    -fx-background-color: #fff;
 }
 
 .increment-button, .decrement-button {
@@ -216,7 +220,7 @@ and open the template in the editor.
 
 .table-view .table-cell{
     -fx-border-color: transparent;
-    -fx-padding: 10;
+    -fx-padding: 5 10;
     -fx-font-size: 16;
 }
 

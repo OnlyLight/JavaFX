@@ -101,7 +101,7 @@ public class FXMLWareHouseController implements Initializable {
     @FXML
     private StackPane mainStackPane;
     @FXML
-    private GridPane filterPopup;
+    private VBox filterPopup;
     @FXML
     private JFXDatePicker dpDayStartXuat;
     @FXML
@@ -151,6 +151,7 @@ public class FXMLWareHouseController implements Initializable {
             };
             JFXDialog dialog = (JFXDialog) mainStackPane.getChildren().get(1);
             dialog.close();
+            btnOpenFind.setDisable(false);
         });
         
         btnPrintInfo.setOnAction((event) -> {
@@ -160,7 +161,14 @@ public class FXMLWareHouseController implements Initializable {
     
     private void eventSearch() {
         btnOpenFind.setOnAction((event) -> {
+            btnOpenFind.setDisable(true);
             JFXDialog dialog = new JFXDialog(mainStackPane, filterPopup, JFXDialog.DialogTransition.NONE);
+            dialog.setOverlayClose(false);
+            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+            btnClose.setOnAction((eventt) -> {
+                dialog.close();
+                btnOpenFind.setDisable(false);
+            });
             dialog.show();
         });
         
@@ -173,12 +181,13 @@ public class FXMLWareHouseController implements Initializable {
             System.out.println("Result[dayStartNhap: " + dayStartNhap + " - dayFinishNhap: " + dayFinishNhap + " - dayStartXuat: " + dayStartXuat + " - dayFinishXuat: " + dayFinishXuat);
             // Lấy list dữ liệu đã tìm kiếm đưa ra cho table hiển thị
             ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.searchTK(dayStartNhap, dayFinishNhap, dayStartXuat, dayFinishXuat, loaiTK.getTenLoaiNX()));
+            tbThongKe.getItems().clear();
             if(!list.isEmpty()) {
-                tbThongKe.getItems().clear();
                 tbThongKe.setItems(list);
             };
             JFXDialog dialog = (JFXDialog) mainStackPane.getChildren().get(1);
             dialog.close();
+            btnOpenFind.setDisable(false);
         });
     }
     // End Set event for Tab Thong ke
