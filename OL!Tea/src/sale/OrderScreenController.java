@@ -5,7 +5,10 @@
  */
 package sale;
 
+import animatefx.animation.Bounce;
+import animatefx.animation.FadeInRight;
 import animatefx.animation.FadeInUp;
+import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import static dialog.FXMLDialogController.monOrder;
@@ -21,6 +24,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -124,6 +128,22 @@ public class OrderScreenController implements Initializable {
         };
         String price = String.format(Locale.US, "%,d", total).replace(",", ".");
         txtMoneyTotal.setText(price);
+        new Pulse(txtMoneyTotal).setSpeed(2.0).play();
+    }
+    
+    private int getPosItemInOrderList(int id) {
+        int pos = -1;
+        for (int i = 0; i < orderedList.getChildren().size(); i++) {
+            System.out.println("i: "+i);
+            MonOrder item = (MonOrder) orderedList.getChildren().get(i).getUserData();
+            System.out.println("item id: " + item.getId());
+            System.out.println("id: " + id);
+            if (item.getId() == id) {
+                pos = i;
+                break;
+            }
+        };
+        return pos;
     }
     
     private void showAcdMenu() {
@@ -178,12 +198,20 @@ public class OrderScreenController implements Initializable {
                         JFXButton addBtn = (JFXButton) item.lookup("#addToOrder");
                         addBtn.setOnAction((event) -> {
                             JFXTextField itemQty = (JFXTextField) item.lookup("#itemQuantity");
-                            if (getQtyItemOrdered(m.getIdMon()) == -1) {
+                            int getQtyitem = getQtyItemOrdered(m.getIdMon());
+                            if (getQtyitem == -1) {
                                 DBUtils_MonOrder.insert(m.getIdMon(), Integer.parseInt(itemQty.getText()));
                             } else {
-                                DBUtils_MonOrder.update(m.getIdMon(), getQtyItemOrdered(m.getIdMon()) + Integer.parseInt(itemQty.getText()));
+                                DBUtils_MonOrder.update(m.getIdMon(), getQtyitem + Integer.parseInt(itemQty.getText()));
                             };
                             getOrderedList();
+                            ArrayList<LoaiMon> list = DBUtils_LoaiMon.getList();
+                            if (getQtyitem == -1) {
+                                new FadeInUp(orderedList.getChildren().get(orderedList.getChildren().size()-1)).setSpeed(2.0).play();
+                            } else {
+                                System.out.println("size: "+ orderedList.getChildren().size());
+                                new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(2.0).play();
+                            };            
                         });
                         menuList.getChildren().add(item);
                         new FadeInUp(menuList.getChildren().get(menuList.getChildren().size() - 1)).setSpeed(2.0).play();
