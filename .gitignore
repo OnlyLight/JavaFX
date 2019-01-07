@@ -1,1 +1,8 @@
-/OL!Tea/build
+#ant specific
+/OL!Tea/dist/
+/OL!Tea/build/
+
+#netbeans specific
+/OL!Tea/nbproject/*
+/OL!Tea/!nbproject/project.properties
+/OL!Tea/!nbproject/project.xml
