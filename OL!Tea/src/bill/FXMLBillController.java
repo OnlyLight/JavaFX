@@ -115,7 +115,6 @@ public class FXMLBillController implements Initializable {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         
         // SET TITLE
-        areaChart.setTitle("Thông Kê Hóa Đơn");
         areaChart.setLegendSide(Side.LEFT);
         System.out.println("AreaChart");
         

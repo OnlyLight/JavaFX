@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxWidth="-Infinity" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.MenuTypeController">
+   <children>
+      <HBox fx:id="shadowHbox" opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
+         <effect>
+            <BoxBlur height="15.0" iterations="2" width="17.86" />
+         </effect>
+      </HBox>
+      <JFXButton fx:id="btnMenuType" onMouseClicked="#mouseEnterHover" prefWidth="190.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-font-family: &quot;Roboto&quot;;" styleClass="btn-login" stylesheets="@../css/global.css" text="MILK TEA" textFill="WHITE">
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+         </effect>
+      </JFXButton>
+   </children>
+</StackPane>

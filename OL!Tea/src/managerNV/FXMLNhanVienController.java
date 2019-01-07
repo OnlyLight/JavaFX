@@ -53,7 +53,6 @@ public class FXMLNhanVienController implements Initializable {
     @FXML private TableColumn<NhanVien, String> tbUserNameNVColumn;
     @FXML private TableColumn<NhanVien, String> tbVaiTroNVColumn;
     @FXML private TableColumn<NhanVien, Boolean> tbIsActiveNVColumn;
-    @FXML private Tab tabRole, tabNhanVien;
     
     private Role roleSelected = new Role();
     
@@ -235,14 +234,9 @@ public class FXMLNhanVienController implements Initializable {
     }
     
     private void chooseTab() {
-        tabRole.setOnSelectionChanged((event) -> {
-            showTableRole();
-        });
-        
-        tabNhanVien.setOnSelectionChanged((event) -> {
-            showTBNV();
-            loadComboBox();
-        });
+        showTableRole();
+        showTBNV();
+        loadComboBox();
     }
 
     /**
