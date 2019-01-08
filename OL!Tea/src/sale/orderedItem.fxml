@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="446.0">
+         <children>
+            <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="itemName" style="-fx-font-size: 15;" text="MILKTEA CHOCOLATE" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="51.0" prefWidth="88.0">
+               <children>
+                  <Label fx:id="itemPrice" style="-fx-font-size: 15;" text="30k" />
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="78.0">
+               <children>
+                  <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="11.0" prefWidth="3.0" />
+                  <Label fx:id="itemQty" style="-fx-font-size: 15;" text="x5" />
+                  <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="11.0" prefWidth="3.0" />
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="51.0" prefWidth="74.0">
+               <children>
+                  <Label fx:id="subTotal" style="-fx-font-size: 15;" text="150k" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

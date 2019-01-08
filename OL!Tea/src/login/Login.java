@@ -41,8 +41,9 @@ public class Login extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         guiStage = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("/login/FXMLLogin_1.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin_1.fxml"));
         UndecoratorScene undecoratorScene = new UndecoratorScene(guiStage, (Region) root);
+        undecoratorScene.getStylesheets().add(getClass().getResource("/css/global.css").toExternalForm());
         guiStage.getIcons().add(new Image("/images/download.jpg"));
         guiStage.setTitle("OL! Tea");
         guiStage.setMinHeight(590);

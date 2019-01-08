@@ -22,6 +22,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -34,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -76,17 +78,31 @@ public class FXMLManagerMenuController implements Initializable {
     @FXML
     private VBox addForm;
     @FXML
-    private JFXButton btnOpenFind;
-    @FXML
-    private JFXButton btnOpenFind3;
-    @FXML
-    private JFXButton btnOpenFind2;
-    @FXML
     private JFXButton btnOpenAddForm;
     @FXML
     private StackPane menuStackPane;
     @FXML
     private JFXButton btnCloseAddMenu;
+    @FXML
+    private VBox addTypeForm;
+    @FXML
+    private JFXButton btnOpenAddTypeForm;
+    @FXML
+    private StackPane typeMenuStackPane;
+    @FXML
+    private VBox addImportTypeForm;
+    @FXML
+    private JFXButton btnOpenImportTypeForm;
+    @FXML
+    private StackPane typeImportStackPane;
+    @FXML
+    private VBox addUntiForm;
+    @FXML
+    private JFXButton btnOpenAddUnitForm;
+    @FXML
+    private StackPane unitStackPane;
+    @FXML
+    private StackPane mainMenuStackPane;
     
     private void loadTableLoaiMon() throws SQLException {
         tbLoaiMon.getColumns().clear();
@@ -107,7 +123,6 @@ public class FXMLManagerMenuController implements Initializable {
                 
                 booleanProperty.addListener((observable, oldValue, newValue) -> {
                     loaiMon.setIsActive(newValue);
-                    System.out.println(loaiMon.getId() + " - Ten: " + loaiMon.getLoaiMon() + " - Active: " + loaiMon.isIsActive());
                     DBUtils_LoaiMon.update(loaiMon.getId(), loaiMon.isIsActive());
                 });
                 return booleanProperty;
@@ -206,25 +221,64 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
+    private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {
+        btn.setDisable(true);
+        JFXDialog dialog = new JFXDialog(toStackPane, dialogContent, JFXDialog.DialogTransition.NONE);
+        dialog.setOverlayClose(false);
+        dialog.show();
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+        btnClose.setOnAction((eventt) -> {
+            dialog.close();
+            btn.setDisable(false);
+        });
+    }
+    
     private void setClick() {
         btnOpenAddForm.setOnAction((event) -> {
-            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.CENTER);
-            dialog.setOverlayClose(false);
-            dialog.show();
-            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
-            btnClose.setOnAction((eventt) -> {
-                dialog.close();
-            });
+            try {
+                loadComboBox();
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            creatDialog(btnOpenAddForm, addForm, mainMenuStackPane);
+//            btnOpenAddForm.setDisable(true);
+//            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
+//            dialog.setOverlayClose(false);
+//            dialog.show();
+//            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+//            btnClose.setOnAction((eventt) -> {
+//                dialog.close();
+//                btnOpenAddForm.setDisable(false);
+//            });
+        });
+        btnOpenAddTypeForm.setOnAction((event) -> {
+            creatDialog(btnOpenAddTypeForm, addTypeForm, mainMenuStackPane);
+//            btnOpenAddTypeForm.setDisable(true);
+//            JFXDialog dialog = new JFXDialog(typeMenuStackPane, addTypeForm, JFXDialog.DialogTransition.NONE);
+//            dialog.setOverlayClose(false);
+//            dialog.show();
+//            JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+//            btnClose.setOnAction((eventt) -> {
+//                dialog.close();
+//                btnOpenAddTypeForm.setDisable(false);
+//            });
+        });
+        btnOpenImportTypeForm.setOnAction((event) -> {
+            try {
+                loadComboBox();
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            creatDialog(btnOpenImportTypeForm, addImportTypeForm, mainMenuStackPane);
+        });
+        btnOpenAddUnitForm.setOnAction((event) -> {
+            creatDialog(btnOpenAddUnitForm, addUntiForm, mainMenuStackPane);
         });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
                 System.out.println("Hello Enter");
                 btnThemLoaiMon.fire();
             }
-        });
-        btnThemLoaiMon.setDisable(true);
-        txtTenLoaiMon.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemLoaiMon.setDisable(newValue.trim().isEmpty());
         });
         
         txtDVT.setOnKeyPressed((event) -> {
@@ -233,15 +287,11 @@ public class FXMLManagerMenuController implements Initializable {
                 btnThemDVT.fire();
             }
         });
-        btnThemDVT.setDisable(true);
-        txtDVT.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemDVT.setDisable(newValue.trim().isEmpty());
-        });
         
         btnThemLoaiMon.setOnAction((event) -> {
             if(!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
                 DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
-            }
+            };
             
             ObservableList<LoaiMon> listMon = null;
             try {
@@ -252,7 +302,10 @@ public class FXMLManagerMenuController implements Initializable {
             if(!listMon.isEmpty()) {
                 tbLoaiMon.getItems().clear();
                 tbLoaiMon.setItems(listMon);
-            }
+            };
+            JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+            btnOpenAddTypeForm.setDisable(false);
+            dialog.close();
         });
         
         btnThemDVT.setOnAction((event) -> {
@@ -269,7 +322,10 @@ public class FXMLManagerMenuController implements Initializable {
             if(!listDVT.isEmpty()) {
                 lvDVT.getItems().clear();
                 lvDVT.setItems(listDVT);
-            }
+            };
+            JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+            btnOpenAddUnitForm.setDisable(false);
+            dialog.close();
         });
         
         cbLoaiMonMenu.setOnAction((event) -> {
@@ -298,7 +354,10 @@ public class FXMLManagerMenuController implements Initializable {
                 if(!listLoai.isEmpty()) {
                     tbLoaiNX.getItems().clear();
                     tbLoaiNX.setItems(listLoai);
-                }
+                };
+                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+                btnOpenImportTypeForm.setDisable(false);
+                dialog.close();
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }
@@ -314,16 +373,6 @@ public class FXMLManagerMenuController implements Initializable {
             } else {
                 txtDonGiaMenu.setText(oldValue);
             }
-        });
-        
-        btnThemLoaiNX.setDisable(true);
-        txtLoaiNhapXuat.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemLoaiNX.setDisable(newValue.trim().isEmpty());
-        });
-        
-        btnThemMenu.setDisable(true);
-        txtTenMonMenu.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemMenu.setDisable(newValue.trim().isEmpty());
         });
         
         btnThemMenu.setOnAction((event) -> {
@@ -346,8 +395,9 @@ public class FXMLManagerMenuController implements Initializable {
                     tbMenu.setItems(listLoai);
                 }
                 
-                JFXDialog dialog = (JFXDialog) menuStackPane.getChildren().get(1);
+                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
                 dialog.close();
+                btnOpenAddForm.setDisable(false);
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }
@@ -397,7 +447,6 @@ public class FXMLManagerMenuController implements Initializable {
         loadComboBox();
         loadListViewDVT();
         loadTableNX();
-        loadComboBox();
     }
 
     /**
