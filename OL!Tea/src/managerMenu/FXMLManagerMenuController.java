@@ -287,7 +287,7 @@ public class FXMLManagerMenuController implements Initializable {
                 tbLoaiMon.getItems().clear();
                 tbLoaiMon.setItems(listMon);
             };
-            JFXDialog dialog = (JFXDialog) typeMenuStackPane.getChildren().get(1);
+            JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
             btnOpenAddTypeForm.setDisable(false);
             dialog.close();
         });
@@ -307,7 +307,7 @@ public class FXMLManagerMenuController implements Initializable {
                 lvDVT.getItems().clear();
                 lvDVT.setItems(listDVT);
             };
-            JFXDialog dialog = (JFXDialog) unitStackPane.getChildren().get(1);
+            JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
             btnOpenAddUnitForm.setDisable(false);
             dialog.close();
         });
@@ -334,7 +334,7 @@ public class FXMLManagerMenuController implements Initializable {
                     tbLoaiNX.getItems().clear();
                     tbLoaiNX.setItems(listLoai);
                 };
-                JFXDialog dialog = (JFXDialog) typeImportStackPane.getChildren().get(1);
+                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
                 btnOpenImportTypeForm.setDisable(false);
                 dialog.close();
             } else {
@@ -369,7 +369,7 @@ public class FXMLManagerMenuController implements Initializable {
                     tbMenu.setItems(listLoai);
                 }
                 
-                JFXDialog dialog = (JFXDialog) menuStackPane.getChildren().get(1);
+                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
                 dialog.close();
                 btnOpenAddForm.setDisable(false);
             } else {
