@@ -45,7 +45,7 @@
                   </Label>
                   <ScrollPane fx:id="scrollMenu" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                      <content>
-                        <FlowPane fx:id="menuList" hgap="20.0" style="-fx-background-color: #fff;" styleClass="scroll-pane" vgap="20.0" />
+                        <FlowPane fx:id="menuList" hgap="10.0" style="-fx-background-color: #fff;" styleClass="scroll-pane" vgap="10.0" />
                      </content>
                   </ScrollPane>
                </children>
@@ -63,6 +63,9 @@
                                  <children>
                                     <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Name" />
                                  </children>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="51.0" prefWidth="88.0">
                                  <children>
@@ -89,10 +92,13 @@
                         </HBox>
                         <ScrollPane fx:id="orderedScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                            <content>
-                              <VBox fx:id="orderedList" fillWidth="false" maxWidth="430.0" minHeight="-Infinity" minWidth="430.0" prefWidth="430.0" spacing="10.0" style="-fx-background-color: #fff;" />
+                              <VBox fx:id="orderedList" fillWidth="false" maxWidth="430.0" minHeight="-Infinity" minWidth="430.0" prefWidth="430.0" spacing="10.0" style="-fx-background-color: #fff;">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding></VBox>
                            </content>
                            <VBox.margin>
-                              <Insets />
+                              <Insets bottom="10.0" />
                            </VBox.margin>
                         </ScrollPane>
                      </children>
