@@ -27,9 +27,9 @@ public class DBUtils_LoaiMon {
     public static Connection con = conn();
 
     public static Connection conn() {
-        String url = "jdbc:sqlserver://DESKTOP-P3U7V1A\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
+        String url = "jdbc:sqlserver://"+ SQLDBInfo.SERVER_NAME +"\\SQLEXPRESS:1433;" + "databaseName=" + DBUtils_LoaiMon.CREATE_DB_NAME + ";";
         try {
-            con = DriverManager.getConnection(url, DBUtils_LoaiMon.USER_NAME, DBUtils_LoaiMon.PASSWORD);
+            con = DriverManager.getConnection(url, SQLDBInfo.USER_NAME, SQLDBInfo.PASSWORD);
             System.out.println("Connect Success !!");
         } catch (Exception ex) {
             ex.getStackTrace();
