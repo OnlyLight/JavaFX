@@ -9,12 +9,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="750.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.FXMLDocumentController">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="700.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.FXMLDocumentController">
    <center>
       <StackPane fx:id="bigStackPane" minWidth="1064.0" />
    </center>
    <left>
-      <VBox fx:id="sideBar" alignment="TOP_CENTER" minHeight="930.0" minWidth="90.0" prefWidth="90.0" style="-fx-background-color: #393e46;">
+      <VBox fx:id="sideBar" alignment="TOP_CENTER" minWidth="90.0" prefWidth="90.0" style="-fx-background-color: #393e46;">
          <children>
             <JFXButton fx:id="orderBtn" contentDisplay="TOP" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Order" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>

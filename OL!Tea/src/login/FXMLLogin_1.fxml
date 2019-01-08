@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="AnchorPane" prefHeight="811.0" prefWidth="1172.0" style="-fx-background-color: #eee;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.FXMLLoginController">
+<BorderPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1092.0" style="-fx-background-color: #eee;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.FXMLLoginController">
    <top>
       <Pane prefHeight="30.0" styleClass="bg-dark" stylesheets="@../css/global.css" BorderPane.alignment="CENTER">
          <opaqueInsets>
@@ -111,19 +111,19 @@
                         </StackPane>
                      </children>
                   </VBox>
-                  <VBox prefHeight="781.0" prefWidth="765.0" styleClass="anchor" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="711.0" styleClass="anchor" stylesheets="@../css/global.css" HBox.hgrow="ALWAYS">
                      <children>
                               <Label text="The best Coffee Shop Manage 2018" textFill="WHITE">
                                  <font>
                                     <Font name="Bernard MT Condensed" size="43.0" />
                                  </font>
                               </Label>
-                        <VBox minWidth="-Infinity" prefHeight="610.0" prefWidth="584.0" spacing="55.0" style="-fx-background-color: rgba(255,255,255,0.3);" VBox.vgrow="ALWAYS">
+                        <VBox prefHeight="421.0" prefWidth="627.0" style="-fx-background-color: rgba(255,255,255,0.3);" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets top="40.0" />
                            </VBox.margin>
                            <children>
-                              <HBox alignment="BOTTOM_LEFT">
+                              <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
                                     <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                                        <HBox.margin>
@@ -137,7 +137,7 @@
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT">
+                              <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
                                     <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                                        <HBox.margin>
@@ -154,56 +154,56 @@
                                     <Insets />
                                  </VBox.margin>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT">
+                              <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
                                     <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em" HBox.hgrow="NEVER">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </FontAwesomeIcon>
-                                    <Label alignment="CENTER" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" textFill="#222831" wrapText="true">
+                                    <Label alignment="CENTER" text="Lorem ipsum dolor sit amet, consectetur " textFill="#222831" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT">
+                              <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
                                     <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </FontAwesomeIcon>
-                                    <Label prefWidth="577.0" text="Praesent ac rhoncus lorem" textFill="#222831" wrapText="true">
+                                    <Label prefWidth="577.0" text="Praesent ac rhoncus lorem" textFill="#222831" wrapText="true" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT">
+                              <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
                                     <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </FontAwesomeIcon>
-                                    <Label prefWidth="577.0" text="Nunc eu risus lobortis, luctus eros non, maximus urna" textFill="#222831" wrapText="true">
+                                    <Label prefWidth="577.0" text="Nunc eu risus lobortis, luctus eros non" textFill="#222831" wrapText="true" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT">
+                              <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
                                     <FontAwesomeIcon fill="#00adb5" iconName="CHECK" size="2em">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </FontAwesomeIcon>
-                                    <Label prefWidth="577.0" text="Class aptent taciti sociosqu ad litora torquent per conubia" textFill="#222831" wrapText="true">
+                                    <Label prefWidth="577.0" text="Class aptent taciti sociosqu ad litora torquent per" textFill="#222831" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
