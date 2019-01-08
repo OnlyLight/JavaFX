@@ -98,6 +98,8 @@ public class FXMLManagerMenuController implements Initializable {
     private JFXButton btnOpenAddUnitForm;
     @FXML
     private StackPane unitStackPane;
+    @FXML
+    private StackPane mainMenuStackPane;
     
     private void loadTableLoaiMon() {
         tbLoaiMon.getColumns().clear();
@@ -231,7 +233,7 @@ public class FXMLManagerMenuController implements Initializable {
     private void setClick() {
         btnOpenAddForm.setOnAction((event) -> {
             loadComboBox();
-            creatDialog(btnOpenAddForm, addForm, menuStackPane);
+            creatDialog(btnOpenAddForm, addForm, mainMenuStackPane);
 //            btnOpenAddForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
 //            dialog.setOverlayClose(false);
@@ -243,7 +245,7 @@ public class FXMLManagerMenuController implements Initializable {
 //            });
         });
         btnOpenAddTypeForm.setOnAction((event) -> {
-            creatDialog(btnOpenAddTypeForm, addTypeForm, typeMenuStackPane);
+            creatDialog(btnOpenAddTypeForm, addTypeForm, mainMenuStackPane);
 //            btnOpenAddTypeForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(typeMenuStackPane, addTypeForm, JFXDialog.DialogTransition.NONE);
 //            dialog.setOverlayClose(false);
@@ -256,10 +258,10 @@ public class FXMLManagerMenuController implements Initializable {
         });
         btnOpenImportTypeForm.setOnAction((event) -> {
             loadComboBox();
-            creatDialog(btnOpenImportTypeForm, addImportTypeForm, typeImportStackPane);
+            creatDialog(btnOpenImportTypeForm, addImportTypeForm, mainMenuStackPane);
         });
         btnOpenAddUnitForm.setOnAction((event) -> {
-            creatDialog(btnOpenAddUnitForm, addUntiForm, unitStackPane);
+            creatDialog(btnOpenAddUnitForm, addUntiForm, mainMenuStackPane);
         });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
