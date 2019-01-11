@@ -3,15 +3,16 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -31,17 +32,26 @@
                   </Label>
                   <HBox alignment="BASELINE_RIGHT" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton fx:id="btnInThongTin" contentDisplay="GRAPHIC_ONLY" prefHeight="38.0" prefWidth="30.0" style="-fx-background-color: #00adb5;" text="Print" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="17.0" />
-                           </font>
-                           <graphic>
-                              <FontAwesomeIcon fill="WHITE" iconName="PRINT" size="1.2em" />
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </JFXButton>
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="101.0">
+                           <children>
+                              <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
+                                 <effect>
+                                    <BoxBlur height="15.0" iterations="2" width="17.86" />
+                                 </effect>
+                              </HBox>
+                              <JFXButton fx:id="btnInThongTin" prefHeight="52.0" prefWidth="101.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" PRINT" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                 </effect>
+                                 <graphic>
+                                    <FontAwesomeIcon fill="WHITE" iconName="PRINT" />
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </StackPane>
                      </children>
                   </HBox>
                </children>

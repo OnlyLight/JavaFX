@@ -6,6 +6,7 @@
 package managerNV;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
@@ -25,9 +26,13 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import tqduy.MD5.MD5Library;
 import tqduy.bean.Role;
@@ -42,8 +47,8 @@ import tqduy.connect.DBUtils_Role;
  */
 public class FXMLNhanVienController implements Initializable {
     @FXML private JFXButton btnThemNV, btnThemVaiTro;
-    @FXML private JFXTextField txtTenVaiTro, txtUserName;
-    @FXML private JFXPasswordField txtPassWord;
+    @FXML private TextField txtTenVaiTro, txtUserName;
+    @FXML private TextField txtPassWord;
     @FXML private ComboBox<Role> cbVaiTro;
     @FXML private TableView<Role> tbRole;
     @FXML private TableColumn<Role, Integer> tbIDVaiTroColumn;
@@ -55,6 +60,18 @@ public class FXMLNhanVienController implements Initializable {
     @FXML private TableColumn<NhanVien, Boolean> tbIsActiveNVColumn;
     
     private Role roleSelected = new Role();
+    @FXML
+    private VBox addStaffForm;
+    @FXML
+    private JFXButton btnCloseAddMenu;
+    @FXML
+    private VBox addRoleForm;
+    @FXML
+    private StackPane mainStackStaff;
+    @FXML
+    private JFXButton btnOpenAddStaffForm;
+    @FXML
+    private JFXButton btnOpenAddRoleForm;
     
     private void showTableRole() {
         tbRole.getColumns().clear();
@@ -158,16 +175,19 @@ public class FXMLNhanVienController implements Initializable {
     }
     
     private void setEventClick() {
+        btnOpenAddRoleForm.setOnAction((event) -> {
+            creatDialog(btnOpenAddRoleForm, addRoleForm, mainStackStaff);
+        });
+        
+        btnOpenAddStaffForm.setOnAction((event) -> {
+            creatDialog(btnOpenAddStaffForm, addStaffForm, mainStackStaff);
+        });
+        
         txtTenVaiTro.setOnKeyPressed((event) -> {
             if(event.getCode() == KeyCode.ENTER) {
                 System.out.println("Hello Enter");
                 btnThemVaiTro.fire();
             }
-        });
-        
-        btnThemVaiTro.setDisable(true);
-        txtTenVaiTro.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemVaiTro.setDisable(newValue.trim().isEmpty());
         });
         
         btnThemVaiTro.setOnAction((event) -> {
@@ -183,7 +203,10 @@ public class FXMLNhanVienController implements Initializable {
                         tbRole.getItems().clear();
                         tbRole.setItems(list);
                     }
-                }
+                };
+                JFXDialog dialog = (JFXDialog) mainStackStaff.getChildren().get(1);
+                btnOpenAddRoleForm.setDisable(false);
+                dialog.close();
             } else {
                 createAlert("Hãy nhập thông tin !!");
             }
@@ -212,7 +235,10 @@ public class FXMLNhanVienController implements Initializable {
                         tbNhanVien.getItems().clear();
                         tbNhanVien.setItems(list);
                     }
-                }
+                };
+                JFXDialog dialog = (JFXDialog) mainStackStaff.getChildren().get(1);
+                btnOpenAddStaffForm.setDisable(false);
+                dialog.close();
             } else {
                 createAlert("Hãy nhập thông tin !!");
             }
@@ -237,6 +263,18 @@ public class FXMLNhanVienController implements Initializable {
         showTableRole();
         showTBNV();
         loadComboBox();
+    }
+    
+    private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {
+        btn.setDisable(true);
+        JFXDialog dialog = new JFXDialog(toStackPane, dialogContent, JFXDialog.DialogTransition.NONE);
+        dialog.setOverlayClose(false);
+        dialog.show();
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+        btnClose.setOnAction((eventt) -> {
+            dialog.close();
+            btn.setDisable(false);
+        });
     }
 
     /**

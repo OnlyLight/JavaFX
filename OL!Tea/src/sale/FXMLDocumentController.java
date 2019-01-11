@@ -77,6 +77,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import signIn.FXMLSignInController;
@@ -437,6 +438,10 @@ public class FXMLDocumentController implements Initializable {
                 UndecoratorScene scene = new UndecoratorScene(stage, (Region) root);
                 stage.setScene(scene);
                 stage.show();
+                Window win = scene.getWindow();
+                win.setWidth(1092);
+                win.setHeight(700);
+                stage.centerOnScreen();
                 new FadeIn(root).play();
         });
         

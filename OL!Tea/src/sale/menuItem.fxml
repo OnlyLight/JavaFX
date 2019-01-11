@@ -51,6 +51,9 @@
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
    </children>
    <padding>
@@ -61,6 +64,6 @@
       <String fx:value="btn-checkout" />
    </styleClass>
    <cursor>
-      <Cursor fx:constant="HAND" />
+      <Cursor fx:constant="DEFAULT" />
    </cursor>
 </GridPane>

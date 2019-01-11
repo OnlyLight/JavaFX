@@ -199,7 +199,7 @@ public class OrderScreenController implements Initializable {
                         item.setEffect(new DropShadow(10, 3, 3, Color.hsb(Float.intBitsToFloat(mainColor), 0.88, 0.75, 0.0)));
                         JFXButton addBtn = (JFXButton) item.lookup("#addToOrder");
                         addBtn.setOnAction((event) -> {
-                            new Pulse(addBtn).setSpeed(3.0).play();
+                            new BounceIn(addBtn).setSpeed(2.0).play();
                             JFXTextField itemQty = (JFXTextField) item.lookup("#itemQuantity");
                             int getQtyitem = getQtyItemOrdered(m.getIdMon());
                             if (getQtyitem == -1) {
@@ -214,7 +214,9 @@ public class OrderScreenController implements Initializable {
                             } else {
                                 System.out.println("size: "+ orderedList.getChildren().size());
                                 new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(3.0).setResetOnFinished(true).play();
-                            };            
+                            };
+                            new BounceIn(itemQty).setSpeed(2.0).setResetOnFinished(true).play();
+                            itemQty.setText("1");
                         });
                         menuList.getChildren().add(item);
                         new FadeInUp(menuList.getChildren().get(menuList.getChildren().size() - 1)).setSpeed(2.0).play();

@@ -5,6 +5,7 @@
  */
 package sale;
 
+import animatefx.animation.BounceIn;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -38,6 +39,7 @@ public class MenuItemController implements Initializable {
     @FXML
     private void addQty(MouseEvent event) {
          itemQuantity.setText((String.valueOf((Integer.parseInt(itemQuantity.getText()) + 1))));
+         new BounceIn(itemQuantity).setSpeed(2.0).setResetOnFinished(true).play();
     }
     
 }
