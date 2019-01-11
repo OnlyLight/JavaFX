@@ -9,9 +9,9 @@
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="446.0">
          <children>
-            <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="186.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="itemName" style="-fx-font-size: 15;" text="MILKTEA CHOCOLATE" />
+                  <Label fx:id="itemName" style="-fx-font-size: 14;" styleClass="font-RobotoCondensed" stylesheets="@../css/global.css" text="MILKTEA CHOCOLATE" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="51.0" prefWidth="88.0">

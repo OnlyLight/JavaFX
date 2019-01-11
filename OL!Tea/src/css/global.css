@@ -7,6 +7,15 @@ and open the template in the editor.
     Created on : Dec 21, 2018, 3:25:41 PM
     Author     : ADMIN
 */
+@font-face {
+    src: url('Oswald-Medium.ttf');
+}
+
+.font-RobotoCondensed {
+    -fx-font-family: 'Oswald Medium';
+    -fx-text-fill: #00adb5;
+}
+
 .scroll-pane > .viewport {
    -fx-background-color: #fff;
 }

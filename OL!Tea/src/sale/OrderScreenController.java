@@ -6,9 +6,11 @@
 package sale;
 
 import animatefx.animation.Bounce;
-import animatefx.animation.FadeInRight;
+import animatefx.animation.BounceIn;
 import animatefx.animation.FadeInUp;
+import animatefx.animation.Jello;
 import animatefx.animation.Pulse;
+import animatefx.animation.Swing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import static dialog.FXMLDialogController.monOrder;
@@ -116,9 +118,9 @@ public class OrderScreenController implements Initializable {
             try {
                 VBox itemOrdered = FXMLLoader.load(getClass().getResource("orderedItem.fxml"));
                 ((Label) itemOrdered.lookup("#itemName")).setText(monOrder1.getTenMon().toUpperCase());
-                ((Label) itemOrdered.lookup("#itemPrice")).setText(String.valueOf(monOrder1.getDonGia()));
+                ((Label) itemOrdered.lookup("#itemPrice")).setText(String.format(Locale.US, "%,d", monOrder1.getDonGia()).replace(",", "."));
                 ((Label) itemOrdered.lookup("#itemQty")).setText("x" + monOrder1.getSoLuong());
-                ((Label) itemOrdered.lookup("#subTotal")).setText(String.valueOf(monOrder1.getSoLuong()*monOrder1.getDonGia()));
+                ((Label) itemOrdered.lookup("#subTotal")).setText(String.format(Locale.US, "%,d", monOrder1.getSoLuong()*monOrder1.getDonGia()).replace(",", "."));
                 itemOrdered.setUserData(monOrder1);
                 orderedList.getChildren().add(itemOrdered);
                 total += monOrder1.getSoLuong()*monOrder1.getDonGia();
@@ -128,7 +130,7 @@ public class OrderScreenController implements Initializable {
         };
         String price = String.format(Locale.US, "%,d", total).replace(",", ".");
         txtMoneyTotal.setText(price);
-        new Pulse(txtMoneyTotal).setSpeed(2.0).play();
+        new BounceIn(txtMoneyTotal).setSpeed(2.0).play();
     }
     
     private int getPosItemInOrderList(int id) {
@@ -197,6 +199,7 @@ public class OrderScreenController implements Initializable {
                         item.setEffect(new DropShadow(10, 3, 3, Color.hsb(Float.intBitsToFloat(mainColor), 0.88, 0.75, 0.0)));
                         JFXButton addBtn = (JFXButton) item.lookup("#addToOrder");
                         addBtn.setOnAction((event) -> {
+                            new Pulse(addBtn).setSpeed(3.0).play();
                             JFXTextField itemQty = (JFXTextField) item.lookup("#itemQuantity");
                             int getQtyitem = getQtyItemOrdered(m.getIdMon());
                             if (getQtyitem == -1) {
@@ -207,10 +210,10 @@ public class OrderScreenController implements Initializable {
                             getOrderedList();
                             ArrayList<LoaiMon> list = DBUtils_LoaiMon.getList();
                             if (getQtyitem == -1) {
-                                new FadeInUp(orderedList.getChildren().get(orderedList.getChildren().size()-1)).setSpeed(2.0).play();
+                                new BounceIn(orderedList.getChildren().get(orderedList.getChildren().size()-1)).setSpeed(2.0).setResetOnFinished(true).play();
                             } else {
                                 System.out.println("size: "+ orderedList.getChildren().size());
-                                new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(2.0).play();
+                                new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(3.0).setResetOnFinished(true).play();
                             };            
                         });
                         menuList.getChildren().add(item);

@@ -45,7 +45,7 @@
                   </Label>
                   <ScrollPane fx:id="scrollMenu" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                      <content>
-                        <FlowPane fx:id="menuList" hgap="10.0" style="-fx-background-color: #fff;" styleClass="scroll-pane" vgap="10.0" />
+                        <FlowPane fx:id="menuList" hgap="15.0" style="-fx-background-color: #fff;" styleClass="scroll-pane" vgap="15.0" />
                      </content>
                   </ScrollPane>
                </children>
@@ -59,7 +59,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="51.0" prefWidth="446.0" style="-fx-border-color: transparent transparent #000 transparent;">
                            <children>
-                              <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                              <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="206.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Name" />
                                  </children>
