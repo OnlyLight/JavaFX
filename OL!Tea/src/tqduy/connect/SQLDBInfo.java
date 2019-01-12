@@ -10,7 +10,7 @@ package tqduy.connect;
  * @author ADMIN
  */
 public class SQLDBInfo {
-    public final static String USER_NAME = "sa";
-    public final static String PASSWORD = "1";
-    public final static String SERVER_NAME = "DESKTOP-P3U7V1A";
+    public final static String USER_NAME = "duy";
+    public final static String PASSWORD = "1234";
+    public final static String SERVER_NAME = "DESKTOP-6T1NTE9";
 }

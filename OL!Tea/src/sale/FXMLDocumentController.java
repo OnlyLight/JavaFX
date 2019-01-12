@@ -127,17 +127,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        // Phân Quyền cho user đăng nhập
-//        menuQuanTri.setDisable(true);
-//        if(nvLogin.getIdRoleName() == 1) {
-//            // Admin
-//            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
-//            menuQuanTri.setDisable(false);
-//        } else {
-//            // Staff
-//            System.out.println("idRoleName: " + nvLogin.getIdRoleName());
-//            System.out.println("Ko Phai admin");
-//        }
+        permission();
         openScreen("orderScreen.fxml", null);
         sideBar.setEffect(new DropShadow(10, 3, 0, Color.rgb(34, 40, 49, 0.7)));
        
@@ -166,6 +156,24 @@ public class FXMLDocumentController implements Initializable {
 //        payBill();
         setEventClick();
        
+    }
+    
+    private void permission() {
+        // Phân Quyền cho user đăng nhập
+        menuAdmin(true);
+        if(nvLogin.getIdRoleName() == 1) {
+            // Admin
+            menuAdmin(false);
+        }
+    }
+    
+    private void menuAdmin(boolean status) {
+        mnNhanVien.setDisable(status);
+        mnTonKho.setDisable(status);
+        mnHoaDon.setDisable(status);
+        mnMember.setDisable(status);
+        mnCus.setDisable(status);
+        mnThucDon.setDisable(status);
     }
     
     // Check xem user đã đăng ký thành viên chưa

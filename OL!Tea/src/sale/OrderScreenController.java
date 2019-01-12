@@ -100,7 +100,7 @@ public class OrderScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
          CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
-         DBUtils_MonOrder.deleteAll();
+//         DBUtils_MonOrder.deleteAll();
          showAcdMenu();
          getOrderedList();
          orderedList.heightProperty().addListener(observable -> {
@@ -152,7 +152,16 @@ public class OrderScreenController implements Initializable {
 //         Dynamic
 //        acdMenu.getPanes().clear();
 //        ArrayList<TitledPane> titles = new ArrayList<>();
-        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
+        ArrayList<LoaiMon> listLoaiMon = new ArrayList<>();
+        ArrayList<LoaiMon> listLM = DBUtils_LoaiMon.getList();
+        for(LoaiMon lm : listLM) {
+            if(lm.isIsActive()) {
+                listLoaiMon.add(lm);
+            }
+        }
+        System.out.println("ListCheck: "+ listLoaiMon);
+
+//        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
         listMenuType.getChildren().clear();
         for(int i = 0; i < listLoaiMon.size(); i++) {
             try {
