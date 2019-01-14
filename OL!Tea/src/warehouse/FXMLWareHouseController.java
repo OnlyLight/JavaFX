@@ -8,11 +8,8 @@ package warehouse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
-<<<<<<< HEAD
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXRadioButton;
-=======
->>>>>>> 86f9ae8439804aefd60ef644ed5a051a003224e1
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -786,8 +783,7 @@ public class FXMLWareHouseController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-<<<<<<< HEAD
-        // TODOF
+        try {
         loadCombobox();
         addType.selectedToggleProperty().addListener((observable) -> {
             prdNameStackPane.getChildren().get(0).toFront();
@@ -802,20 +798,6 @@ public class FXMLWareHouseController implements Initializable {
         eventSearch();
         eventClickTK();
         displayBarChart();
-=======
-        try {
-            // TODO
-            tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-            tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-            System.out.println("max: " + tbLoaiTKColumn.getMaxWidth());
-            setEvent();
-            showCombobox();
-            eventClickButtonADD();
-            setOnKeyPress();
-            eventSearch();
-            eventClickTK();
-            displayBarChart();
->>>>>>> 86f9ae8439804aefd60ef644ed5a051a003224e1
 //        showComboboxTenXuat();
         } catch (SQLException ex) {
             Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);

@@ -134,14 +134,6 @@ public class FXMLManagerMenuController implements Initializable {
             }
         });
         
-<<<<<<< HEAD
-        Runnable tast = () -> {
-            ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
-            if(!listMon.isEmpty()) {
-                tbLoaiMon.setItems(listMon);
-                tbLoaiMon.getColumns().addAll(tbIDColumnLoaiMon, tbTenLoaiMonColumn, tbIsActiveLoaiMonColumn);
-            }//To change body of generated methods, choose Tools | Templates.
-=======
         Runnable tast = new Runnable() {
             @Override
             public void run() {
@@ -155,7 +147,6 @@ public class FXMLManagerMenuController implements Initializable {
                     Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
->>>>>>> 86f9ae8439804aefd60ef644ed5a051a003224e1
         };
         Thread backgroundThread = new Thread(tast);
         backgroundThread.setDaemon(true);
@@ -199,15 +190,6 @@ public class FXMLManagerMenuController implements Initializable {
                 return cell;
             }
         });
-<<<<<<< HEAD
-         Runnable tast = () -> {
-             ObservableList<Menu> listMon = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
-             if(!listMon.isEmpty()) {
-                 tbMenu.setItems(listMon);
-                 tbMenu.getColumns().addAll(tbTenMonColumnMenu, tbDonGiaColumnMenu, tbLoaiMonColumnMenu, tbIsActiveMenuColumn);
-             }
-             //To change body of generated methods, choose Tools | Templates.
-=======
          Runnable tast = new Runnable() {
             @Override
             public void run() {
@@ -222,7 +204,6 @@ public class FXMLManagerMenuController implements Initializable {
                     Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
->>>>>>> 86f9ae8439804aefd60ef644ed5a051a003224e1
         };
         Thread backgroundThread = new Thread(tast);
         backgroundThread.setDaemon(true);
@@ -237,14 +218,6 @@ public class FXMLManagerMenuController implements Initializable {
         tbLoaiNXColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoaiNX"));
         tbDVTColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));
         
-<<<<<<< HEAD
-         Runnable tast = () -> {
-             ObservableList<InsertNX> listMon = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
-             if(!listMon.isEmpty()) {
-                 tbLoaiNX.setItems(listMon);
-                 tbLoaiNX.getColumns().addAll(tbLoaiNXColumn, tbDVTColumn);
-             } //To change body of generated methods, choose Tools | Templates.
-=======
          Runnable tast = new Runnable() {
             @Override
             public void run() {
@@ -258,7 +231,6 @@ public class FXMLManagerMenuController implements Initializable {
                     Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
->>>>>>> 86f9ae8439804aefd60ef644ed5a051a003224e1
         };
         Thread backgroundThread = new Thread(tast);
         backgroundThread.setDaemon(true);
