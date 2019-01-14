@@ -345,7 +345,7 @@ public class FXMLDocumentController implements Initializable {
             if (listNode.size() > 0) listNode.remove(0);
             screen.setUserData(url);
             listNode.add(screen);
-            new FadeIn(listNode.get(0)).setSpeed(3.0).play();
+            new FadeInRight(listNode.get(0)).setSpeed(3.0).play();
              
 //            if (listNode.size() == 2) {
 //               if (listNode.get(1).getUserData() == url) {

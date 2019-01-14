@@ -135,12 +135,19 @@ public class FXMLManagerMenuController implements Initializable {
             }
         });
         
-        ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
-        System.out.println("List: " + listMon);
-        if(!listMon.isEmpty()) {
-            tbLoaiMon.setItems(listMon);
-            tbLoaiMon.getColumns().addAll(tbIDColumnLoaiMon, tbTenLoaiMonColumn, tbIsActiveLoaiMonColumn);
-        }
+        Runnable tast = new Runnable() {
+            @Override
+            public void run() {
+                ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+                if(!listMon.isEmpty()) {
+                    tbLoaiMon.setItems(listMon);
+                    tbLoaiMon.getColumns().addAll(tbIDColumnLoaiMon, tbTenLoaiMonColumn, tbIsActiveLoaiMonColumn);
+                }//To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        Thread backgroundThread = new Thread(tast);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
     
     private void loadTableMenu() {
@@ -180,13 +187,20 @@ public class FXMLManagerMenuController implements Initializable {
                 return cell;
             }
         });
-        
-        ObservableList<Menu> listMon = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
-        System.out.println("List: " + listMon);
-        if(!listMon.isEmpty()) {
-            tbMenu.setItems(listMon);
-            tbMenu.getColumns().addAll(tbTenMonColumnMenu, tbDonGiaColumnMenu, tbLoaiMonColumnMenu, tbIsActiveMenuColumn);
-        }
+         Runnable tast = new Runnable() {
+            @Override
+            public void run() {
+                ObservableList<Menu> listMon = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
+                if(!listMon.isEmpty()) {
+                    tbMenu.setItems(listMon);
+                    tbMenu.getColumns().addAll(tbTenMonColumnMenu, tbDonGiaColumnMenu, tbLoaiMonColumnMenu, tbIsActiveMenuColumn);
+                }
+                 //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        Thread backgroundThread = new Thread(tast);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
     
     private void loadTableNX() {
@@ -197,25 +211,40 @@ public class FXMLManagerMenuController implements Initializable {
         tbLoaiNXColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoaiNX"));
         tbDVTColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));
         
-        ObservableList<InsertNX> listMon = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
-        System.out.println("List: " + listMon);
-        if(!listMon.isEmpty()) {
-            tbLoaiNX.setItems(listMon);
-            tbLoaiNX.getColumns().addAll(tbLoaiNXColumn, tbDVTColumn);
-        }
+         Runnable tast = new Runnable() {
+            @Override
+            public void run() {
+                ObservableList<InsertNX> listMon = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
+                if(!listMon.isEmpty()) {
+                    tbLoaiNX.setItems(listMon);
+                    tbLoaiNX.getColumns().addAll(tbLoaiNXColumn, tbDVTColumn);
+                } //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        Thread backgroundThread = new Thread(tast);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
     
     private void loadListViewDVT() {
-        ObservableList<DVT> listDVT = FXCollections.observableArrayList();
-        
-        for (DVT dvt : DBUtils_DVT.getList()) {
-            listDVT.add(dvt);
-        }
-        
-        if(!listDVT.isEmpty()) {
-            lvDVT.getItems().clear();
-            lvDVT.setItems(listDVT);
-        }
+        Runnable tast = new Runnable() {
+            @Override
+            public void run() {
+                ObservableList<DVT> listDVT = FXCollections.observableArrayList();
+                for (DVT dvt : DBUtils_DVT.getList()) {
+                    listDVT.add(dvt);
+                }
+
+                if(!listDVT.isEmpty()) {
+                    lvDVT.getItems().clear();
+                    lvDVT.setItems(listDVT);
+                }
+                //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        Thread backgroundThread = new Thread(tast);
+        backgroundThread.setDaemon(true);
+        backgroundThread.start();
     }
     
     private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {

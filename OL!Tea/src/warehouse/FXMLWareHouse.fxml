@@ -25,7 +25,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="warehouse.FXMLWareHouseController">
    <children>
       <JFXTabPane stylesheets="@../css/global.css">
          <tabs>
@@ -438,4 +439,4 @@
          </tabs>
       </JFXTabPane>
    </children>
-</StackPane>
+</VBox>
