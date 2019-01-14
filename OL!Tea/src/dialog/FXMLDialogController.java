@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -51,14 +52,18 @@ public class FXMLDialogController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        showInfo();
+        try {
+            // TODO
+            showInfo();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         checkInput();
         eventClick();
     }    
     
     // DISPLAY INFOMATION PRODUCT CHOICE
-    private void showInfo() {
+    private void showInfo() throws SQLException {
         System.out.println(mon);
         checkInput();
         
@@ -115,19 +120,24 @@ public class FXMLDialogController implements Initializable {
         });
         
         btnAdd.setOnAction((event) -> {
-            getData();
-            
-            if(!checkID()) {
-                DBUtils_MonOrder.insert(mon.getIdMon(), amount);
-            } else {
-                createAlert("Sản phẩm đã tồn tại");
-            }
-            
-            closeStage(btnAdd); // CLOSE DIALOG
 
             try {
-                showDialog();
-            } catch (IOException ex) {
+                getData();
+                
+                if(!checkID()) {
+                    DBUtils_MonOrder.insert(mon.getIdMon(), amount);
+                } else {
+                    createAlert("Sản phẩm đã tồn tại");
+                }
+                
+                closeStage(btnAdd); // CLOSE DIALOG
+                
+                try {
+                    showDialog();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (SQLException ex) {
                 Logger.getLogger(FXMLDialogController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
@@ -146,7 +156,7 @@ public class FXMLDialogController implements Initializable {
         System.out.println(result.get().getText());
     }
     
-    private boolean checkID() {
+    private boolean checkID() throws SQLException {
         for (MonOrder mOrder : DBUtils_MonOrder.getList()) {
             if(mOrder.getId() == mon.getIdMon()) {
                 return true;

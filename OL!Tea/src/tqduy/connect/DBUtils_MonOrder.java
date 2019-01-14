@@ -5,10 +5,12 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.MonOrder;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -19,13 +21,17 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
 public class DBUtils_MonOrder {
     
     // TABLE MON
-    public static ArrayList<MonOrder> getList() {
+    public static ArrayList<MonOrder> getList() throws SQLException {
         ArrayList<MonOrder> arrMon = new ArrayList<>();
         
-        String sql = "SELECT dbo.Mon.idMon, dbo.Mon.tenMon, dbo.Mon.donGia, dbo.LoaiMon.loaiMon, dbo.MonOrder.soLuong " +
-"FROM dbo.Mon JOIN dbo.LoaiMon ON LoaiMon.id = Mon.idLoaiMon JOIN dbo.MonOrder ON MonOrder.idMon = dbo.Mon.idMon";
+        CallableStatement command = con.prepareCall("{call pr_getListMonOrder}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.Mon.idMon, dbo.Mon.tenMon, dbo.Mon.donGia, dbo.LoaiMon.loaiMon, dbo.MonOrder.soLuong " +
+//"FROM dbo.Mon JOIN dbo.LoaiMon ON LoaiMon.id = Mon.idLoaiMon JOIN dbo.MonOrder ON MonOrder.idMon = dbo.Mon.idMon";
+//
+//        ResultSet res = query(sql);
         
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

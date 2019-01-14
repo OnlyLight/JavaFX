@@ -5,10 +5,12 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.Member;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -17,12 +19,16 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_Member {
-    public static ArrayList<Member> getList() {
+    public static ArrayList<Member> getList() throws SQLException {
         ArrayList<Member> arrMember = new ArrayList<>();
         
-        String sql = "SELECT * FROM dbo.Member";
+        CallableStatement command = con.prepareCall("{call pr_getListMember}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM dbo.Member";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

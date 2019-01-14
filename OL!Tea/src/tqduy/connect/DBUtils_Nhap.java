@@ -5,12 +5,14 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import tqduy.bean.Nhap;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -21,12 +23,16 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
 public class DBUtils_Nhap {
     
     // TABLE LOAI MON
-    public static ArrayList<Nhap> getList() {
+    public static ArrayList<Nhap> getList() throws SQLException {
         ArrayList<Nhap> arrNhap = new ArrayList<>();
         
-        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_NHAP + "";
+        CallableStatement command = con.prepareCall("{call pr_getListNhap}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_NHAP + "";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -48,12 +54,18 @@ public class DBUtils_Nhap {
         }
     }
     
-    public static int getNhap(int dayNeed) {
+    public static int getNhap(int dayNeed) throws SQLException {
         int sL = 0;
-        String sql = "SELECT dbo.Nhap.soLuong FROM dbo.Nhap WHERE YEAR(dbo.Nhap.ngayNhap) = "+dayNeed+"";
+        
+        CallableStatement command = con.prepareCall("{call pr_getNhap(?)}");
+        command.setInt(1, dayNeed);
 
-        ResultSet res = query(sql);
-        System.out.println("SQL: " + sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.Nhap.soLuong FROM dbo.Nhap WHERE YEAR(dbo.Nhap.ngayNhap) = "+dayNeed+"";
+//
+//        ResultSet res = query(sql);
+//        System.out.println("SQL: " + sql);
 
         try {
             if (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

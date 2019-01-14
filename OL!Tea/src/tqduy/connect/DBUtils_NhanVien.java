@@ -5,10 +5,12 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.NhanVien;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -17,12 +19,16 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_NhanVien {
-    public static ArrayList<NhanVien> getList() {
+    public static ArrayList<NhanVien> getList() throws SQLException {
         ArrayList<NhanVien> arrNV = new ArrayList<>();
         
-        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.NhanVien.passWord, dbo.Role.roleName, dbo.NhanVien.isActive FROM dbo.NhanVien JOIN dbo.Role ON Role.idRole = NhanVien.role";
+        CallableStatement command = con.prepareCall("{call pr_getListNhanVien}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.NhanVien.idNV, dbo.NhanVien.userName, dbo.NhanVien.passWord, dbo.Role.roleName, dbo.NhanVien.isActive FROM dbo.NhanVien JOIN dbo.Role ON Role.idRole = NhanVien.role";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -46,12 +52,16 @@ public class DBUtils_NhanVien {
         }
     }
     
-    public static ArrayList<NhanVien> getListForCheck() {
+    public static ArrayList<NhanVien> getListForCheck() throws SQLException {
         ArrayList<NhanVien> arrNV = new ArrayList<>();
         
-        String sql = "SELECT * FROM dbo.NhanVien";
+        CallableStatement command = con.prepareCall("{call pr_getListForCheckNhanVien}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM dbo.NhanVien";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

@@ -5,12 +5,14 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import tqduy.bean.TKTable;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
@@ -19,14 +21,18 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  */
 public class DBUtils_TK {
     
-    public static ArrayList<TKTable> getList() {
+    public static ArrayList<TKTable> getList() throws SQLException {
         ArrayList<TKTable> arrTK = new ArrayList<>();
         
-        String sql = "SELECT dbo.Nhap.tenSpNhap, dbo.Nhap.donGia, dbo.Nhap.soLuong, dbo.Nhap.ngayNhap, dbo.Xuat.tenSpXuat, dbo.Xuat.soLuong, dbo.Xuat.ngayXuat, dbo.LoaiNX.tenLoaiNX " +
-"FROM dbo.Nhap JOIN dbo.LoaiNX ON LoaiNX.idLoaiNX = Nhap.idLoaiNX JOIN dbo.Xuat ON Xuat.idLoaiNX = LoaiNX.idLoaiNX WHERE dbo.Nhap.tenSpNhap LIKE dbo.Xuat.tenSpXuat AND dbo.Nhap.idLoaiNX = dbo.Xuat.idLoaiNX";
-        System.out.println("SQL: " + sql);
+        CallableStatement command = con.prepareCall("{call pr_getListTK}");
+
+        ResultSet res = command.executeQuery();
         
-        ResultSet res = query(sql);
+//        String sql = "SELECT dbo.Nhap.tenSpNhap, dbo.Nhap.donGia, dbo.Nhap.soLuong, dbo.Nhap.ngayNhap, dbo.Xuat.tenSpXuat, dbo.Xuat.soLuong, dbo.Xuat.ngayXuat, dbo.LoaiNX.tenLoaiNX " +
+//"FROM dbo.Nhap JOIN dbo.LoaiNX ON LoaiNX.idLoaiNX = Nhap.idLoaiNX JOIN dbo.Xuat ON Xuat.idLoaiNX = LoaiNX.idLoaiNX WHERE dbo.Nhap.tenSpNhap LIKE dbo.Xuat.tenSpXuat AND dbo.Nhap.idLoaiNX = dbo.Xuat.idLoaiNX";
+//        System.out.println("SQL: " + sql);
+//        
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
