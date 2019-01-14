@@ -5,11 +5,13 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.InsertNX;
 import tqduy.bean.LoaiNX;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -26,6 +28,10 @@ public class DBUtils_LoaiNX {
     // TABLE LOAI NX
     public static ArrayList<LoaiNX> getList() {
         ArrayList<LoaiNX> arrLoaiMon = new ArrayList<>();
+        
+//        CallableStatement command = con.prepareCall("{call pr_getListLoaiNX}");
+//
+//        ResultSet res = command.executeQuery();
         
         String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_LOAINX + "";
 
@@ -48,12 +54,17 @@ public class DBUtils_LoaiNX {
         }
     }
     
-    public static ArrayList<LoaiNX> getListForName(String ten) {
+    public static ArrayList<LoaiNX> getListForName(String ten) throws SQLException {
         ArrayList<LoaiNX> arrLoaiNX = new ArrayList<>();
         
-        String sql = "SELECT dbo.LoaiNX.tenLoaiNX FROM dbo.LoaiNX JOIN dbo.Nhap ON Nhap.idLoaiNX = LoaiNX.idLoaiNX WHERE dbo.Nhap.tenSpNhap = '"+ten+"'";
+        CallableStatement command = con.prepareCall("{call pr_getListForNameLoaiNX (?)}");
+        command.setString(1, ten);
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.LoaiNX.tenLoaiNX FROM dbo.LoaiNX JOIN dbo.Nhap ON Nhap.idLoaiNX = LoaiNX.idLoaiNX WHERE dbo.Nhap.tenSpNhap = '"+ten+"'";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -71,13 +82,17 @@ public class DBUtils_LoaiNX {
         }
     }
     
-    public static ArrayList<InsertNX> getListNX() {
+    public static ArrayList<InsertNX> getListNX() throws SQLException {
         System.out.println("Hello !!!");
         ArrayList<InsertNX> arrLoaiMon = new ArrayList<>();
         
-        String sql = "SELECT dbo.LoaiNX.tenLoaiNX, dbo.DVT.DVT FROM dbo.LoaiNX JOIN dbo.DVT ON DVT.idDVT = LoaiNX.idDVT";
+        CallableStatement command = con.prepareCall("{call pr_getListNX}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.LoaiNX.tenLoaiNX, dbo.DVT.DVT FROM dbo.LoaiNX JOIN dbo.DVT ON DVT.idDVT = LoaiNX.idDVT";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

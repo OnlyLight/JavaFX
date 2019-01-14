@@ -5,10 +5,12 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.DVT;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -20,6 +22,10 @@ public class DBUtils_DVT {
     // TABLE DVT
     public static ArrayList<DVT> getList() {
         ArrayList<DVT> arrDVT = new ArrayList<>();
+        
+//        CallableStatement command = con.prepareCall("{call pr_getListDVT}");
+//
+//        ResultSet res = command.executeQuery();
         
         String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_DVT + "";
 
@@ -41,11 +47,17 @@ public class DBUtils_DVT {
         }
     }
     
-    public static DVT getDVT(int id) {
+    public static DVT getDVT(int id) throws SQLException {
         DVT dvt = new DVT();
-        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_DVT + " WHERE idDVT="+id+"";
+        
+        CallableStatement command = con.prepareCall("{call pr_getListDVTById (?)}");
+        command.setInt(1, id);
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM " + DBUtils_LoaiNX.TB_DVT + " WHERE idDVT="+id+"";
+//
+//        ResultSet res = query(sql);
 
         try {
             int idDVT = res.getInt("idDVT");

@@ -5,11 +5,13 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import tqduy.bean.Menu;
 import tqduy.bean.Mon;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -20,12 +22,16 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
 public class DBUtils_Mon {
     
     // TABLE MON
-    public static ArrayList<Mon> getList() {
+    public static ArrayList<Mon> getList() throws SQLException {
         ArrayList<Mon> arrMon = new ArrayList<>();
         
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_MON + "";
+        CallableStatement command = con.prepareCall("{call pr_getListMon}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_MON + "";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -45,12 +51,16 @@ public class DBUtils_Mon {
         }
     }
     
-    public static ArrayList<Menu> getListMenu() {
+    public static ArrayList<Menu> getListMenu() throws SQLException {
         ArrayList<Menu> arrMon = new ArrayList<>();
         
-        String sql = "SELECT dbo.Mon.idMon, dbo.Mon.tenMon, dbo.Mon.donGia, dbo.LoaiMon.loaiMon, dbo.Mon.isActive FROM dbo.Mon JOIN dbo.LoaiMon ON LoaiMon.id = Mon.idLoaiMon";
+        CallableStatement command = con.prepareCall("{call pr_getListMenu}");
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.Mon.idMon, dbo.Mon.tenMon, dbo.Mon.donGia, dbo.LoaiMon.loaiMon, dbo.Mon.isActive FROM dbo.Mon JOIN dbo.LoaiMon ON LoaiMon.id = Mon.idLoaiMon";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -72,11 +82,17 @@ public class DBUtils_Mon {
         }
     }
     
-    public static ArrayList<Mon> getMon(int idLM) {
+    public static ArrayList<Mon> getMon(int idLM) throws SQLException {
         ArrayList<Mon> arrMon = new ArrayList<>();
-        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_MON + " WHERE idLoaiMon="+idLM+"";
+        
+        CallableStatement command = con.prepareCall("{call pr_getMonById (?)}");
+        command.setInt(1, idLM);
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_MON + " WHERE idLoaiMon="+idLM+"";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

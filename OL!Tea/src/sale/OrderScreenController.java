@@ -5,33 +5,24 @@
  */
 package sale;
 
-import animatefx.animation.Bounce;
 import animatefx.animation.BounceIn;
 import animatefx.animation.FadeInUp;
-import animatefx.animation.Jello;
 import animatefx.animation.Pulse;
-import animatefx.animation.Swing;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import static dialog.FXMLDialogController.monOrder;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -39,17 +30,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.StageStyle;
-import static sale.FXMLDocumentController.sdt;
-import tqduy.bean.CusMember;
 import tqduy.bean.LoaiMon;
-import tqduy.bean.Member;
 import tqduy.bean.Mon;
 import tqduy.bean.MonOrder;
-import tqduy.connect.DBUtils_CusMember;
 import tqduy.connect.DBUtils_LoaiMon;
-import tqduy.connect.DBUtils_Member;
 import tqduy.connect.DBUtils_Mon;
 import tqduy.connect.DBUtils_MonOrder;
 
@@ -99,18 +83,26 @@ public class OrderScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-         CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
-//         DBUtils_MonOrder.deleteAll();
-         showAcdMenu();
-         getOrderedList();
-         orderedList.heightProperty().addListener(observable -> {
-             if (orderedList.getChildren().size() != 0) {
-                orderedScroll.setVvalue(1.0);   
-             };
-         });
-    }    
-     
-    private void getOrderedList() {
+        CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
+        try {
+            //         DBUtils_MonOrder.deleteAll();
+            showAcdMenu();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            getOrderedList();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        orderedList.heightProperty().addListener(observable -> {
+            if (orderedList.getChildren().size() != 0) {
+                orderedScroll.setVvalue(1.0);
+            };
+        });
+    }
+
+    private void getOrderedList() throws SQLException {
         orderedList.getChildren().clear();
         ArrayList<MonOrder> list = DBUtils_MonOrder.getList();
         int total = 0;
@@ -120,10 +112,10 @@ public class OrderScreenController implements Initializable {
                 ((Label) itemOrdered.lookup("#itemName")).setText(monOrder1.getTenMon().toUpperCase());
                 ((Label) itemOrdered.lookup("#itemPrice")).setText(String.format(Locale.US, "%,d", monOrder1.getDonGia()).replace(",", "."));
                 ((Label) itemOrdered.lookup("#itemQty")).setText("x" + monOrder1.getSoLuong());
-                ((Label) itemOrdered.lookup("#subTotal")).setText(String.format(Locale.US, "%,d", monOrder1.getSoLuong()*monOrder1.getDonGia()).replace(",", "."));
+                ((Label) itemOrdered.lookup("#subTotal")).setText(String.format(Locale.US, "%,d", monOrder1.getSoLuong() * monOrder1.getDonGia()).replace(",", "."));
                 itemOrdered.setUserData(monOrder1);
                 orderedList.getChildren().add(itemOrdered);
-                total += monOrder1.getSoLuong()*monOrder1.getDonGia();
+                total += monOrder1.getSoLuong() * monOrder1.getDonGia();
             } catch (IOException ex) {
                 Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -132,11 +124,11 @@ public class OrderScreenController implements Initializable {
         txtMoneyTotal.setText(price);
         new BounceIn(txtMoneyTotal).setSpeed(2.0).play();
     }
-    
+
     private int getPosItemInOrderList(int id) {
         int pos = -1;
         for (int i = 0; i < orderedList.getChildren().size(); i++) {
-            System.out.println("i: "+i);
+            System.out.println("i: " + i);
             MonOrder item = (MonOrder) orderedList.getChildren().get(i).getUserData();
             System.out.println("item id: " + item.getId());
             System.out.println("id: " + id);
@@ -147,47 +139,51 @@ public class OrderScreenController implements Initializable {
         };
         return pos;
     }
-    
-    private void showAcdMenu() {
+
+    private void showAcdMenu() throws SQLException {
 //         Dynamic
 //        acdMenu.getPanes().clear();
 //        ArrayList<TitledPane> titles = new ArrayList<>();
         ArrayList<LoaiMon> listLoaiMon = new ArrayList<>();
         ArrayList<LoaiMon> listLM = DBUtils_LoaiMon.getList();
-        for(LoaiMon lm : listLM) {
-            if(lm.isIsActive()) {
+        for (LoaiMon lm : listLM) {
+            if (lm.isIsActive()) {
                 listLoaiMon.add(lm);
             }
         }
-        System.out.println("ListCheck: "+ listLoaiMon);
+        System.out.println("ListCheck: " + listLoaiMon);
 
 //        ArrayList<LoaiMon> listLoaiMon = DBUtils_LoaiMon.getList();
         listMenuType.getChildren().clear();
-        for(int i = 0; i < listLoaiMon.size(); i++) {
+        for (int i = 0; i < listLoaiMon.size(); i++) {
             try {
                 StackPane btnWrapper = FXMLLoader.load(getClass().getResource("menuType.fxml"));
                 JFXButton btn = (JFXButton) btnWrapper.lookup("#btnMenuType");
                 btn.setUserData(i);
                 btn.setText(listLoaiMon.get(i).getLoaiMon().toUpperCase());
-                int mainColor = 40 + i*15;
+                int mainColor = 40 + i * 15;
                 HBox shadow = (HBox) btnWrapper.lookup("#shadowHbox");
-                String mainHsl = "hsb("+ mainColor +", 70%, 80%)";
-                String secondHsl = "hsb("+ mainColor +", 70%, 87%)";
+                String mainHsl = "hsb(" + mainColor + ", 70%, 80%)";
+                String secondHsl = "hsb(" + mainColor + ", 70%, 87%)";
                 shadow.setStyle("-fx-background-color:" + mainHsl);
-                btn.setStyle("-fx-background-color: linear-gradient(to left, "+ mainHsl +", "+ secondHsl +");");
+                btn.setStyle("-fx-background-color: linear-gradient(to left, " + mainHsl + ", " + secondHsl + ");");
                 btn.setOnAction((event) -> {
-                   changeMenuItemList(btn);
+                    try {
+                        changeMenuItemList(btn);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 });
                 listMenuType.getChildren().add(btnWrapper);
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        changeMenuItemList((JFXButton)listMenuType.getChildren().get(0).lookup("#btnMenuType"));
+        changeMenuItemList((JFXButton) listMenuType.getChildren().get(0).lookup("#btnMenuType"));
 //        acdMenu.getPanes().addAll(titles);
     }
-    
-    private void changeMenuItemList(JFXButton btn) {
+
+    private void changeMenuItemList(JFXButton btn) throws SQLException {
         if (menuList.getUserData() != btn.getUserData()) {
             menuList.setUserData(btn.getUserData());
             menuList.getChildren().clear();
@@ -195,49 +191,61 @@ public class OrderScreenController implements Initializable {
             menuItemName.setText(listMenu.get(Integer.parseInt(btn.getUserData().toString())).getLoaiMon().toUpperCase());
             new FadeInUp(menuItemName).setSpeed(2.0).play();
             for (Mon m : DBUtils_Mon.getMon(Integer.parseInt(btn.getUserData().toString()) + 1)) {
-                if(m.isIsActive()) {
+                if (m.isIsActive()) {
                     try {
                         GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));
                         ((Label) item.lookup("#menuItemName")).setText(m.getTenMon().toUpperCase());
                         String price = String.format(Locale.US, "%,d", m.getDonGia()).replace(",", ".");
                         ((Label) item.lookup("#menuItemPrice")).setText(price + " VND");
-                        int mainColor = 40 + Integer.parseInt(btn.getUserData().toString())*15;
-                        String mainHsl = "hsb("+ mainColor +", 70%, 80%)";
-                        String secondHsl = "hsb("+ mainColor +", 70%, 87%)";
-                        item.setStyle("-fx-background-color: "+ secondHsl);
+                        int mainColor = 40 + Integer.parseInt(btn.getUserData().toString()) * 15;
+                        String mainHsl = "hsb(" + mainColor + ", 70%, 80%)";
+                        String secondHsl = "hsb(" + mainColor + ", 70%, 87%)";
+                        item.setStyle("-fx-background-color: " + secondHsl);
                         item.setEffect(new DropShadow(10, 3, 3, Color.hsb(Float.intBitsToFloat(mainColor), 0.88, 0.75, 0.0)));
                         JFXButton addBtn = (JFXButton) item.lookup("#addToOrder");
                         addBtn.setOnAction((event) -> {
-                            new BounceIn(addBtn).setSpeed(2.0).play();
-                            JFXTextField itemQty = (JFXTextField) item.lookup("#itemQuantity");
-                            int getQtyitem = getQtyItemOrdered(m.getIdMon());
-                            if (getQtyitem == -1) {
-                                DBUtils_MonOrder.insert(m.getIdMon(), Integer.parseInt(itemQty.getText()));
-                            } else {
-                                DBUtils_MonOrder.update(m.getIdMon(), getQtyitem + Integer.parseInt(itemQty.getText()));
-                            };
-                            getOrderedList();
-                            ArrayList<LoaiMon> list = DBUtils_LoaiMon.getList();
-                            if (getQtyitem == -1) {
-                                new BounceIn(orderedList.getChildren().get(orderedList.getChildren().size()-1)).setSpeed(2.0).setResetOnFinished(true).play();
-                            } else {
-                                System.out.println("size: "+ orderedList.getChildren().size());
-                                new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(3.0).setResetOnFinished(true).play();
-                            };
-                            new BounceIn(itemQty).setSpeed(2.0).setResetOnFinished(true).play();
-                            itemQty.setText("1");
+                            try {
+                                new BounceIn(addBtn).setSpeed(2.0).play();
+                                JFXTextField itemQty = (JFXTextField) item.lookup("#itemQuantity");
+                                int getQtyitem = getQtyItemOrdered(m.getIdMon());
+                                if (getQtyitem == -1) {
+                                    DBUtils_MonOrder.insert(m.getIdMon(), Integer.parseInt(itemQty.getText()));
+                                } else {
+                                    DBUtils_MonOrder.update(m.getIdMon(), getQtyitem + Integer.parseInt(itemQty.getText()));
+                                };
+                                try {
+                                    getOrderedList();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                try {
+                                    ArrayList<LoaiMon> list = DBUtils_LoaiMon.getList();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                if (getQtyitem == -1) {
+                                    new BounceIn(orderedList.getChildren().get(orderedList.getChildren().size() - 1)).setSpeed(2.0).setResetOnFinished(true).play();
+                                } else {
+                                    System.out.println("size: " + orderedList.getChildren().size());
+                                    new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(3.0).setResetOnFinished(true).play();
+                                };
+                                new BounceIn(itemQty).setSpeed(2.0).setResetOnFinished(true).play();
+                                itemQty.setText("1");
+                            } catch (SQLException ex) {
+                                Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         });
                         menuList.getChildren().add(item);
                         new FadeInUp(menuList.getChildren().get(menuList.getChildren().size() - 1)).setSpeed(2.0).play();
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-                       }
+                    }
                 }
             }
-        }   
+        }
     }
-    
-    private int getQtyItemOrdered(int id) {
+
+    private int getQtyItemOrdered(int id) throws SQLException {
         ArrayList<MonOrder> list = DBUtils_MonOrder.getList();
         for (MonOrder monOrder1 : list) {
             if (monOrder1.getId() == id) {
@@ -246,5 +254,5 @@ public class OrderScreenController implements Initializable {
         };
         return -1;
     }
-    
+
 }

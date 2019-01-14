@@ -8,8 +8,8 @@ package warehouse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +18,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,13 +41,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import tqduy.bean.DVT;
@@ -112,15 +110,19 @@ public class FXMLWareHouseController implements Initializable {
     private JFXButton btnOpenFind;
     
     // Bản thông kê
-    private void displayBarChart() {
+    private void displayBarChart() throws SQLException {
         int year = Calendar.getInstance().get(Calendar.YEAR); // GET CURRENT YEAR
         System.out.println("year: " +year);
         
         tabTK.setOnSelectionChanged((event) -> {
-            ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.getList());
-            if(!list.isEmpty()) {
-                tbThongKe.getItems().clear();
-                tbThongKe.setItems(list);
+            try {
+                ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.getList());
+                if(!list.isEmpty()) {
+                    tbThongKe.getItems().clear();
+                    tbThongKe.setItems(list);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         
@@ -144,14 +146,18 @@ public class FXMLWareHouseController implements Initializable {
     // Set event for Tab Thong ke
     private void eventClickTK() {
         btnReset.setOnAction((event) -> {
-            ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.getList());
-            if(!list.isEmpty()) {
-                tbThongKe.getItems().clear();
-                tbThongKe.setItems(list);
-            };
-            JFXDialog dialog = (JFXDialog) mainStackPane.getChildren().get(1);
-            dialog.close();
-            btnOpenFind.setDisable(false);
+            try {
+                ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.getList());
+                if(!list.isEmpty()) {
+                    tbThongKe.getItems().clear();
+                    tbThongKe.setItems(list);
+                };
+                JFXDialog dialog = (JFXDialog) mainStackPane.getChildren().get(1);
+                dialog.close();
+                btnOpenFind.setDisable(false);
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         btnPrintInfo.setOnAction((event) -> {
@@ -193,7 +199,7 @@ public class FXMLWareHouseController implements Initializable {
     // End Set event for Tab Thong ke
     
     // Combobox
-    private void loadCombobox() {
+    private void loadCombobox() throws SQLException {
         ArrayList<Nhap> arrNhap = DBUtils_Nhap.getList();
         ArrayList<String> copy = new ArrayList<>();
         ObservableList<String> list = FXCollections.observableArrayList();
@@ -416,16 +422,20 @@ public class FXMLWareHouseController implements Initializable {
             if(ten.isEmpty() || txtSoLuongNhap.getText().isEmpty() || txtDonGiaNhap.getText().isEmpty() || tenLoaiNhap == null) {
                 createAlert("Xin Nhập đầy đủ thông tin !!!");
             } else {
-                DBUtils_Nhap.insert(ten, tenLoaiNhap.getIdLoaiNX(), donGiaNhap, soLuongNhap, dateNhap);
-                System.out.println("Ten: " + ten + " - Số lượng: " + soLuongNhap + " - Đơn giá: " + donGiaNhap + " - Date: " + dateNhap + " - Loai: " + tenLoaiNhap);
-                txtTenSpNhap.setText("");
-                txtSoLuongNhap.setText("");
-                txtDonGiaNhap.setText("");
-                
-                ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(DBUtils_Nhap.getList());
-                if(!listNhapDisplay.isEmpty()) {
-                    tbNhap.getItems().clear();
-                    tbNhap.setItems(listNhapDisplay);
+                try {
+                    DBUtils_Nhap.insert(ten, tenLoaiNhap.getIdLoaiNX(), donGiaNhap, soLuongNhap, dateNhap);
+                    System.out.println("Ten: " + ten + " - Số lượng: " + soLuongNhap + " - Đơn giá: " + donGiaNhap + " - Date: " + dateNhap + " - Loai: " + tenLoaiNhap);
+                    txtTenSpNhap.setText("");
+                    txtSoLuongNhap.setText("");
+                    txtDonGiaNhap.setText("");
+                    
+                    ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(DBUtils_Nhap.getList());
+                    if(!listNhapDisplay.isEmpty()) {
+                        tbNhap.getItems().clear();
+                        tbNhap.setItems(listNhapDisplay);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -615,7 +625,7 @@ public class FXMLWareHouseController implements Initializable {
         });
     }
     
-    private void setEvent() {
+    private void setEvent() throws SQLException {
         tbNhap.getColumns().clear();
         tbXuat.getColumns().clear();
         tbThongKe.getColumns().clear();
@@ -660,13 +670,17 @@ public class FXMLWareHouseController implements Initializable {
         ObservableList<XuatTable> list = tbXuat.getSelectionModel().getSelectedItems();
         ArrayList<XuatTable> rows = new ArrayList<>(list);
         rows.forEach((row) -> {
-            DBUtils_Xuat.delete(row.getId());
-            
-            ArrayList<Xuat> listXuat = DBUtils_Xuat.getList();
-            ObservableList<XuatTable> listXuatpDisplay = getListXuatDisplay(listXuat);
-            
-            tbXuat.getItems().clear();
-            tbXuat.setItems(listXuatpDisplay);
+            try {
+                DBUtils_Xuat.delete(row.getId());
+                
+                ArrayList<Xuat> listXuat = DBUtils_Xuat.getList();
+                ObservableList<XuatTable> listXuatpDisplay = getListXuatDisplay(listXuat);
+                
+                tbXuat.getItems().clear();
+                tbXuat.setItems(listXuatpDisplay);
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
     
@@ -674,13 +688,17 @@ public class FXMLWareHouseController implements Initializable {
         ObservableList<NhapTable> list = tbNhap.getSelectionModel().getSelectedItems();
         ArrayList<NhapTable> rows = new ArrayList<>(list);
         rows.forEach((row) -> {
-            DBUtils_Nhap.delete(row.getId());
-            
-            ArrayList<Nhap> listNhap = DBUtils_Nhap.getList();
-            ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(listNhap);
-            
-            tbNhap.getItems().clear();
-            tbNhap.setItems(listNhapDisplay);
+            try {
+                DBUtils_Nhap.delete(row.getId());
+                
+                ArrayList<Nhap> listNhap = DBUtils_Nhap.getList();
+                ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(listNhap);
+                
+                tbNhap.getItems().clear();
+                tbNhap.setItems(listNhapDisplay);
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
     
@@ -752,18 +770,22 @@ public class FXMLWareHouseController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        System.out.println("max: " + tbLoaiTKColumn.getMaxWidth());
-        setEvent();
-        showCombobox();
-        eventClickButtonADD();
-        setOnKeyPress();
-        eventSearch();
-        eventClickTK();
-        displayBarChart();
+        try {
+            // TODO
+            tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            System.out.println("max: " + tbLoaiTKColumn.getMaxWidth());
+            setEvent();
+            showCombobox();
+            eventClickButtonADD();
+            setOnKeyPress();
+            eventSearch();
+            eventClickTK();
+            displayBarChart();
 //        showComboboxTenXuat();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
     
 }

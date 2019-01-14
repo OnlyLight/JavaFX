@@ -5,12 +5,14 @@
  */
 package tqduy.connect;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import tqduy.bean.Bill;
+import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
 import static tqduy.connect.DBUtils_LoaiMon.query;
 
@@ -19,12 +21,16 @@ import static tqduy.connect.DBUtils_LoaiMon.query;
  * @author QuangDuy
  */
 public class DBUtils_Bill {
-    public static ArrayList<Bill> getList() {
+    public static ArrayList<Bill> getList() throws SQLException {
         ArrayList<Bill> arrBill = new ArrayList<>();
         
-        String sql = "SELECT dbo.NhanVien.userName, dbo.Bill.tongTien, dbo.Bill.ngayLap FROM dbo.NhanVien JOIN dbo.Bill ON Bill.idNhanVien = NhanVien.idNV";
-
-        ResultSet res = query(sql);
+        CallableStatement command = con.prepareCall("{call pr_getListBill}");
+            
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT dbo.NhanVien.userName, dbo.Bill.tongTien, dbo.Bill.ngayLap FROM dbo.NhanVien JOIN dbo.Bill ON Bill.idNhanVien = NhanVien.idNV";
+//
+//        ResultSet res = query(sql);
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
@@ -46,12 +52,18 @@ public class DBUtils_Bill {
         }
     }
     
-    public static int getSumPirceForMonth(int thangLap, int namLap) {
+    public static int getSumPirceForMonth(int thangLap, int namLap) throws SQLException {
         int sumPay = 0;
         
-        String sql = "SELECT SUM(dbo.Bill.tongTien) AS tongTien FROM dbo.Bill WHERE MONTH(dbo.Bill.ngayLap) = "+thangLap+" AND YEAR(dbo.Bill.ngayLap) = "+namLap+"";
+        CallableStatement command = con.prepareCall("{call pr_getSumPirceForMonthBill (?,?)}");
+        command.setInt(1, thangLap);
+        command.setInt(2, namLap);
 
-        ResultSet res = query(sql);
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT SUM(dbo.Bill.tongTien) AS tongTien FROM dbo.Bill WHERE MONTH(dbo.Bill.ngayLap) = "+thangLap+" AND YEAR(dbo.Bill.ngayLap) = "+namLap+"";
+//
+//        ResultSet res = query(sql);
 
         try {
             if (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

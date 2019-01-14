@@ -8,8 +8,11 @@ package managerMember;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,7 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -46,7 +48,7 @@ public class FXMLMemberController implements Initializable {
     
     private int discount = 0;
     
-    private void showTBMember() {
+    private void showTBMember() throws SQLException {
         tbMember.getColumns().clear();
         tbMember.setEditable(true);
         
@@ -122,7 +124,12 @@ public class FXMLMemberController implements Initializable {
                 System.out.println(tenLoai + " - " + discount);
                 DBUtils_Member.insert(tenLoai, discount);
                 
-                ObservableList<Member> list = FXCollections.observableArrayList(DBUtils_Member.getList());
+                ObservableList<Member> list = null;
+                try {
+                    list = FXCollections.observableArrayList(DBUtils_Member.getList());
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLMemberController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.out.println("List: " + list);
                 if(!list.isEmpty()) {
                     tbMember.getItems().clear();
@@ -152,8 +159,12 @@ public class FXMLMemberController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        showTBMember();
+        try {
+            // TODO
+            showTBMember();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLMemberController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setEventClicked();
     }    
     

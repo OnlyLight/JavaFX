@@ -7,11 +7,12 @@ package managerMenu;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXPopup;
-import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,12 +20,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -138,11 +137,15 @@ public class FXMLManagerMenuController implements Initializable {
         Runnable tast = new Runnable() {
             @Override
             public void run() {
-                ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
-                if(!listMon.isEmpty()) {
-                    tbLoaiMon.setItems(listMon);
-                    tbLoaiMon.getColumns().addAll(tbIDColumnLoaiMon, tbTenLoaiMonColumn, tbIsActiveLoaiMonColumn);
-                }//To change body of generated methods, choose Tools | Templates.
+                try {
+                    ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+                    if(!listMon.isEmpty()) {
+                        tbLoaiMon.setItems(listMon);
+                        tbLoaiMon.getColumns().addAll(tbIDColumnLoaiMon, tbTenLoaiMonColumn, tbIsActiveLoaiMonColumn);
+                    }//To change body of generated methods, choose Tools | Templates.
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         Thread backgroundThread = new Thread(tast);
@@ -190,12 +193,16 @@ public class FXMLManagerMenuController implements Initializable {
          Runnable tast = new Runnable() {
             @Override
             public void run() {
-                ObservableList<Menu> listMon = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
-                if(!listMon.isEmpty()) {
-                    tbMenu.setItems(listMon);
-                    tbMenu.getColumns().addAll(tbTenMonColumnMenu, tbDonGiaColumnMenu, tbLoaiMonColumnMenu, tbIsActiveMenuColumn);
+                try {
+                    ObservableList<Menu> listMon = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
+                    if(!listMon.isEmpty()) {
+                        tbMenu.setItems(listMon);
+                        tbMenu.getColumns().addAll(tbTenMonColumnMenu, tbDonGiaColumnMenu, tbLoaiMonColumnMenu, tbIsActiveMenuColumn);
+                    }
+                    //To change body of generated methods, choose Tools | Templates.
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                 //To change body of generated methods, choose Tools | Templates.
             }
         };
         Thread backgroundThread = new Thread(tast);
@@ -214,11 +221,15 @@ public class FXMLManagerMenuController implements Initializable {
          Runnable tast = new Runnable() {
             @Override
             public void run() {
-                ObservableList<InsertNX> listMon = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
-                if(!listMon.isEmpty()) {
-                    tbLoaiNX.setItems(listMon);
-                    tbLoaiNX.getColumns().addAll(tbLoaiNXColumn, tbDVTColumn);
-                } //To change body of generated methods, choose Tools | Templates.
+                try {
+                    ObservableList<InsertNX> listMon = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
+                    if(!listMon.isEmpty()) {
+                        tbLoaiNX.setItems(listMon);
+                        tbLoaiNX.getColumns().addAll(tbLoaiNXColumn, tbDVTColumn);
+                    } //To change body of generated methods, choose Tools | Templates.
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         Thread backgroundThread = new Thread(tast);
@@ -261,7 +272,11 @@ public class FXMLManagerMenuController implements Initializable {
     
     private void setClick() {
         btnOpenAddForm.setOnAction((event) -> {
-            loadComboBox();
+            try {
+                loadComboBox();
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             creatDialog(btnOpenAddForm, addForm, mainMenuStackPane);
 //            btnOpenAddForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
@@ -286,7 +301,11 @@ public class FXMLManagerMenuController implements Initializable {
 //            });
         });
         btnOpenImportTypeForm.setOnAction((event) -> {
-            loadComboBox();
+            try {
+                loadComboBox();
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             creatDialog(btnOpenImportTypeForm, addImportTypeForm, mainMenuStackPane);
         });
         btnOpenAddUnitForm.setOnAction((event) -> {
@@ -307,18 +326,22 @@ public class FXMLManagerMenuController implements Initializable {
         });
         
         btnThemLoaiMon.setOnAction((event) -> {
-            if(!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
-                DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
-            };
-            
-            ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
-            if(!listMon.isEmpty()) {
-                tbLoaiMon.getItems().clear();
-                tbLoaiMon.setItems(listMon);
-            };
-            JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
-            btnOpenAddTypeForm.setDisable(false);
-            dialog.close();
+            try {
+                if(!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
+                    DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
+                };
+                
+                ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+                if(!listMon.isEmpty()) {
+                    tbLoaiMon.getItems().clear();
+                    tbLoaiMon.setItems(listMon);
+                };
+                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+                btnOpenAddTypeForm.setDisable(false);
+                dialog.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         btnThemDVT.setOnAction((event) -> {
@@ -355,17 +378,21 @@ public class FXMLManagerMenuController implements Initializable {
             String tenLoaiNX = txtLoaiNhapXuat.getText().toString().trim();
             
             if(!tenLoaiNX.isEmpty() && dvtSelected != null) {
-                DBUtils_LoaiNX.insert(tenLoaiNX, dvtSelected.getIdDVT());
-
-                ObservableList<InsertNX> listLoai = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
-
-                if(!listLoai.isEmpty()) {
-                    tbLoaiNX.getItems().clear();
-                    tbLoaiNX.setItems(listLoai);
-                };
-                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
-                btnOpenImportTypeForm.setDisable(false);
-                dialog.close();
+                try {
+                    DBUtils_LoaiNX.insert(tenLoaiNX, dvtSelected.getIdDVT());
+                    
+                    ObservableList<InsertNX> listLoai = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
+                    
+                    if(!listLoai.isEmpty()) {
+                        tbLoaiNX.getItems().clear();
+                        tbLoaiNX.setItems(listLoai);
+                    };
+                    JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+                    btnOpenImportTypeForm.setDisable(false);
+                    dialog.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }
@@ -387,20 +414,24 @@ public class FXMLManagerMenuController implements Initializable {
             String tenMon = txtTenMonMenu.getText().toString().trim();
             
             if(!tenMon.isEmpty() && donGiaMenu > 0 && loaiMenu != null) {
-                DBUtils_Mon.insert(tenMon, donGiaMenu, loaiMenu.getId());
-                txtTenLoaiMon.clear();
-                txtDonGiaMenu.clear();
-
-                ObservableList<Menu> listLoai = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
-
-                if(!listLoai.isEmpty()) {
-                    tbMenu.getItems().clear();
-                    tbMenu.setItems(listLoai);
+                try {
+                    DBUtils_Mon.insert(tenMon, donGiaMenu, loaiMenu.getId());
+                    txtTenLoaiMon.clear();
+                    txtDonGiaMenu.clear();
+                    
+                    ObservableList<Menu> listLoai = FXCollections.observableArrayList(DBUtils_Mon.getListMenu());
+                    
+                    if(!listLoai.isEmpty()) {
+                        tbMenu.getItems().clear();
+                        tbMenu.setItems(listLoai);
+                    }
+                    
+                    JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+                    dialog.close();
+                    btnOpenAddForm.setDisable(false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
-                dialog.close();
-                btnOpenAddForm.setDisable(false);
             } else {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             }
@@ -421,7 +452,7 @@ public class FXMLManagerMenuController implements Initializable {
         return result;
     }
     
-    private void loadComboBox() {
+    private void loadComboBox() throws SQLException {
         ObservableList<LoaiMon> listLoai = FXCollections.observableArrayList();
         ObservableList<DVT> arrDVT = FXCollections.observableArrayList();
         
@@ -445,7 +476,7 @@ public class FXMLManagerMenuController implements Initializable {
         }
     }
     
-    private void chooseTab() {
+    private void chooseTab() throws SQLException {
         loadTableMenu();
         loadComboBox();
         loadListViewDVT();
@@ -459,7 +490,11 @@ public class FXMLManagerMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         loadTableLoaiMon();
-        chooseTab();
+        try {
+            chooseTab();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setClick();
     }    
     

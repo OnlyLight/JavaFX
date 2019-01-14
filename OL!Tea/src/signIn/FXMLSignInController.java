@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -44,58 +45,63 @@ import tqduy.connect.DBUtils_MonOrder;
  * @author QuangDuy
  */
 public class FXMLSignInController implements Initializable {
-    @FXML private JFXButton btnAdd;
-    @FXML private ComboBox<Member> cbLoaiMember;
-    @FXML private DatePicker dpNgayDK;
-    @FXML private JFXTextField txtSDT, txtTenCus;
-    
+
+    @FXML
+    private JFXButton btnAdd;
+    @FXML
+    private ComboBox<Member> cbLoaiMember;
+    @FXML
+    private DatePicker dpNgayDK;
+    @FXML
+    private JFXTextField txtSDT, txtTenCus;
+
     private LocalDate dateDK = LocalDate.now();
     private String sdt = FXMLDocumentController.sdt;
     public static Member m = new Member();
-            
-    private void inputData() {
+
+    private void inputData() throws SQLException {
         ObservableList<Member> listLoai = FXCollections.observableArrayList();
-        
+
         for (Member member : DBUtils_Member.getList()) {
-            if(member.isActive()) {
+            if (member.isActive()) {
                 listLoai.add(member);
             }
         }
-        
-        if(!listLoai.isEmpty()) {
+
+        if (!listLoai.isEmpty()) {
             cbLoaiMember.setItems(listLoai);
         }
-        
+
         txtSDT.setText(sdt);
         txtSDT.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.matches("\\d*")) {
                 try {
                     sdt = newValue;
                 } catch (Exception e) {
-                    
+
                 }
             } else {
                 txtSDT.setText(oldValue);
             }
         });
-        
+
         setDayForDP();
         cbLoaiMember.setOnAction((event) -> {
             m = cbLoaiMember.getSelectionModel().getSelectedItem();
         });
     }
-    
+
     private void setClickBtn() {
         btnAdd.setDisable(true);
         txtTenCus.textProperty().addListener((observable, oldValue, newValue) -> {
             btnAdd.setDisable(newValue.trim().isEmpty());
         });
-        
+
         btnAdd.setOnAction((event) -> {
             String ten = txtTenCus.getText().toString().trim();
-            
+
             System.out.println("Ten: " + ten + " - sdt: " + sdt + " - NGay: " + dateDK + " - idMember: " + m.getIdMember() + " - " + m.getLoai());
-            if(ten.isEmpty() || sdt.isEmpty() || dateDK == null || m == null) {
+            if (ten.isEmpty() || sdt.isEmpty() || dateDK == null || m == null) {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             } else {
                 DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
@@ -108,7 +114,7 @@ public class FXMLSignInController implements Initializable {
             }
         });
     }
-    
+
     private Optional<ButtonType> createAlert(String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -118,45 +124,45 @@ public class FXMLSignInController implements Initializable {
         alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
 
         Optional<ButtonType> result = alert.showAndWait();
-        
+
         System.out.println(result.get().getText());
         return result;
     }
-    
+
     private void showDialog(String url, StageStyle style, Modality modal) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(url));
         Scene scene = new Scene(root);
-        
+
         Stage stage = new Stage(style);
         stage.initModality(modal);
         stage.getIcons().add(new Image("/images/download.jpg"));
-        
+
         stage.setOnCloseRequest((event) -> {
             System.out.println("Delete MonOrder");
             DBUtils_MonOrder.deleteAll();
         });
-        
+
         stage.setTitle("OL! Tea");
-        
+
         stage.setScene(scene);
         stage.show();
     }
-    
+
     private void closeStage(Button btn) {
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
         System.out.println("Close");
     }
-    
+
     private void setDayForDP() {
         dpNgayDK.setValue(dateDK);
         fomatterForDatePicker(dpNgayDK);
     }
-    
+
     private void fomatterForDatePicker(DatePicker datePicker) {
         StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            
+
             @Override
             public String toString(LocalDate date) {
                 if (date != null) {
@@ -165,6 +171,7 @@ public class FXMLSignInController implements Initializable {
                     return "";
                 }
             }
+
             @Override
             public LocalDate fromString(String string) {
                 if (string != null && !string.isEmpty()) {
@@ -174,7 +181,7 @@ public class FXMLSignInController implements Initializable {
                 }
             }
         };
-        
+
         datePicker.setConverter(converter);
         datePicker.setPromptText("dd-MM-yyyy");
     }
@@ -184,9 +191,13 @@ public class FXMLSignInController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        inputData();
+        try {
+            // TODO
+            inputData();
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLSignInController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setClickBtn();
-    }    
-    
+    }
+
 }
