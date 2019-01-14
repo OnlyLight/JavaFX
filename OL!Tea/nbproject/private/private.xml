@@ -16,6 +16,7 @@
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_Bill.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/login/FXMLLoginController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerNV/FXMLNhanVienController.java</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/nbproject/build-impl.xml</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/DemoJavaFXSceneBuilder.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/menuItem.fxml</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/warehouse/WareHouse.java</file>
@@ -28,6 +29,7 @@
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/FXMLDocumentController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_Nhap.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/bean/MonOrder.java</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/src/warehouse/FXMLWareHouseController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerMenu/FXMLManagerMenuController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/MenuItemController.java</file>
         </group>

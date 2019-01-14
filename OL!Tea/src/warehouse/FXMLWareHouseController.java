@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXRadioButton;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -38,6 +39,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
@@ -79,7 +81,7 @@ public class FXMLWareHouseController implements Initializable {
     @FXML private TextField txtTenSpNhap, txtSoLuongNhap, txtDonGiaNhap;
     @FXML private DatePicker dpNgayNhap, dpDayStartNhap, dpDayFinishNhap;
     @FXML private ComboBox<LoaiNX> cbTenLoaiNhap, cbLoaiThongKe;
-    private ComboBox<String> cbTenSpXuat;
+    @FXML private ComboBox<String> cbTenSpXuat;
     @FXML private Button btnNhap, btnFind, btnPrintInfo, btnReset;
     @FXML private TableView<TKTable> tbThongKe;
     @FXML private TableColumn<TKTable, String> tbTenSpTKColumn, tbLoaiTKColumn;
@@ -110,6 +112,16 @@ public class FXMLWareHouseController implements Initializable {
     private VBox rightSideMng;
     @FXML
     private JFXButton btnOpenFind;
+    @FXML
+    private JFXRadioButton importRadio;
+    @FXML
+    private ToggleGroup addType;
+    @FXML
+    private JFXRadioButton exportRadio;
+    @FXML
+    private JFXButton btnCloseAddMenu;
+    @FXML
+    private StackPane prdNameStackPane;
     
     // Bản thông kê
     private void displayBarChart() {
@@ -752,7 +764,11 @@ public class FXMLWareHouseController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // TODOF
+        loadCombobox();
+        addType.selectedToggleProperty().addListener((observable) -> {
+            prdNameStackPane.getChildren().get(0).toFront();
+        });
         tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         System.out.println("max: " + tbLoaiTKColumn.getMaxWidth());

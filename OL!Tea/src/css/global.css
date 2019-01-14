@@ -236,3 +236,7 @@ and open the template in the editor.
 .date-picker-display-node .input-line, .date-picker-display-node .input-focused-line {
     -fx-pref-height: 0;
 }
+
+.jfx-radio-button {
+    -jfx-selected-color: #00adb5;
+}

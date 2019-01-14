@@ -11,7 +11,7 @@
          <children>
             <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="186.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="itemName" style="-fx-font-size: 15;" styleClass="font-RobotoCondensed" stylesheets="@../css/global.css" text="MILKTEA CHOCOLATE" />
+                  <Label fx:id="itemName" style="-fx-font-size: 15;" styleClass="font-RobotoCondensed" stylesheets="@../css/global.css" text="SỮA TƯƠI TRÂN CHÂU ĐƯỜNG ĐEN" wrapText="true" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="51.0" prefWidth="88.0">
