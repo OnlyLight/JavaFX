@@ -14,7 +14,6 @@ import java.util.Date;
 import tqduy.bean.Bill;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
-import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
@@ -80,5 +79,9 @@ public class DBUtils_Bill {
     public static void insert(int idNV, int tongTien, LocalDate ngayLap) {
         execute("INSERT INTO dbo.Bill (idNhanVien, tongTien, ngayLap) VALUES ( "+idNV+", "+tongTien+", CONVERT(DATE, '"+ngayLap+"') )");
         System.out.println("Chèn thành công !!");
+    }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM dbo.Bill WHERE idBill = " + id + "");
     }
 }

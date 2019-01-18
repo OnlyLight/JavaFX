@@ -76,4 +76,8 @@ public class DBUtils_DVT {
         execute("INSERT INTO dbo.DVT (DVT) VALUES ( N'"+ tenDVT +"' )");
         System.out.println("Chèn thành công !!");
     }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM dbo.DVT WHERE idDVT = " + id + "");
+    }
 }

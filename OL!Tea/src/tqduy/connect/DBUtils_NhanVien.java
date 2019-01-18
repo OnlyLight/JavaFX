@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import tqduy.bean.NhanVien;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
-import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
@@ -97,5 +96,9 @@ public class DBUtils_NhanVien {
         if(active) check = 1;
         execute("UPDATE dbo.NhanVien SET isActive = "+check+" WHERE idNV = "+idNV+"");
         System.out.println("Update Sucess !!");
+    }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM dbo.NhanVien WHERE idNV = " + id + "");
     }
 }

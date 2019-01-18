@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import tqduy.bean.LoaiNX;
 import tqduy.bean.Xuat;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
@@ -76,6 +77,29 @@ public class DBUtils_Xuat {
             System.out.println("Xin nhap lai !!");
         } finally {
             return sL;
+        }
+    }
+    
+    public static ArrayList<Xuat> getListForName(String ten) throws SQLException {
+        ArrayList<Xuat> arrLoaiNX = new ArrayList<>();
+        
+        String sql = "SELECT dbo.Xuat.tenSpXuat FROM dbo.Xuat JOIN dbo.LoaiNX ON LoaiNX.idLoaiNX = Xuat.idLoaiNX WHERE dbo.LoaiNX.tenLoaiNX = '"+ten+"'";
+
+        ResultSet res = query(sql);
+
+        try {
+            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
+                String tenLoaiNX = res.getString("tenSpXuat");
+                
+                Xuat x = new Xuat();
+                x.setTenSpXuat(tenLoaiNX);
+                arrLoaiNX.add(x);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Xin nhap lai !!");
+        } finally {
+            return arrLoaiNX;
         }
     }
     

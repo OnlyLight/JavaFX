@@ -16,4 +16,8 @@ public class DBUtils_DK {
         execute("INSERT INTO dbo.DKMember (idNhanVien, idCustomer) VALUES ( "+idNV+", "+idCus+" )");
         System.out.println("Chèn thành công !!");
     }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM dbo.DKMember WHERE idDK = " + id + "");
+    }
 }

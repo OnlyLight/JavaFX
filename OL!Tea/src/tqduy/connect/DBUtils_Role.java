@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import tqduy.bean.Role;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
-import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
@@ -57,5 +56,9 @@ public class DBUtils_Role {
         if(active) check = 1;
         execute("UPDATE dbo.Role SET Active = "+check+" WHERE idRole = "+idRole+"");
         System.out.println("Update Sucess !!");
+    }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM dbo.Role WHERE idRole = " + id + "");
     }
 }

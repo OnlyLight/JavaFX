@@ -115,4 +115,8 @@ public class DBUtils_LoaiNX {
         execute("INSERT INTO " + DBUtils_LoaiNX.TB_LOAINX + "(tenLoaiNX, idDVT) VALUES ( N'"+ tenLoai +"', "+dvt+" )");
         System.out.println("Chèn thành công !!");
     }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM " + DBUtils_LoaiNX.TB_LOAINX + " WHERE idLoaiNX = " + id + "");
+    }
 }

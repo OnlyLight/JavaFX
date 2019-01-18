@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import tqduy.bean.Member;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
-import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
@@ -58,5 +57,9 @@ public class DBUtils_Member {
         if(active) check = 1;
         execute("UPDATE dbo.Member SET active = "+check+" WHERE idMember = "+id+"");
         System.out.println("Update Sucess !!");
+    }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM dbo.Member WHERE idMember = " + id + "");
     }
 }
