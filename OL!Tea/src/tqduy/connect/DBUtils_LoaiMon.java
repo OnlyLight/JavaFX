@@ -24,8 +24,6 @@ public class DBUtils_LoaiMon {
     public final static String TB_LOAIMON = "LoaiMon";
     public final static String TB_MON = "Mon";
     public final static String TB_MON_ORDER = "MonOrder";
-    public final static String USER_NAME = "duy";
-    public final static String PASSWORD = "1234";
     public static Connection con = conn();
 
     public static Connection conn() {

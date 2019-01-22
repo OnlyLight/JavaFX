@@ -242,30 +242,38 @@ public class FXMLWareHouseController implements Initializable {
         if(!list.isEmpty()) cbTenSpXuat.setItems(list);
     }
     
-//    private void showComboboxTenXuat() {
-//        cbTenSpXuat.setOnMouseClicked((event) -> {
-//            cbTenSpXuat.getItems().clear();
-//            loadCombobox();
-//        });
-//        
-//        cbTenSpXuat.setOnAction((event) -> {
-//            tenSpXuat = cbTenSpXuat.getSelectionModel().getSelectedItem();
-//            System.out.println("Ten sp Xuat: " + tenSpXuat);
-//            
-//            if(tenSpXuat != null) {
-//                ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
-//                for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
-//                    loai.add(loaiNX);
-//                }
-//
-//                if(!loai.isEmpty()) {
-//                    cbTenLoaiXuat.getItems().clear();
-//                    cbTenLoaiXuat.setItems(loai);
-//                }
-//            }
-////            showBoxNhap();
-//        });
-//    }
+    private void showComboboxTenXuat() {
+        cbTenSpXuat.setOnMouseClicked((event) -> {
+            cbTenSpXuat.getItems().clear();
+            try {
+                loadCombobox();
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        cbTenSpXuat.setOnAction((event) -> {
+            tenSpXuat = cbTenSpXuat.getSelectionModel().getSelectedItem();
+            System.out.println("Ten sp Xuat: " + tenSpXuat);
+            
+            if(tenSpXuat != null) {
+                try {
+                    ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
+                    for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
+                        loai.add(loaiNX);
+                    }
+                    
+                    if(!loai.isEmpty()) {
+                        cbTenLoaiNhap.getItems().clear();
+                        cbTenLoaiNhap.setItems(loai);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+//            showBoxNhap();
+        });
+    }
     
     private void showBoxNhap() {
         ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
@@ -798,7 +806,7 @@ public class FXMLWareHouseController implements Initializable {
         eventSearch();
         eventClickTK();
         displayBarChart();
-//        showComboboxTenXuat();
+        showComboboxTenXuat();
         } catch (SQLException ex) {
             Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
         }
