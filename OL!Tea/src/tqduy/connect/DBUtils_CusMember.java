@@ -14,7 +14,6 @@ import java.util.Date;
 import tqduy.bean.CusMember;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
-import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
@@ -96,5 +95,9 @@ public class DBUtils_CusMember {
     public static void insert(String tenCus, String sdt, int idMember, LocalDate ngayDK) {
         execute("INSERT INTO dbo.Customer (tenCus, sdt, idMember, ngayLap) VALUES ( N'"+ tenCus +"', '"+sdt+"', "+idMember+", CONVERT(DATE, '"+ngayDK+"') )");
         System.out.println("Chèn thành công !!");
+    }
+    
+    public static void delete(int id) {
+        execute("DELETE FROM dbo.Customer WHERE idCustomer = " + id + "");
     }
 }

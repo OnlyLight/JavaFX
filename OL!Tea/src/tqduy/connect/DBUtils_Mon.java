@@ -115,7 +115,6 @@ public class DBUtils_Mon {
     }
     
     public static void delete(int idMon) {
-
         boolean check = false;
         String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_MON + "";
 

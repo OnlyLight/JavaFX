@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import tqduy.bean.MonOrder;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
-import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *

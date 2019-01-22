@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLInput;
 import java.sql.Statement;
 import java.util.ArrayList;
 import tqduy.bean.LoaiMon;
@@ -112,9 +111,9 @@ public class DBUtils_LoaiMon {
         }
     }
     
-//    public static void delete(int id) {
-//        execute("DELETE FROM " + DBUtils_LoaiMon.TB_LOAIMON + " WHERE id = " + id + "");
-//    }
+    public static void delete(int id) {
+        execute("DELETE FROM " + DBUtils_LoaiMon.TB_LOAIMON + " WHERE id = " + id + "");
+    }
 
     public static void insert(String loaiMon) {
         execute("INSERT INTO " + DBUtils_LoaiMon.TB_LOAIMON + "(loaiMon) VALUES ( N'"+ loaiMon +"' )");

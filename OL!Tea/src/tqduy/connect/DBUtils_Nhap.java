@@ -14,7 +14,6 @@ import java.util.Date;
 import tqduy.bean.Nhap;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
-import static tqduy.connect.DBUtils_LoaiMon.query;
 
 /**
  *
