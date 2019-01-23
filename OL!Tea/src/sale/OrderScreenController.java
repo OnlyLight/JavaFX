@@ -6,13 +6,17 @@
 package sale;
 
 import animatefx.animation.BounceIn;
+import animatefx.animation.FadeIn;
 import animatefx.animation.FadeInUp;
 import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -21,18 +25,27 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import login.FXMLLoginController;
+import tqduy.bean.CusMember;
 import tqduy.bean.LoaiMon;
 import tqduy.bean.Mon;
 import tqduy.bean.MonOrder;
+import tqduy.connect.DBUtils_Bill;
+import tqduy.connect.DBUtils_CusMember;
+import tqduy.connect.DBUtils_DK;
 import tqduy.connect.DBUtils_LoaiMon;
 import tqduy.connect.DBUtils_Mon;
 import tqduy.connect.DBUtils_MonOrder;
@@ -76,6 +89,26 @@ public class OrderScreenController implements Initializable {
     private VBox orderedList;
     @FXML
     private ScrollPane orderedScroll;
+    @FXML
+    private StackPane mainOrderScreenStackPane;
+    @FXML
+    private VBox addMemberForm;
+    @FXML
+    private TextField txtTenCus;
+    @FXML
+    private TextField txtSDT;
+    @FXML
+    private ComboBox<?> cbLoaiMember;
+    @FXML
+    private JFXButton btnAdd;
+    @FXML
+    private JFXButton btnCloseAddMenu;
+    public static String sdt = "";
+    private CusMember customer = new CusMember();
+    private int idMem = 0;
+    @FXML
+    private JFXDatePicker dpNgayDK;
+    public static StackPane mainOrderScreen;
 
     /**
      * Initializes the controller class.
@@ -83,6 +116,7 @@ public class OrderScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        mainOrderScreen = mainOrderScreenStackPane;
         CheckoutSection.setEffect(new DropShadow(10, -3, 3, Color.rgb(34, 40, 49, 0.3)));
         try {
             //         DBUtils_MonOrder.deleteAll();
@@ -100,6 +134,79 @@ public class OrderScreenController implements Initializable {
                 orderedScroll.setVvalue(1.0);
             };
         });
+        txtSdtCheck.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("\\d*")) {
+                try {
+                    sdt = newValue;
+                } catch (Exception e) {
+                    
+                }
+            } else {
+                txtSdtCheck.setText(oldValue);
+            }
+        });
+        btnCheck.setOnAction((event) -> {
+            ArrayList<CusMember> arrCus = null;
+            try {
+                arrCus = DBUtils_CusMember.getListForCheck();
+            } catch (SQLException ex) {
+                Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(check(arrCus, sdt)) {
+                idMem = customer.getIdMember();
+            } else {
+                Node screen = null;
+                try {
+                    screen = FXMLLoader.load(getClass().getResource("/signIn/FXMLSignIn.fxml"));
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                creatDialog(btnCheck, (Region) screen, mainOrderScreenStackPane);
+            }
+        });
+        btnPay.setOnAction((event) -> {
+            new BounceIn(btnPay).setSpeed(2.0).play();
+            int total = ((Integer) txtMoneyTotal.getUserData()).intValue();
+            if (total != 0) {
+                if (customer.getIdCus() > 0) {
+                    System.out.println("IDNV: " + FXMLLoginController.nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
+                    DBUtils_DK.insert(FXMLLoginController.nvLogin.getIdNV(), customer.getIdCus());
+                }
+                DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
+                DBUtils_MonOrder.deleteAll();
+                try {
+                    getOrderedList();
+                } catch (SQLException ex) {
+                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
+    public static void closeAddMemberForm() {
+        JFXDialog dialog = (JFXDialog) mainOrderScreen.getChildren().get(2);
+        dialog.close();
+    }
+    
+    private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {
+        JFXDialog dialog = new JFXDialog(toStackPane, dialogContent, JFXDialog.DialogTransition.NONE);
+        dialog.setOverlayClose(false);
+        dialog.show();
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+        btnClose.setOnAction((eventt) -> {
+            dialog.close();
+        });
+    }
+    
+     private boolean check(ArrayList<CusMember> arrCus, String sdtCheck) {
+        for (CusMember arrCu : arrCus) {
+            if(arrCu.getSdt().equals(sdtCheck)) {
+                customer = arrCu;
+                System.out.println(arrCu.getSdt() + " - " + sdtCheck);
+                return true;
+            }
+        }
+        return false;
     }
 
     private void getOrderedList() throws SQLException {
@@ -122,7 +229,8 @@ public class OrderScreenController implements Initializable {
         };
         String price = String.format(Locale.US, "%,d", total).replace(",", ".");
         txtMoneyTotal.setText(price);
-        new BounceIn(txtMoneyTotal).setSpeed(2.0).play();
+        txtMoneyTotal.setUserData(total);
+        new BounceIn(txtMoneyTotal).setSpeed(1.0).play();
     }
 
     private int getPosItemInOrderList(int id) {
@@ -168,6 +276,7 @@ public class OrderScreenController implements Initializable {
                 shadow.setStyle("-fx-background-color:" + mainHsl);
                 btn.setStyle("-fx-background-color: linear-gradient(to left, " + mainHsl + ", " + secondHsl + ");");
                 btn.setOnAction((event) -> {
+                    new BounceIn(btn).setSpeed(2.0).play();
                     try {
                         changeMenuItemList(btn);
                     } catch (SQLException ex) {
@@ -229,7 +338,6 @@ public class OrderScreenController implements Initializable {
                                     System.out.println("size: " + orderedList.getChildren().size());
                                     new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(3.0).setResetOnFinished(true).play();
                                 };
-                                new BounceIn(itemQty).setSpeed(2.0).setResetOnFinished(true).play();
                                 itemQty.setText("1");
                             } catch (SQLException ex) {
                                 Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);

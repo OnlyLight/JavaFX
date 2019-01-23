@@ -1,80 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signIn.FXMLSignInController">
+<VBox fx:id="addMemberForm" alignment="CENTER" maxWidth="-Infinity" prefWidth="400.0" spacing="20.0" stylesheets="@../css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signIn.FXMLSignInController">
    <children>
-      <ImageView fitHeight="435.0" fitWidth="710.0" layoutX="-55.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/620x349.jpg" />
-         </image>
-      </ImageView>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-         <bottom>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
+      <Label alignment="CENTER" style="-fx-font-size: 18;" styleClass="font-bold" text="ADD NEW MEMBER" textAlignment="CENTER" />
+      <VBox spacing="5.0">
+         <children>
+            <Label styleClass="font-bold" text="Member Name" />
+            <TextField fx:id="txtTenCus" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </TextField>
+         </children>
+      </VBox>
+      <VBox spacing="5.0">
+         <children>
+            <Label styleClass="font-bold" text="Telephone" />
+            <TextField fx:id="txtSDT" prefHeight="40.0" prefWidth="819.0" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </TextField>
+         </children>
+      </VBox>
+      <HBox spacing="20.0">
+         <children>
+            <VBox spacing="5.0">
                <children>
-                  <JFXButton fx:id="btnAdd" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #8e0000;" text="Thêm" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="5.0" right="5.0" />
-                     </HBox.margin>
-                  </JFXButton>
-               </children>
-            </HBox>
-         </bottom>
-         <center>
-            <VBox prefHeight="340.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-               <children>
-                  <GridPane prefHeight="331.0" prefWidth="600.0">
-                     <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="Tên KH" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="SDT" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="Loại Thành viên" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 12;" text="Ngày DK" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label contentDisplay="CENTER" prefHeight="35.0" prefWidth="295.0" text="THÔNG TIN KHÁCH HÀNG" GridPane.columnIndex="2">
-                           <font>
-                              <Font name="Bodoni MT Black Italic" size="20.0" />
-                           </font>
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
-                        </Label>
-                        <ComboBox fx:id="cbLoaiMember" prefHeight="25.0" prefWidth="309.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <DatePicker fx:id="dpNgayDK" disable="true" editable="false" prefHeight="25.0" prefWidth="304.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <JFXTextField fx:id="txtTenCus" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <JFXTextField fx:id="txtSDT" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                     </children>
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="87.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="314.0" minWidth="10.0" prefWidth="98.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="315.0" minWidth="10.0" prefWidth="300.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="115.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <Label styleClass="font-bold" text="Member Type" />
+                  <ComboBox fx:id="cbLoaiMember" prefHeight="44.0" prefWidth="241.0" promptText="Choose type" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-border-radius: 3; -fx-padding: 2 2 2 0;" />
                </children>
             </VBox>
-         </center>
-      </BorderPane>
+            <VBox spacing="5.0">
+               <children>
+                  <Label styleClass="font-bold" text="Date" />
+                  <JFXDatePicker fx:id="dpNgayDK" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
+                     <padding>
+                        <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
+                     </padding>
+                  </JFXDatePicker>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" spacing="20.0">
+         <children>
+            <StackPane maxWidth="-Infinity" prefHeight="31.0" prefWidth="80.0">
+               <children>
+                  <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
+                     <effect>
+                        <BoxBlur height="15.0" iterations="2" width="17.86" />
+                     </effect>
+                  </HBox>
+                  <JFXButton fx:id="btnAdd" prefHeight="59.0" prefWidth="80.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" ADD" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                     </effect>
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="PLUS" />
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </StackPane>
+            <StackPane maxWidth="-Infinity" prefHeight="38.0" prefWidth="103.0">
+               <children>
+                  <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #e84545;" stylesheets="@../css/global.css" translateY="7.0">
+                     <effect>
+                        <BoxBlur height="15.0" iterations="2" width="17.86" />
+                     </effect>
+                  </HBox>
+                  <JFXButton fx:id="btnCloseAddMenu" prefHeight="68.0" prefWidth="103.0" styleClass="btn-danger" stylesheets="@../css/global.css" text=" CANCLE" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                     </effect>
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" iconName="CLOSE" />
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </StackPane>
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </HBox>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

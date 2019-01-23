@@ -28,12 +28,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import sale.FXMLDocumentController;
+import sale.OrderScreenController;
 import tqduy.bean.Member;
 import tqduy.connect.DBUtils_CusMember;
 import tqduy.connect.DBUtils_Member;
@@ -53,11 +56,15 @@ public class FXMLSignInController implements Initializable {
     @FXML
     private DatePicker dpNgayDK;
     @FXML
-    private JFXTextField txtSDT, txtTenCus;
+    private TextField txtSDT, txtTenCus;
 
     private LocalDate dateDK = LocalDate.now();
-    private String sdt = FXMLDocumentController.sdt;
+    private String sdt = OrderScreenController.sdt;
     public static Member m = new Member();
+    @FXML
+    private VBox addMemberForm;
+    @FXML
+    private JFXButton btnCloseAddMenu;
 
     private void inputData() throws SQLException {
         ObservableList<Member> listLoai = FXCollections.observableArrayList();
@@ -105,12 +112,7 @@ public class FXMLSignInController implements Initializable {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             } else {
                 DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
-                try {
-                    showDialog("/sale/FXMLDocument.fxml", StageStyle.DECORATED, Modality.NONE);
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLSignInController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                closeStage(btnAdd);
+                OrderScreenController.closeAddMemberForm();
             }
         });
     }
