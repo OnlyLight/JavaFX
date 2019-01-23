@@ -5,6 +5,7 @@
  */
 package warehouse;
 
+import animatefx.animation.BounceIn;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
@@ -68,29 +69,50 @@ import tqduy.connect.DBUtils_Xuat;
  * @author QuangDuy
  */
 public class FXMLWareHouseController implements Initializable {
-    
-    @FXML private TableView tbNhap, tbXuat;
-    @FXML private TableColumn<NhapTable, String> tbTenLoaiNhapColumn, tbDVTNhapColumn, tbDVTXuatColumn, tbTenLoaiXuatColumn;
-    @FXML private TableColumn<NhapTable, String> tbTenSpNhapColumn;
-    @FXML private TableColumn<NhapTable, Integer> tbDonGiaNhapColumn, tbSoLuongNhapColumn;
-    @FXML private TableColumn<NhapTable, Date> tbNgayNhapColumn;
-    @FXML private TableColumn<XuatTable, String> tbTenSpXuatColumn;
-    @FXML private TableColumn<XuatTable, Integer> tbSoLuongXuatColumn;
-    @FXML private TableColumn<XuatTable, Date> tbNgayXuatColumn;
-    @FXML private TextField txtTenSpNhap, txtSoLuongNhap, txtDonGiaNhap;
-    @FXML private DatePicker dpNgayNhap, dpDayStartNhap, dpDayFinishNhap;
-    @FXML private ComboBox<LoaiNX> cbTenLoaiNhap, cbLoaiThongKe;
-    @FXML private ComboBox<String> cbTenSpXuat;
-    @FXML private Button btnNhap, btnFind, btnPrintInfo, btnReset;
-    @FXML private TableView<TKTable> tbThongKe;
-    @FXML private TableColumn<TKTable, String> tbTenSpTKColumn, tbLoaiTKColumn;
-    @FXML private TableColumn<TKTable, Integer> tbDonGiaTKColumn, tbSoLuongNhapTKColumn, tbSoLuongXuatTKColumn;
-    @FXML private TableColumn<TKTable, Date> tbNgayNhapTKColumn, tbNgayXuatTKColumn;
-    @FXML private Tab tabTK;
-    @FXML private BarChart<String, Number> bcThongKe;
-    @FXML private CategoryAxis xAxis;
-    @FXML private NumberAxis yAxis;
-    
+
+    @FXML
+    private TableView tbNhap, tbXuat;
+    @FXML
+    private TableColumn<NhapTable, String> tbTenLoaiNhapColumn, tbDVTNhapColumn, tbDVTXuatColumn, tbTenLoaiXuatColumn;
+    @FXML
+    private TableColumn<NhapTable, String> tbTenSpNhapColumn;
+    @FXML
+    private TableColumn<NhapTable, Integer> tbDonGiaNhapColumn, tbSoLuongNhapColumn;
+    @FXML
+    private TableColumn<NhapTable, Date> tbNgayNhapColumn;
+    @FXML
+    private TableColumn<XuatTable, String> tbTenSpXuatColumn;
+    @FXML
+    private TableColumn<XuatTable, Integer> tbSoLuongXuatColumn;
+    @FXML
+    private TableColumn<XuatTable, Date> tbNgayXuatColumn;
+    @FXML
+    private TextField txtTenSpNhap, txtSoLuongNhap, txtDonGiaNhap;
+    @FXML
+    private DatePicker dpNgayNhap, dpDayStartNhap, dpDayFinishNhap;
+    @FXML
+    private ComboBox<LoaiNX> cbTenLoaiNhap, cbLoaiThongKe;
+    @FXML
+    private ComboBox<String> cbTenSpXuat;
+    @FXML
+    private Button btnNhap, btnFind, btnPrintInfo, btnReset;
+    @FXML
+    private TableView<TKTable> tbThongKe;
+    @FXML
+    private TableColumn<TKTable, String> tbTenSpTKColumn, tbLoaiTKColumn;
+    @FXML
+    private TableColumn<TKTable, Integer> tbDonGiaTKColumn, tbSoLuongNhapTKColumn, tbSoLuongXuatTKColumn;
+    @FXML
+    private TableColumn<TKTable, Date> tbNgayNhapTKColumn, tbNgayXuatTKColumn;
+    @FXML
+    private Tab tabTK;
+    @FXML
+    private BarChart<String, Number> bcThongKe;
+    @FXML
+    private CategoryAxis xAxis;
+    @FXML
+    private NumberAxis yAxis;
+
     private ArrayList<LoaiNX> arrLoai = DBUtils_LoaiNX.getList();
     private ArrayList<DVT> arrDVT = DBUtils_DVT.getList();
     private LocalDate dateNhap = LocalDate.now();
@@ -121,16 +143,16 @@ public class FXMLWareHouseController implements Initializable {
     private JFXButton btnCloseAddMenu;
     @FXML
     private StackPane prdNameStackPane;
-    
+
     // Bản thông kê
     private void displayBarChart() throws SQLException {
         int year = Calendar.getInstance().get(Calendar.YEAR); // GET CURRENT YEAR
-        System.out.println("year: " +year);
-        
+        System.out.println("year: " + year);
+
         tabTK.setOnSelectionChanged((event) -> {
             try {
                 ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.getList());
-                if(!list.isEmpty()) {
+                if (!list.isEmpty()) {
                     tbThongKe.getItems().clear();
                     tbThongKe.setItems(list);
                 }
@@ -138,30 +160,30 @@ public class FXMLWareHouseController implements Initializable {
                 Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<>();
         dataSeries1.setName("Nhập");
-        
+
         XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<>();
         dataSeries2.setName("Xuất");
 
-        for(int i = year - 2; i <= year; i++) {
-            dataSeries1.getData().add(new XYChart.Data<String, Number>(""+i+"", DBUtils_Nhap.getNhap(i)));
-            dataSeries2.getData().add(new XYChart.Data<String, Number>(""+i+"", DBUtils_Xuat.getXuat(i)));
+        for (int i = year - 2; i <= year; i++) {
+            dataSeries1.getData().add(new XYChart.Data<String, Number>("" + i + "", DBUtils_Nhap.getNhap(i)));
+            dataSeries2.getData().add(new XYChart.Data<String, Number>("" + i + "", DBUtils_Xuat.getXuat(i)));
         }
-        
+
         bcThongKe.getData().add(dataSeries1);
         bcThongKe.getData().add(dataSeries2);
-        
+
         System.out.println("BarChart");
     }
-    
+
     // Set event for Tab Thong ke
     private void eventClickTK() {
         btnReset.setOnAction((event) -> {
             try {
                 ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.getList());
-                if(!list.isEmpty()) {
+                if (!list.isEmpty()) {
                     tbThongKe.getItems().clear();
                     tbThongKe.setItems(list);
                 };
@@ -172,12 +194,12 @@ public class FXMLWareHouseController implements Initializable {
                 Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         btnPrintInfo.setOnAction((event) -> {
             createAlert("Printing....");
         });
     }
-    
+
     private void eventSearch() {
         btnOpenFind.setOnAction((event) -> {
             btnOpenFind.setDisable(true);
@@ -190,18 +212,18 @@ public class FXMLWareHouseController implements Initializable {
             });
             dialog.show();
         });
-        
+
         cbLoaiThongKe.setOnAction((event) -> {
             loaiTK = cbLoaiThongKe.getSelectionModel().getSelectedItem();
             System.out.println(loaiTK);
         });
-        
+
         btnFind.setOnAction((event) -> {
             System.out.println("Result[dayStartNhap: " + dayStartNhap + " - dayFinishNhap: " + dayFinishNhap + " - dayStartXuat: " + dayStartXuat + " - dayFinishXuat: " + dayFinishXuat);
             // Lấy list dữ liệu đã tìm kiếm đưa ra cho table hiển thị
             ObservableList<TKTable> list = FXCollections.observableArrayList(DBUtils_TK.searchTK(dayStartNhap, dayFinishNhap, dayStartXuat, dayFinishXuat, loaiTK.getTenLoaiNX()));
             tbThongKe.getItems().clear();
-            if(!list.isEmpty()) {
+            if (!list.isEmpty()) {
                 tbThongKe.setItems(list);
             };
             JFXDialog dialog = (JFXDialog) mainStackPane.getChildren().get(1);
@@ -210,38 +232,40 @@ public class FXMLWareHouseController implements Initializable {
         });
     }
     // End Set event for Tab Thong ke
-    
+
     // Combobox
     private void loadCombobox() throws SQLException {
         ArrayList<Nhap> arrNhap = DBUtils_Nhap.getList();
         ArrayList<String> copy = new ArrayList<>();
         ObservableList<String> list = FXCollections.observableArrayList();
-        
+
         for (Nhap nhap : arrNhap) {
             String ten = nhap.getTenSpNhap();
             copy.add(ten);
         }
-        System.out.println("arrCopy1: "+ copy.toString());
-        
+        System.out.println("arrCopy1: " + copy.toString());
+
         // Hiển thị tên cho việc nhập xuất
-        for(int i = 0; i < arrNhap.size(); i++) {
+        for (int i = 0; i < arrNhap.size(); i++) {
             int count = 0;
-            for(int j = 0; j < copy.size(); j++) {
-                if(arrNhap.get(i).getTenSpNhap().equals(copy.get(j))) {
+            for (int j = 0; j < copy.size(); j++) {
+                if (arrNhap.get(i).getTenSpNhap().equals(copy.get(j))) {
                     count++;
-                    if(count >= 2) {
+                    if (count >= 2) {
                         copy.remove(j); // Nếu đếm được tên 2 lần thì xóa đi lấy 1 lần
                         break;
                     }
                 }
             }
         }
-        System.out.println("arrCopy2: "+ copy.toString());
-        
+        System.out.println("arrCopy2: " + copy.toString());
+
         list.addAll(copy);
-        if(!list.isEmpty()) cbTenSpXuat.setItems(list);
+        if (!list.isEmpty()) {
+            cbTenSpXuat.setItems(list);
+        }
     }
-    
+
     private void showComboboxTenXuat() {
         cbTenSpXuat.setOnMouseClicked((event) -> {
             cbTenSpXuat.getItems().clear();
@@ -251,56 +275,62 @@ public class FXMLWareHouseController implements Initializable {
                 Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         cbTenSpXuat.setOnAction((event) -> {
-            tenSpXuat = cbTenSpXuat.getSelectionModel().getSelectedItem();
-            System.out.println("Ten sp Xuat: " + tenSpXuat);
-            
-            if(tenSpXuat != null) {
-                try {
-                    ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
-                    for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
-                        loai.add(loaiNX);
-                    }
-                    
-                    if(!loai.isEmpty()) {
-                        cbTenLoaiNhap.getItems().clear();
-                        cbTenLoaiNhap.setItems(loai);
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            getTenSpXuat();
 //            showBoxNhap();
         });
     }
-    
+
+    private void getTenSpXuat() {
+        tenSpXuat = cbTenSpXuat.getSelectionModel().getSelectedItem();
+        System.out.println("Ten sp Xuat: " + tenSpXuat);
+
+        if (tenSpXuat != null) {
+            try {
+                ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
+                for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
+                    loai.add(loaiNX);
+                }
+
+                if (!loai.isEmpty()) {
+                    cbTenLoaiNhap.getItems().clear();
+                    cbTenLoaiNhap.setItems(loai);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     private void showBoxNhap() {
         ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
         for (LoaiNX loaiNX : arrLoai) {
             loai.add(loaiNX);
             System.out.println(loaiNX);
         }
-        if(!loai.isEmpty()) cbTenLoaiNhap.setItems(loai);
+        if (!loai.isEmpty()) {
+            cbTenLoaiNhap.setItems(loai);
+        }
     }
-    
+
     private void showCombobox() {
         ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
         ObservableList<String> listDVT = FXCollections.observableArrayList();
         for (LoaiNX loaiNX : arrLoai) {
             loai.add(loaiNX);
         }
-        
+
         for (DVT dvt : arrDVT) {
             String tenDV = dvt.getDvt();
             listDVT.add(tenDV);
         }
-        
+
         showBoxNhap();
 //        cbTenLoaiXuat.setItems(loai);
         cbLoaiThongKe.setItems(loai);
     }
-    
+
     private void checkInput() {
         // Box Nhap
         txtSoLuongNhap.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -308,26 +338,26 @@ public class FXMLWareHouseController implements Initializable {
                 try {
                     soLuongNhap = Integer.parseInt(newValue);
                 } catch (Exception e) {
-                    
+
                 }
             } else {
                 txtSoLuongNhap.setText(oldValue);
             }
         });
-        
+
         txtDonGiaNhap.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.matches("\\d*") && !newValue.equals("0")) {
                 try {
                     donGiaNhap = Integer.parseInt(newValue);
                 } catch (Exception e) {
-                    
+
                 }
             } else {
                 txtDonGiaNhap.setText(oldValue);
             }
         });
         // End Box Nhap
-        
+
         // Box Xuat
 //        txtSoLuongXuat.textProperty().addListener((observable, oldValue, newValue) -> {
 //            if (newValue.matches("\\d*") && !newValue.equals("0")) {
@@ -342,7 +372,7 @@ public class FXMLWareHouseController implements Initializable {
 //        });
         // End Box Xuat
     }
-    
+
     private void eventDatePicker() {
         dpNgayNhap.setValue(LocalDate.now());
 //        dpNgayXuat.setValue(LocalDate.now());
@@ -350,7 +380,7 @@ public class FXMLWareHouseController implements Initializable {
         dpDayFinishNhap.setValue(LocalDate.now());
 //        dpDayStartXuat.setValue(LocalDate.now());
 //        dpDayFinishXuat.setValue(LocalDate.now());
-        
+
         // fomat for Datepicker dd/MM/yyyy
         fomatterForDatePicker(dpNgayNhap);
 //        fomatterForDatePicker(dpNgayXuat);
@@ -358,27 +388,26 @@ public class FXMLWareHouseController implements Initializable {
         fomatterForDatePicker(dpDayFinishNhap);
 //        fomatterForDatePicker(dpDayStartXuat);
 //        fomatterForDatePicker(dpDayFinishXuat);
-        
+
         // Set Limit for datepicker statistical
         setDayLimitForDatePicker(dpDayStartNhap, dpDayFinishNhap);
 //        setDayLimitForDatePicker(dpDayStartXuat, dpDayFinishXuat);
-        
+
         dpNgayNhap.setOnAction((event) -> {
             dateNhap = dpNgayNhap.getValue();
         });
-        
+
 //        dpNgayXuat.setOnAction((event) -> {
 //            dateXuat = dpNgayXuat.getValue();
 //        });
-        
         dpDayStartNhap.setOnAction((event) -> {
             dayStartNhap = dpDayStartNhap.getValue();
         });
-        
+
         dpDayFinishNhap.setOnAction((event) -> {
             dayFinishNhap = dpDayFinishNhap.getValue();
         });
-        
+
 //        dpDayStartXuat.setOnAction((event) -> {
 //            dayStartXuat = dpDayStartXuat.getValue();
 //        });
@@ -387,7 +416,7 @@ public class FXMLWareHouseController implements Initializable {
 //            dayFinishXuat = dpDayFinishXuat.getValue();
 //        });
     }
-    
+
     private void setDayLimitForDatePicker(DatePicker dayStart, DatePicker dayFinish) {
         final Callback<DatePicker, DateCell> dayCellFactory;
 
@@ -401,14 +430,14 @@ public class FXMLWareHouseController implements Initializable {
                 }
             }
         };
-        
+
         dayFinish.setDayCellFactory(dayCellFactory);
     }
-    
+
     private void fomatterForDatePicker(DatePicker datePicker) {
         StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            
+
             @Override
             public String toString(LocalDate date) {
                 if (date != null) {
@@ -417,6 +446,7 @@ public class FXMLWareHouseController implements Initializable {
                     return "";
                 }
             }
+
             @Override
             public LocalDate fromString(String string) {
                 if (string != null && !string.isEmpty()) {
@@ -426,43 +456,72 @@ public class FXMLWareHouseController implements Initializable {
                 }
             }
         };
-        
+
         datePicker.setConverter(converter);
         datePicker.setPromptText("dd-MM-yyyy");
     }
-    
+
     private void boxNhap() {
         // Box Nhap
         cbTenLoaiNhap.setOnAction((event) -> {
             tenLoaiNhap = cbTenLoaiNhap.getSelectionModel().getSelectedItem();
             System.out.println(tenLoaiNhap);
         });
-        
+
         btnNhap.setOnAction((event) -> {
-            String ten = txtTenSpNhap.getText().toString().trim();
-            if(ten.isEmpty() || txtSoLuongNhap.getText().isEmpty() || txtDonGiaNhap.getText().isEmpty() || tenLoaiNhap == null) {
-                createAlert("Xin Nhập đầy đủ thông tin !!!");
-            } else {
+            new BounceIn(btnNhap).setSpeed(2.0).play();
+            String type = ((JFXRadioButton) addType.getSelectedToggle()).getText();
+            if (type.equals("Export")) {
                 try {
-                    DBUtils_Nhap.insert(ten, tenLoaiNhap.getIdLoaiNX(), donGiaNhap, soLuongNhap, dateNhap);
-                    System.out.println("Ten: " + ten + " - Số lượng: " + soLuongNhap + " - Đơn giá: " + donGiaNhap + " - Date: " + dateNhap + " - Loai: " + tenLoaiNhap);
-                    txtTenSpNhap.setText("");
-                    txtSoLuongNhap.setText("");
-                    txtDonGiaNhap.setText("");
-                    
-                    ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(DBUtils_Nhap.getList());
-                    if(!listNhapDisplay.isEmpty()) {
-                        tbNhap.getItems().clear();
-                        tbNhap.setItems(listNhapDisplay);
-                    }
+                    submitXuat();
                 } catch (SQLException ex) {
                     Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else {
+                submitNhap();
             }
         });
         // End Box Nhap
     }
-    
+
+    private void submitNhap() {
+        String ten = txtTenSpNhap.getText().toString().trim();
+        if (ten.isEmpty() || txtSoLuongNhap.getText().isEmpty() || txtDonGiaNhap.getText().isEmpty() || tenLoaiNhap == null) {
+            createAlert("Xin Nhập đầy đủ thông tin !!!");
+        } else {
+            try {
+                DBUtils_Nhap.insert(ten, tenLoaiNhap.getIdLoaiNX(), donGiaNhap, soLuongNhap, dateNhap);
+                System.out.println("Ten: " + ten + " - Số lượng: " + soLuongNhap + " - Đơn giá: " + donGiaNhap + " - Date: " + dateNhap + " - Loai: " + tenLoaiNhap);
+                txtTenSpNhap.setText("");
+                txtSoLuongNhap.setText("");
+                txtDonGiaNhap.setText("");
+
+                ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(DBUtils_Nhap.getList());
+                if (!listNhapDisplay.isEmpty()) {
+                    tbNhap.getItems().clear();
+                    tbNhap.setItems(listNhapDisplay);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private void submitXuat() throws SQLException {
+        if (tenSpXuat.isEmpty() || txtSoLuongNhap.getText().toString().trim().isEmpty() || tenLoaiXuat == null) {
+            createAlert("Xin Nhập đầy đủ thông tin !!!");
+        } else {
+            DBUtils_Xuat.insert(tenSpXuat, tenLoaiXuat.getIdLoaiNX(), soLuongXuat, dateXuat);
+            txtSoLuongNhap.setText("");
+
+            ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());
+            if (!listXuatDisplay.isEmpty()) {
+                tbXuat.getItems().clear();
+                tbXuat.setItems(listXuatDisplay);
+            }
+        }
+    }
+
 //    private void boxXuat() {
 //        // Box Xuat
 //        cbTenLoaiXuat.setOnAction((event) -> {
@@ -471,31 +530,18 @@ public class FXMLWareHouseController implements Initializable {
 //        });
 //        
 //        btnXuat.setOnAction((event) -> {
-//            if(tenSpXuat.isEmpty() || txtSoLuongXuat.getText().toString().trim().isEmpty() || tenLoaiXuat == null) {
-//                createAlert("Xin Nhập đầy đủ thông tin !!!");
-//            } else {
-//                DBUtils_Xuat.insert(tenSpXuat, tenLoaiXuat.getIdLoaiNX(), soLuongXuat, dateXuat);
-//                txtSoLuongXuat.setText("");
-//                
-//                ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());
-//                if(!listXuatDisplay.isEmpty()) {
-//                    tbXuat.getItems().clear();
-//                    tbXuat.setItems(listXuatDisplay);
-//                }
-//            }
 //        });
 //        // End Box Xuat
 //    }
-    
     private void eventClickButtonADD() {
         checkInput();
-        
+
         eventDatePicker();
-        
+
         boxNhap();
 //        boxXuat();
     }
-    
+
     private void createAlert(String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -505,16 +551,15 @@ public class FXMLWareHouseController implements Initializable {
         alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
 
         Optional<ButtonType> result = alert.showAndWait();
-        
-        if(result.get() == ButtonType.OK) {
+
+        if (result.get() == ButtonType.OK) {
         }
 
         System.out.println(result.get().getText());
     }
     // END Combobox Nhap
-    
+
     // Box Xuat
-    
     // Table
     private void createNameColumn() {
         // Table Nhap
@@ -524,14 +569,14 @@ public class FXMLWareHouseController implements Initializable {
         tbDonGiaNhapColumn.setText("Đơn giá nhập");
         tbSoLuongNhapColumn.setText("Số lượng nhập");
         tbNgayNhapColumn.setText("Ngày nhập");
-        
+
         // Table Xuat
         tbTenSpXuatColumn.setText("Tên sản phẩm");
         tbTenLoaiXuatColumn.setText("Loại");
         tbDVTXuatColumn.setText("Đơn vị tính");
         tbSoLuongXuatColumn.setText("Số lượng xuất");
         tbNgayXuatColumn.setText("Ngày xuất");
-        
+
         // Table Thong Ke
         tbTenSpTKColumn.setText("Tên SP");
         tbDonGiaTKColumn.setText("Đơn Giá");
@@ -541,7 +586,7 @@ public class FXMLWareHouseController implements Initializable {
         tbNgayXuatTKColumn.setText("Ngày xuất");
         tbLoaiTKColumn.setText("Loại");
     }
-    
+
     private void setDataTable() {
         // Set data for table Nhap
         tbTenSpNhapColumn.setCellValueFactory(new PropertyValueFactory<>("tenSp"));
@@ -550,14 +595,14 @@ public class FXMLWareHouseController implements Initializable {
         tbDonGiaNhapColumn.setCellValueFactory(new PropertyValueFactory<>("donGia"));
         tbSoLuongNhapColumn.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
         tbNgayNhapColumn.setCellValueFactory(new PropertyValueFactory<>("ngayNhap"));
-        
+
         // Set data for table Xuat
         tbTenSpXuatColumn.setCellValueFactory(new PropertyValueFactory<>("tenSp"));
         tbTenLoaiXuatColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoai"));
         tbDVTXuatColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));
         tbSoLuongXuatColumn.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
         tbNgayXuatColumn.setCellValueFactory(new PropertyValueFactory<>("ngayXuat"));
-        
+
         // Set data for Table Thong Ke
         tbTenSpTKColumn.setCellValueFactory(new PropertyValueFactory<>("tenSp"));
         tbDonGiaTKColumn.setCellValueFactory(new PropertyValueFactory<>("donGia"));
@@ -567,12 +612,12 @@ public class FXMLWareHouseController implements Initializable {
         tbNgayXuatTKColumn.setCellValueFactory(new PropertyValueFactory<>("ngayXuat"));
         tbLoaiTKColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoai"));
     }
-    
+
     private void createTable() {
         createNameColumn();
-        
+
         setDataTable();
-        
+
         tbNgayNhapColumn.setCellFactory((column) -> {
             TableCell<NhapTable, Date> cell = new TableCell<NhapTable, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -580,17 +625,16 @@ public class FXMLWareHouseController implements Initializable {
                 @Override
                 protected void updateItem(Date item, boolean empty) {
                     super.updateItem(item, empty);
-                    if(empty) {
+                    if (empty) {
                         setText(null);
-                    }
-                    else {
+                    } else {
                         setText(format.format(item));
                     }
                 }
             };
             return cell; //To change body of generated lambdas, choose Tools | Templates.
         });
-        
+
         tbNgayXuatColumn.setCellFactory((column) -> {
             TableCell<XuatTable, Date> cell = new TableCell<XuatTable, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -598,17 +642,16 @@ public class FXMLWareHouseController implements Initializable {
                 @Override
                 protected void updateItem(Date item, boolean empty) {
                     super.updateItem(item, empty);
-                    if(empty) {
+                    if (empty) {
                         setText(null);
-                    }
-                    else {
+                    } else {
                         setText(format.format(item));
                     }
                 }
             };
             return cell; //To change body of generated lambdas, choose Tools | Templates.
         });
-        
+
         tbNgayNhapTKColumn.setCellFactory((column) -> {
             TableCell<TKTable, Date> cell = new TableCell<TKTable, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -616,17 +659,16 @@ public class FXMLWareHouseController implements Initializable {
                 @Override
                 protected void updateItem(Date item, boolean empty) {
                     super.updateItem(item, empty);
-                    if(empty) {
+                    if (empty) {
                         setText(null);
-                    }
-                    else {
+                    } else {
                         setText(format.format(item));
                     }
                 }
             };
             return cell; //To change body of generated lambdas, choose Tools | Templates.
         });
-        
+
         tbNgayXuatTKColumn.setCellFactory((column) -> {
             TableCell<TKTable, Date> cell = new TableCell<TKTable, Date>() {
                 private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -634,10 +676,9 @@ public class FXMLWareHouseController implements Initializable {
                 @Override
                 protected void updateItem(Date item, boolean empty) {
                     super.updateItem(item, empty);
-                    if(empty) {
+                    if (empty) {
                         setText(null);
-                    }
-                    else {
+                    } else {
                         setText(format.format(item));
                     }
                 }
@@ -645,58 +686,57 @@ public class FXMLWareHouseController implements Initializable {
             return cell; //To change body of generated lambdas, choose Tools | Templates.
         });
     }
-    
+
     private void setEvent() throws SQLException {
         tbNhap.getColumns().clear();
         tbXuat.getColumns().clear();
         tbThongKe.getColumns().clear();
         tbNhap.setEditable(true);
         tbXuat.setEditable(true);
-        
+
         createTable();
-        
+
         ArrayList<Nhap> listNhap = DBUtils_Nhap.getList();
         ArrayList<Xuat> listXuat = DBUtils_Xuat.getList();
-        
+
         ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(listNhap);
         ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(listXuat);
-        
-        
-        if(!listXuatDisplay.isEmpty() && !listNhapDisplay.isEmpty()) {
+
+        if (!listXuatDisplay.isEmpty() && !listNhapDisplay.isEmpty()) {
             tbNhap.setItems(listNhapDisplay);
             tbNhap.getColumns().addAll(tbTenSpNhapColumn, tbTenLoaiNhapColumn, tbDVTNhapColumn, tbDonGiaNhapColumn, tbSoLuongNhapColumn, tbNgayNhapColumn);
-            
+
             tbXuat.setItems(listXuatDisplay);
             tbXuat.getColumns().addAll(tbTenSpXuatColumn, tbTenLoaiXuatColumn, tbDVTXuatColumn, tbSoLuongXuatColumn, tbNgayXuatColumn);
         }
-        
+
         tbThongKe.getColumns().addAll(tbTenSpTKColumn, tbDonGiaTKColumn, tbSoLuongNhapTKColumn, tbNgayNhapTKColumn, tbSoLuongXuatTKColumn, tbNgayXuatTKColumn, tbLoaiTKColumn);
     }
-    
+
     private void setOnKeyPress() {
         tbNhap.setOnKeyPressed((event) -> {
-            if(event.getCode() == KeyCode.DELETE) {
+            if (event.getCode() == KeyCode.DELETE) {
                 deleteRowTableNhap();
             }
         });
-        
+
         tbXuat.setOnKeyPressed((event) -> {
-            if(event.getCode() == KeyCode.DELETE) {
+            if (event.getCode() == KeyCode.DELETE) {
                 deleteRowTableXuat();
             }
         });
     }
-    
+
     private void deleteRowTableXuat() {
         ObservableList<XuatTable> list = tbXuat.getSelectionModel().getSelectedItems();
         ArrayList<XuatTable> rows = new ArrayList<>(list);
         rows.forEach((row) -> {
             try {
                 DBUtils_Xuat.delete(row.getId());
-                
+
                 ArrayList<Xuat> listXuat = DBUtils_Xuat.getList();
                 ObservableList<XuatTable> listXuatpDisplay = getListXuatDisplay(listXuat);
-                
+
                 tbXuat.getItems().clear();
                 tbXuat.setItems(listXuatpDisplay);
             } catch (SQLException ex) {
@@ -704,17 +744,17 @@ public class FXMLWareHouseController implements Initializable {
             }
         });
     }
-    
+
     private void deleteRowTableNhap() {
         ObservableList<NhapTable> list = tbNhap.getSelectionModel().getSelectedItems();
         ArrayList<NhapTable> rows = new ArrayList<>(list);
         rows.forEach((row) -> {
             try {
                 DBUtils_Nhap.delete(row.getId());
-                
+
                 ArrayList<Nhap> listNhap = DBUtils_Nhap.getList();
                 ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(listNhap);
-                
+
                 tbNhap.getItems().clear();
                 tbNhap.setItems(listNhapDisplay);
             } catch (SQLException ex) {
@@ -722,10 +762,10 @@ public class FXMLWareHouseController implements Initializable {
             }
         });
     }
-    
+
     private ObservableList<NhapTable> getListNhapDisplay(ArrayList<Nhap> listNhap) {
         ObservableList<NhapTable> list = FXCollections.observableArrayList();
-        
+
         for (Nhap nhap : listNhap) {
             int id = nhap.getIdNhap();
             String tenSp = nhap.getTenSpNhap();
@@ -736,12 +776,12 @@ public class FXMLWareHouseController implements Initializable {
             String tenLoai = "";
             String tenDV = "";
             for (LoaiNX loaiNX : arrLoai) {
-                if(idLoai == loaiNX.getIdLoaiNX()) {
+                if (idLoai == loaiNX.getIdLoaiNX()) {
                     tenLoai = loaiNX.getTenLoaiNX();
                     int idDVT = loaiNX.getIdDVT();
-                    
-                    for(DVT dvt : arrDVT) {
-                        if(idDVT == dvt.getIdDVT()) {
+
+                    for (DVT dvt : arrDVT) {
+                        if (idDVT == dvt.getIdDVT()) {
                             tenDV = dvt.getDvt();
                             break;
                         }
@@ -754,10 +794,10 @@ public class FXMLWareHouseController implements Initializable {
         }
         return list;
     }
-    
+
     private ObservableList<XuatTable> getListXuatDisplay(ArrayList<Xuat> listXuat) {
         ObservableList<XuatTable> list = FXCollections.observableArrayList();
-        
+
         for (Xuat xuat : listXuat) {
             int id = xuat.getIdXuat();
             String tenSp = xuat.getTenSpXuat();
@@ -766,12 +806,12 @@ public class FXMLWareHouseController implements Initializable {
             int idLoai = xuat.getIdLoaiNX();
             String tenLoai = "", tenDVT = "";
             for (LoaiNX loaiNX : arrLoai) {
-                if(idLoai == loaiNX.getIdLoaiNX()) {
+                if (idLoai == loaiNX.getIdLoaiNX()) {
                     tenLoai = loaiNX.getTenLoaiNX();
                     int idDVT = loaiNX.getIdDVT();
-                    
-                    for(DVT dvt : arrDVT) {
-                        if(idDVT == dvt.getIdDVT()) {
+
+                    for (DVT dvt : arrDVT) {
+                        if (idDVT == dvt.getIdDVT()) {
                             tenDVT = dvt.getDvt();
                             break;
                         }
@@ -792,24 +832,30 @@ public class FXMLWareHouseController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-        loadCombobox();
-        addType.selectedToggleProperty().addListener((observable) -> {
-            prdNameStackPane.getChildren().get(0).toFront();
-        });
-        tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        System.out.println("max: " + tbLoaiTKColumn.getMaxWidth());
-        setEvent();
-        showCombobox();
-        eventClickButtonADD();
-        setOnKeyPress();
-        eventSearch();
-        eventClickTK();
-        displayBarChart();
-        showComboboxTenXuat();
+            loadCombobox();
+            addType.selectedToggleProperty().addListener((observable) -> {
+                prdNameStackPane.getChildren().get(0).toFront();
+                String type = ((JFXRadioButton) addType.getSelectedToggle()).getText();
+                if (type.equals("Export")) {
+                    getTenSpXuat();
+                } else {
+                    showBoxNhap();
+                }
+            });
+            tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            System.out.println("max: " + tbLoaiTKColumn.getMaxWidth());
+            setEvent();
+            showCombobox();
+            eventClickButtonADD();
+            setOnKeyPress();
+            eventSearch();
+            eventClickTK();
+            displayBarChart();
+            showComboboxTenXuat();
         } catch (SQLException ex) {
             Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
-    
+    }
+
 }

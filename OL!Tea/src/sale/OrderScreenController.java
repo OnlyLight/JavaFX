@@ -224,7 +224,7 @@ public class OrderScreenController implements Initializable {
                                     Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 if (getQtyitem == -1) {
-                                    new BounceIn(orderedList.getChildren().get(orderedList.getChildren().size() - 1)).setSpeed(2.0).setResetOnFinished(true).play();
+                                    new Pulse(orderedList.getChildren().get(orderedList.getChildren().size() - 1)).setSpeed(2.0).setResetOnFinished(true).play();
                                 } else {
                                     System.out.println("size: " + orderedList.getChildren().size());
                                     new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(3.0).setResetOnFinished(true).play();
