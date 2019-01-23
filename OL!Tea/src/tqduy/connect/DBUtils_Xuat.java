@@ -108,8 +108,12 @@ public class DBUtils_Xuat {
         System.out.println("Delete Success");
     }
     
+    public static void main(String[] args) {
+        insert("Cà Phê 3", 5, 1, LocalDate.now());
+    }
+    
     public static void insert(String tenSp, int idLoai, int soLuong, LocalDate ngayXuat) {
-        execute("INSERT INTO dbo.Xuat " +
+        String sql = "INSERT INTO dbo.Xuat " +
 "        ( tenSpXuat , " +
 "          idLoaiNX , " +
 "          soLuong , " +
@@ -119,7 +123,9 @@ public class DBUtils_Xuat {
 "          "+idLoai+" , " +
 "          "+soLuong+" , " +
 "          CONVERT(DATE, '"+ngayXuat+"') " +
-"        )");
-        System.out.println("Chèn thành công !!");
+"        )";
+        execute(sql);
+        System.out.println(sql);
+//        System.out.println("Chèn thành công !!");
     }
 }

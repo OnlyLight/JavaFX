@@ -69,8 +69,10 @@ public class DBUtils_LoaiNX {
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
                 String tenLoaiNX = res.getString("tenLoaiNX");
+                int idLoaiNX = res.getInt("idLoaiNX");
                 
                 LoaiNX lnx = new LoaiNX();
+                lnx.setIdLoaiNX(idLoaiNX);
                 lnx.setTenLoaiNX(tenLoaiNX);
                 arrLoaiNX.add(lnx);
             }

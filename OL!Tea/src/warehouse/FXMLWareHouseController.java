@@ -465,7 +465,7 @@ public class FXMLWareHouseController implements Initializable {
         // Box Nhap
         cbTenLoaiNhap.setOnAction((event) -> {
             tenLoaiNhap = cbTenLoaiNhap.getSelectionModel().getSelectedItem();
-            System.out.println(tenLoaiNhap);
+            System.out.println(tenLoaiNhap + " - " + tenLoaiNhap.getIdLoaiNX());
         });
 
         btnNhap.setOnAction((event) -> {
@@ -511,7 +511,8 @@ public class FXMLWareHouseController implements Initializable {
         if (tenSpXuat.isEmpty() || txtSoLuongNhap.getText().toString().trim().isEmpty() || tenLoaiXuat == null) {
             createAlert("Xin Nhập đầy đủ thông tin !!!");
         } else {
-            DBUtils_Xuat.insert(tenSpXuat, tenLoaiXuat.getIdLoaiNX(), soLuongXuat, dateXuat);
+//            System.out.println("tenSpXuat: " + tenSpXuat + " - tenLoaiXuat: " + tenLoaiNhap.getIdLoaiNX() + " So luog:" + soLuongXuat + " - "+ dateXuat);
+            DBUtils_Xuat.insert(tenSpXuat, tenLoaiNhap.getIdLoaiNX(), soLuongXuat, dateXuat);
             txtSoLuongNhap.setText("");
 
             ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());

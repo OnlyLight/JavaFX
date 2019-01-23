@@ -92,6 +92,31 @@ public class DBUtils_CusMember {
         }
     }
     
+    public static CusMember getCusAddNew() throws SQLException {
+        CusMember cm = new CusMember();
+        CallableStatement command = con.prepareCall("{call pr_getCusAddNew}");
+
+        ResultSet res = command.executeQuery();
+        
+//        String sql = "SELECT * FROM dbo.Customer";
+//
+//        ResultSet res = query(sql);
+//        System.out.println("SQL: " + sql);
+        
+        try {
+            while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
+                int idCus = res.getInt("idCustomer");
+                
+                cm.setIdCus(idCus);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Xin nhap lai !!");
+        } finally {
+            return cm;
+        }
+    }
+    
     public static void insert(String tenCus, String sdt, int idMember, LocalDate ngayDK) {
         execute("INSERT INTO dbo.Customer (tenCus, sdt, idMember, ngayLap) VALUES ( N'"+ tenCus +"', '"+sdt+"', "+idMember+", CONVERT(DATE, '"+ngayDK+"') )");
         System.out.println("Chèn thành công !!");

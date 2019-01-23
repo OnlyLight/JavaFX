@@ -35,10 +35,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
+import login.FXMLLoginController;
 import sale.FXMLDocumentController;
 import sale.OrderScreenController;
+import tqduy.bean.CusMember;
 import tqduy.bean.Member;
+import tqduy.bean.NhanVien;
 import tqduy.connect.DBUtils_CusMember;
+import tqduy.connect.DBUtils_DK;
 import tqduy.connect.DBUtils_Member;
 import tqduy.connect.DBUtils_MonOrder;
 
@@ -60,6 +64,7 @@ public class FXMLSignInController implements Initializable {
 
     private LocalDate dateDK = LocalDate.now();
     private String sdt = OrderScreenController.sdt;
+    private NhanVien nvLogin = FXMLLoginController.nvLogin;
     public static Member m = new Member();
     @FXML
     private VBox addMemberForm;
@@ -111,8 +116,18 @@ public class FXMLSignInController implements Initializable {
             if (ten.isEmpty() || sdt.isEmpty() || dateDK == null || m == null) {
                 createAlert("Hãy nhập đầy đủ thông tin !!");
             } else {
-                DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
-                OrderScreenController.closeAddMemberForm();
+                
+                try {
+                    DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
+                    
+                    CusMember cus = DBUtils_CusMember.getCusAddNew();
+//                    System.out.println("IDNV: " + nvLogin.getIdNV() + " - " + cus.getIdCus());
+                    DBUtils_DK.insert(nvLogin.getIdNV(), cus.getIdCus());
+                    
+                    OrderScreenController.closeAddMemberForm();
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLSignInController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
