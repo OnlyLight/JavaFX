@@ -179,6 +179,17 @@ public class OrderScreenController implements Initializable {
                 } catch (SQLException ex) {
                     Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                try {
+                    creatDialog("Checkout successful !", "success");
+                } catch (IOException ex) {
+                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    creatDialog("Notthing to checkout !", "danger");
+                } catch (IOException ex) {
+                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -361,6 +372,22 @@ public class OrderScreenController implements Initializable {
             }
         };
         return -1;
+    }
+    
+    private void creatDialog(String text, String type) throws IOException {
+        String url = "success".equals(type) ? "/dialog/popupSuccess.fxml" : "/dialog/popupDanger.fxml";
+        Region dialogContent = FXMLLoader.load(getClass().getResource(url));
+        JFXDialog dialog = new JFXDialog(mainOrderScreenStackPane, dialogContent, JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(false);
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnClose");
+        Label txtContent = (Label) dialog.lookup("#txtContent");
+        txtContent.setText(text);
+        btnClose.setOnAction((eventt) -> {
+            new BounceIn(btnClose).setSpeed(2.0).play();
+            dialog.close();
+        });
+        btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
+        dialog.show();
     }
 
 }

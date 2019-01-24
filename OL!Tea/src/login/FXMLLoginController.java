@@ -5,6 +5,7 @@
  */
 package login;
 
+import animatefx.animation.BounceIn;
 import animatefx.animation.FadeIn;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -27,6 +28,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Region;
@@ -63,7 +65,7 @@ public class FXMLLoginController implements Initializable {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Infomation"));
         content.setBody(new Text(text));
-        JFXDialog dialog = new JFXDialog(mainLoginScreen, content, JFXDialog.DialogTransition.CENTER);
+        JFXDialog dialog = new JFXDialog(mainLoginScreen, content, JFXDialog.DialogTransition.NONE);
         JFXButton btnConfirm = new JFXButton("OK");
         btnConfirm.setStyle("-fx-background-color: linear-gradient(to left, #00adb5, #00ccd3);\n"
                 + "-fx-cursor: hand; -fx-text-fill: #fff; -fx-font-weight: bold;");
@@ -75,12 +77,29 @@ public class FXMLLoginController implements Initializable {
         dialog.show();
     }
 
+    private void creatDialog(String text, String type) throws IOException {
+        String url = "success".equals(type) ? "/dialog/popupSuccess.fxml" : "/dialog/popupDanger.fxml";
+        Region dialogContent = FXMLLoader.load(getClass().getResource(url));
+        JFXDialog dialog = new JFXDialog(mainLoginScreen, dialogContent, JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(false);
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnClose");
+        Label txtContent = (Label) dialog.lookup("#txtContent");
+        txtContent.setText(text);
+        btnClose.setOnAction((eventt) -> {
+            new BounceIn(btnClose).setSpeed(2.0).play();
+            dialog.close();
+        });
+        btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
+        dialog.show();
+    }
+
     private void setEventClick() throws SQLException {
         txtUserName.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.ENTER) {
                 btnLogin.fire();
             }
         });
+
         txtPassWord.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.ENTER) {
                 btnLogin.fire();
@@ -94,18 +113,28 @@ public class FXMLLoginController implements Initializable {
         ArrayList<NhanVien> nvs = DBUtils_NhanVien.getListForCheck();
         btnLogin.setOnAction((event) -> {
             if (mainLoginScreen.getChildren().size() == 1) {
+                new BounceIn(btnLogin).setSpeed(2.0).play();
                 String user = txtUserName.getText().toString().trim();
                 String pass = MD5Library.md5(txtPassWord.getText().toString().trim());
                 nvLogin = new NhanVien();
                 if (user.length() == 0 || txtPassWord.getText().toString().trim().length() == 0) {
-                    showDialog("Please enter username, password!");
+                    try {
+                        creatDialog("Please enter username, password!", "danger");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else if (checkUser(nvs, user, pass)) {
                     closeStage();
                 } else {
-                    showDialog("Wrong username or password!");
+                    try {
+                        creatDialog("Wrong username or password!", "danger");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             } else {
-                ((JFXDialog) mainLoginScreen.getChildren().get(1)).close();
+                JFXButton btnClose = (JFXButton) ((JFXDialog) mainLoginScreen.getChildren().get(1)).lookup("#btnClose");
+                btnClose.fire();
             }
         });
     }
