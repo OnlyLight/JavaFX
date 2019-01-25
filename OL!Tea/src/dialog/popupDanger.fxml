@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.DropShadow?>
@@ -49,6 +50,9 @@
                      <effect>
                         <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                      </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                </children>
             </StackPane>

@@ -123,7 +123,7 @@ public class FXMLSignInController implements Initializable {
                     CusMember cus = DBUtils_CusMember.getCusAddNew();
 //                    System.out.println("IDNV: " + nvLogin.getIdNV() + " - " + cus.getIdCus());
                     DBUtils_DK.insert(nvLogin.getIdNV(), cus.getIdCus());
-                    
+                    OrderScreenController.setSDT(sdt);
                     OrderScreenController.closeAddMemberForm();
                 } catch (SQLException ex) {
                     Logger.getLogger(FXMLSignInController.class.getName()).log(Level.SEVERE, null, ex);

@@ -16,6 +16,10 @@ and open the template in the editor.
     -fx-text-fill: #00adb5;
 }
 
+.font-oswald {
+    -fx-font-family: 'Oswald Medium';
+}
+
 .scroll-pane > .viewport {
    -fx-background-color: #fff;
 }

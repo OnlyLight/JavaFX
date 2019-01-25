@@ -75,13 +75,18 @@ public class DBUtils_CusMember {
                 String sdt = res.getString("sdt");
                 int idMember = res.getInt("idMember");
                 Date ngayLap = res.getDate("ngayLap");
-                
+                String loaiMember = res.getString("tenLoaiMember");
+                int discount = res.getInt("giamGia");
+                String tenNhanVien = res.getString("userName");
                 CusMember cm = new CusMember();
                 cm.setIdCus(idCus);
                 cm.setTenCus(tenCus);
                 cm.setSdt(sdt);
                 cm.setIdMember(idMember);
                 cm.setNgayLap(ngayLap);
+                cm.setLoaiMember(loaiMember);
+                cm.setDiscount(discount);
+                cm.setTenNhanVien(tenNhanVien);
                 arrCusMem.add(cm);
             }
         } catch (SQLException e) {

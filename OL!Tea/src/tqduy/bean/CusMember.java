@@ -21,7 +21,7 @@ public class CusMember {
     private int idMember;
     private String loaiMember;
     private Date ngayLap;
-
+    private int discount;
     public CusMember() {
     }
 
@@ -104,6 +104,14 @@ public class CusMember {
 
     public void setNgayLap(Date ngayLap) {
         this.ngayLap = ngayLap;
+    }
+    
+    public void setDiscount(int numb) {
+        this.discount = numb;
+    }
+    
+    public int getDiscount() {
+        return this.discount;
     }
 
     @Override

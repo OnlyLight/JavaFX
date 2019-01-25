@@ -22,7 +22,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane fx:id="mainOrderScreenStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sale.OrderScreenController">
    <children>
       <VBox fx:id="addMemberForm" alignment="CENTER" maxWidth="-Infinity" prefWidth="400.0" spacing="20.0" stylesheets="@../css/global.css">
@@ -228,7 +227,7 @@
                               </HBox>
                               <HBox alignment="CENTER" GridPane.rowIndex="1">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="80.0" style="-fx-font-size: 15;" styleClass="font-bold" stylesheets="@../css/global.css" text="Amount: " />
+                                    <Label prefHeight="17.0" prefWidth="80.0" style="-fx-font-size: 15;" styleClass="font-bold" stylesheets="@../css/global.css" text="Subtotal" />
                                     <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label fx:id="txtPay" style="-fx-font-size: 20;" styleClass="font-bold" text="0" textFill="#00adb5" />
@@ -255,7 +254,7 @@
                                     <Label prefHeight="17.0" prefWidth="80.0" style="-fx-font-size: 15;" styleClass="font-bold" stylesheets="@../css/global.css" text="Total:" HBox.hgrow="ALWAYS" />
                                     <VBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="67.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="txtMoneyTotal" style="-fx-font-size: 20;" styleClass="font-bold" text="0" textFill="#00adb5" />
+                                          <Label fx:id="txtMoneyTotal" style="-fx-font-size: 25;" styleClass="font-bold" text="0" textFill="#00adb5" />
                                        </children>
                                     </VBox>
                                  </children>

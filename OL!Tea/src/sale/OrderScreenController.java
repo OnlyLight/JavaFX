@@ -8,6 +8,7 @@ package sale;
 import animatefx.animation.BounceIn;
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeInUp;
+import animatefx.animation.FadeOutDown;
 import animatefx.animation.Pulse;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -16,6 +17,7 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -134,26 +136,45 @@ public class OrderScreenController implements Initializable {
                 orderedScroll.setVvalue(1.0);
             };
         });
+        txtSdtCheck.setText(sdt);
         txtSdtCheck.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.matches("\\d*")) {
                 try {
                     sdt = newValue;
                 } catch (Exception e) {
-                    
+
                 }
             } else {
                 txtSdtCheck.setText(oldValue);
             }
         });
         btnCheck.setOnAction((event) -> {
+            new BounceIn(btnCheck).setSpeed(2.0).play();
             ArrayList<CusMember> arrCus = null;
             try {
                 arrCus = DBUtils_CusMember.getListForCheck();
             } catch (SQLException ex) {
                 Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(check(arrCus, sdt)) {
+            if (check(arrCus, sdt)) {
                 idMem = customer.getIdMember();
+                System.out.println(customer);
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                String content = "Telephone: " + customer.getSdt() + "\nMember Name: " + customer.getTenCus() +
+                        "\nMember Type: " + customer.getLoaiMember() + "\nDiscount: " + customer.getDiscount() + "%" +
+                        "\nCreated date: " + format.format(customer.getNgayLap()) + "\nCreated by: " + customer.getTenNhanVien();
+                try {
+                    creatDialog(content, "success");
+                    txtDiscount.setText(String.valueOf(customer.getDiscount()) + "%");
+                    txtDiscount.setUserData(customer.getDiscount());
+                    try {
+                        getOrderedList();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 Node screen = null;
                 try {
@@ -162,6 +183,11 @@ public class OrderScreenController implements Initializable {
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 creatDialog(btnCheck, (Region) screen, mainOrderScreenStackPane);
+                clearDiscountInfo();
+                JFXDialog dialog = (JFXDialog) mainOrderScreen.getChildren().get(2);
+                dialog.setOnDialogClosed((eventt) -> {
+                    txtSdtCheck.setText(sdt);
+                });
             }
         });
         btnPay.setOnAction((event) -> {
@@ -174,11 +200,7 @@ public class OrderScreenController implements Initializable {
                 }
                 DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
                 DBUtils_MonOrder.deleteAll();
-                try {
-                    getOrderedList();
-                } catch (SQLException ex) {
-                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                clearDiscountInfo();
                 try {
                     creatDialog("Checkout successful !", "success");
                 } catch (IOException ex) {
@@ -186,7 +208,7 @@ public class OrderScreenController implements Initializable {
                 }
             } else {
                 try {
-                    creatDialog("Notthing to checkout !", "danger");
+                    creatDialog("Nothing to checkout !", "danger");
                 } catch (IOException ex) {
                     Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -194,11 +216,24 @@ public class OrderScreenController implements Initializable {
         });
     }
     
+    private void clearDiscountInfo() {
+        sdt = "";
+        txtSdtCheck.setText("");
+        txtDiscount.setUserData(null);
+        txtDiscount.setText("0");
+        txtPay.setText("0");
+        try {
+            getOrderedList();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void closeAddMemberForm() {
         JFXDialog dialog = (JFXDialog) mainOrderScreen.getChildren().get(2);
         dialog.close();
     }
-    
+
     private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {
         JFXDialog dialog = new JFXDialog(toStackPane, dialogContent, JFXDialog.DialogTransition.NONE);
         dialog.setOverlayClose(false);
@@ -208,10 +243,10 @@ public class OrderScreenController implements Initializable {
             dialog.close();
         });
     }
-    
-     private boolean check(ArrayList<CusMember> arrCus, String sdtCheck) {
+
+    private boolean check(ArrayList<CusMember> arrCus, String sdtCheck) {
         for (CusMember arrCu : arrCus) {
-            if(arrCu.getSdt().equals(sdtCheck)) {
+            if (arrCu.getSdt().equals(sdtCheck)) {
                 customer = arrCu;
                 System.out.println(arrCu.getSdt() + " - " + sdtCheck);
                 return true;
@@ -239,6 +274,12 @@ public class OrderScreenController implements Initializable {
             }
         };
         String price = String.format(Locale.US, "%,d", total).replace(",", ".");
+        txtPay.setText(price);
+        if (txtDiscount.getUserData() != null) {
+            int discount = (int) txtDiscount.getUserData();
+            total = total - total*discount/100;
+            price = String.format(Locale.US, "%,d", total).replace(",", ".");
+        }
         txtMoneyTotal.setText(price);
         txtMoneyTotal.setUserData(total);
         new BounceIn(txtMoneyTotal).setSpeed(1.0).play();
@@ -373,7 +414,7 @@ public class OrderScreenController implements Initializable {
         };
         return -1;
     }
-    
+
     private void creatDialog(String text, String type) throws IOException {
         String url = "success".equals(type) ? "/dialog/popupSuccess.fxml" : "/dialog/popupDanger.fxml";
         Region dialogContent = FXMLLoader.load(getClass().getResource(url));
@@ -389,5 +430,7 @@ public class OrderScreenController implements Initializable {
         btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
         dialog.show();
     }
-
+    public static void setSDT(String numb) {
+        sdt = numb;
+    }
 }
