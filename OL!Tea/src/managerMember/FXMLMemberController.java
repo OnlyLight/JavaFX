@@ -6,6 +6,7 @@
 package managerMember;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.SQLException;
@@ -25,9 +26,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import tqduy.bean.Member;
 import tqduy.connect.DBUtils_Member;
@@ -38,7 +43,7 @@ import tqduy.connect.DBUtils_Member;
  * @author QuangDuy
  */
 public class FXMLMemberController implements Initializable {
-    @FXML private JFXTextField txtTenLoaiMember, txtDiscountMember;
+    @FXML private TextField txtTenLoaiMember, txtDiscountMember;
     @FXML private JFXButton btnThemMember;
     @FXML private TableView<Member> tbMember;
     @FXML private TableColumn<Member, Integer> tbIDMemberColumn;
@@ -47,6 +52,17 @@ public class FXMLMemberController implements Initializable {
     @FXML private TableColumn<Member, Boolean> tbActiveMemberColumn;
     
     private int discount = 0;
+    @FXML
+    private VBox addTypeForm;
+    @FXML
+    private JFXButton btnCloseAddMenu;
+    @FXML
+    private StackPane memberTypeStackPane;
+    @FXML
+    private JFXButton btnOpenAddForm;
+    private StackPane mainStackPane;
+    @FXML
+    private StackPane mainMemberTypeStackPane;
     
     private void showTBMember() throws SQLException {
         tbMember.getColumns().clear();
@@ -56,6 +72,7 @@ public class FXMLMemberController implements Initializable {
         tbLoaiMemberColumn.setText("Tên Loại");
         tbDiscountMemberColumn.setText("Giảm Giá");
         tbActiveMemberColumn.setText("Active");
+        tbActiveMemberColumn.getStyleClass().add("align-center");
         
         tbIDMemberColumn.setCellValueFactory(new PropertyValueFactory<>("idMember"));
         tbLoaiMemberColumn.setCellValueFactory(new PropertyValueFactory<>("loai"));
@@ -94,6 +111,9 @@ public class FXMLMemberController implements Initializable {
     }
     
     private void setEventClicked() {
+        btnOpenAddForm.setOnAction((event) -> {
+            creatDialog(btnOpenAddForm, addTypeForm, memberTypeStackPane);
+        });
         txtDiscountMember.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.matches("\\d*") && !newValue.equals("0")) {
                 try {
@@ -135,6 +155,9 @@ public class FXMLMemberController implements Initializable {
                     tbMember.getItems().clear();
                     tbMember.setItems(list);
                 }
+                JFXDialog dialog = (JFXDialog) memberTypeStackPane.getChildren().get(1);
+                btnOpenAddForm.setDisable(false);
+                dialog.close();
             } else {
                 createAlert("Hãy Nhập đầy đủ và giảm giá < 100");
             }
@@ -152,6 +175,18 @@ public class FXMLMemberController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         System.out.println(result.get().getText());
+    }
+    
+    private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {
+        btn.setDisable(true);
+        JFXDialog dialog = new JFXDialog(toStackPane, dialogContent, JFXDialog.DialogTransition.NONE);
+        dialog.setOverlayClose(false);
+        dialog.show();
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnCloseAddMenu");
+        btnClose.setOnAction((eventt) -> {
+            dialog.close();
+            btn.setDisable(false);
+        });
     }
 
     /**

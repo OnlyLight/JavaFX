@@ -58,8 +58,6 @@ public class FXMLSignInController implements Initializable {
     @FXML
     private ComboBox<Member> cbLoaiMember;
     @FXML
-    private DatePicker dpNgayDK;
-    @FXML
     private TextField txtSDT, txtTenCus;
 
     private LocalDate dateDK = LocalDate.now();
@@ -96,8 +94,6 @@ public class FXMLSignInController implements Initializable {
                 txtSDT.setText(oldValue);
             }
         });
-
-        setDayForDP();
         cbLoaiMember.setOnAction((event) -> {
             m = cbLoaiMember.getSelectionModel().getSelectedItem();
         });
@@ -169,38 +165,6 @@ public class FXMLSignInController implements Initializable {
         Stage stage = (Stage) btn.getScene().getWindow();
         stage.close();
         System.out.println("Close");
-    }
-
-    private void setDayForDP() {
-        dpNgayDK.setValue(dateDK);
-        fomatterForDatePicker(dpNgayDK);
-    }
-
-    private void fomatterForDatePicker(DatePicker datePicker) {
-        StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-            @Override
-            public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateFormatter.format(date);
-                } else {
-                    return "";
-                }
-            }
-
-            @Override
-            public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormatter);
-                } else {
-                    return null;
-                }
-            }
-        };
-
-        datePicker.setConverter(converter);
-        datePicker.setPromptText("dd-MM-yyyy");
     }
 
     /**

@@ -4,6 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
@@ -71,17 +72,6 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnMember" contentDisplay="TOP" prefHeight="53.0" prefWidth="162.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Members" textFill="WHITE" VBox.vgrow="ALWAYS">
-               <graphic>
-                  <FontAwesomeIcon fill="WHITE" iconName="GIFT" size="2em" textOrigin="CENTER" />
-               </graphic>
-               <padding>
-                  <Insets bottom="20.0" top="20.0" />
-               </padding>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
             <JFXButton fx:id="mnTonKho" contentDisplay="TOP" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Warehouse" textFill="WHITE">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="HOME" size="2em" textOrigin="CENTER" />
@@ -108,6 +98,9 @@
       </VBox>
    </left>
    <top>
-      <Pane prefHeight="30.0" styleClass="bg-dark" stylesheets="@../css/global.css" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="30.0" styleClass="bg-dark" stylesheets="@../css/global.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="40.0" layoutY="5.0" style="-fx-text-fill: #eeeeee; -fx-font-weight: bold;" text="WKOL - Tea" />
+         </children></Pane>
    </top>
 </BorderPane>

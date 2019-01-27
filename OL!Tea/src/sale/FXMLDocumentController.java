@@ -63,7 +63,7 @@ import tqduy.connect.DBUtils_MonOrder;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private JFXButton mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnMember, mnCus;
+    private JFXButton mnThucDon, mnNhanVien, mnTonKho, mnHoaDon, mnLogout, mnCus;
     private TableColumn<MonOrder, String> tbColumnTenMon;
     private TableColumn<MonOrder, Integer> tbColumnDonGia;
     private TableColumn<MonOrder, String> tbColumnLoaiMon;
@@ -130,7 +130,6 @@ public class FXMLDocumentController implements Initializable {
         mnNhanVien.setDisable(status);
         mnTonKho.setDisable(status);
         mnHoaDon.setDisable(status);
-        mnMember.setDisable(status);
         mnCus.setDisable(status);
         mnThucDon.setDisable(status);
     }
@@ -364,15 +363,6 @@ public class FXMLDocumentController implements Initializable {
 //                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 //            }
             openScreen("/managerNV/FXMLNhanVien.fxml", null);
-        });
-
-        mnMember.setOnAction((event) -> {
-//            try {
-//                showDialog("/managerMember/FXMLMember.fxml", StageStyle.DECORATED, Modality.APPLICATION_MODAL);
-//            } catch (IOException ex) {
-//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-            openScreen("/managerMember/FXMLMember.fxml", null);
         });
 
         mnCus.setOnAction((event) -> {

@@ -196,7 +196,6 @@ public class OrderScreenController implements Initializable {
             if (total != 0) {
                 if (customer.getIdCus() > 0) {
                     System.out.println("IDNV: " + FXMLLoginController.nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
-                    DBUtils_DK.insert(FXMLLoginController.nvLogin.getIdNV(), customer.getIdCus());
                 }
                 DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
                 DBUtils_MonOrder.deleteAll();

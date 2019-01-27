@@ -93,6 +93,7 @@ public class FXMLNhanVienController implements Initializable {
         tbIDVaiTroColumn.setText("STT");
         tbTenVaiTroColumn.setText("Loại");
         tbIsActiveVaiTroColumn.setText("Active");
+        tbIsActiveVaiTroColumn.getStyleClass().add("align-center");
 
         tbIDVaiTroColumn.setCellValueFactory(new PropertyValueFactory<>("idRole"));
         tbTenVaiTroColumn.setCellValueFactory(new PropertyValueFactory<>("roleName"));
@@ -136,6 +137,7 @@ public class FXMLNhanVienController implements Initializable {
         tbUserNameNVColumn.setText("User Name");
         tbVaiTroNVColumn.setText("Vai Trò");
         tbIsActiveNVColumn.setText("Active");
+        tbIsActiveNVColumn.getStyleClass().add("align-center");
 
         tbUserNameNVColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
         tbVaiTroNVColumn.setCellValueFactory(new PropertyValueFactory<>("roleName"));

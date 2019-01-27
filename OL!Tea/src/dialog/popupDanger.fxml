@@ -18,7 +18,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: #fff; -fx-border-radius: 50%; -fx-border-width: 3px;">
                <children>
-                  <FontAwesomeIcon fill="WHITE" iconName="TIMES" size="3em" textAlignment="CENTER" wrappingWidth="28.571428298950195" />
+                  <FontAwesomeIcon fill="WHITE" iconName="TIMES" size="3em" textAlignment="CENTER" translateX="-3.0" translateY="-2.0" wrappingWidth="28.571428298950195" />
                </children>
             </HBox>
          </children>
@@ -28,7 +28,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label fx:id="txtContent" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Login failed !" />
+            <Label fx:id="txtContent" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-line-spacing: 5px;" styleClass="font-oswald" stylesheets="@../css/global.css" text="Login failed !" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefWidth="200.0">

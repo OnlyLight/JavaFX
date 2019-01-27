@@ -246,7 +246,7 @@
                                     </Label>
                                     <HBox alignment="BASELINE_RIGHT" spacing="20.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="101.0">
+                                          <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="31.0" prefWidth="101.0">
                                              <children>
                                                 <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
                                                    <effect>
@@ -266,7 +266,7 @@
                                                 </JFXButton>
                                              </children>
                                           </StackPane>
-                                          <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="101.0">
+                                          <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="31.0" prefWidth="101.0">
                                              <children>
                                                 <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
                                                    <effect>
