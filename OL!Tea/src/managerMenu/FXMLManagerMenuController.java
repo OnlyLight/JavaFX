@@ -5,10 +5,13 @@
  */
 package managerMenu;
 
+import animatefx.animation.BounceIn;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,19 +21,25 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -102,21 +111,19 @@ public class FXMLManagerMenuController implements Initializable {
     @FXML
     private JFXButton btnOpenAddTypeForm;
     @FXML
-    private StackPane typeMenuStackPane;
-    @FXML
     private VBox addImportTypeForm;
     @FXML
     private JFXButton btnOpenImportTypeForm;
-    @FXML
-    private StackPane typeImportStackPane;
     @FXML
     private VBox addUntiForm;
     @FXML
     private JFXButton btnOpenAddUnitForm;
     @FXML
-    private StackPane unitStackPane;
-    @FXML
     private StackPane mainMenuStackPane;
+    @FXML
+    private StackPane deleteStackPane;
+    @FXML
+    private JFXButton deleteBtn;
 
     private void loadTableLoaiMon() throws SQLException {
         tbLoaiMon.getColumns().clear();
@@ -160,6 +167,41 @@ public class FXMLManagerMenuController implements Initializable {
     }
 
     private void loadTableMenu() throws SQLException {
+        tbMenu.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tbMenu.getSelectionModel().selectedItemProperty().addListener((observable) -> {
+            Menu item = tbMenu.getSelectionModel().getSelectedItem();
+
+            if (item == null) {
+                deleteStackPane.setVisible(false);
+            } else {
+                ObservableList<Menu> items = tbMenu.getSelectionModel().getSelectedItems();
+                System.out.println(items);
+                deleteBtn.setOnAction((event) -> {
+                    String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
+                    try {
+                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JFXButton btn = (JFXButton) mainMenuStackPane.lookup("#btnExecute");
+                    btn.setOnAction((eventt) -> {
+                        items.forEach((t) -> {
+                            DBUtils_Mon.delete(t.getIdMon());
+                        });
+                        try {
+                            loadTableMenu();
+                            ((JFXDialog) mainMenuStackPane.getChildren().get(2)).close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                });
+                tbLoaiMon.getSelectionModel().clearSelection();
+                tbLoaiNX.getSelectionModel().clearSelection();
+                lvDVT.getSelectionModel().clearSelection();
+                deleteStackPane.setVisible(true);
+            }
+        });
         tbMenu.getColumns().clear();
         tbMenu.setEditable(true);
         tbTenMonColumnMenu.setText("Name");
@@ -461,11 +503,38 @@ public class FXMLManagerMenuController implements Initializable {
         loadTableNX();
     }
 
+    private void creatDialog(String text, String type) throws IOException {
+        String url;
+        switch (type) {
+            case "succes":
+                url = "/dialog/popupSuccess.fxml";
+                break;
+            case "danger":
+                url = "/dialog/popupDanger.fxml";
+                break;
+            default:
+                url = "/dialog/popupWarning.fxml";
+        }
+        Region dialogContent = FXMLLoader.load(getClass().getResource(url));
+        JFXDialog dialog = new JFXDialog(mainMenuStackPane, dialogContent, JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(false);
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnClose");
+        Label txtContent = (Label) dialog.lookup("#txtContent");
+        txtContent.setText(text);
+        btnClose.setOnAction((eventt) -> {
+            new BounceIn(btnClose).setSpeed(2.0).play();
+            dialog.close();
+        });
+        btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
+        dialog.show();
+    }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        deleteStackPane.setVisible(false);
         try {
             // TODO
             loadTableLoaiMon();

@@ -20,9 +20,12 @@
                <children>
                   <FontAwesomeIcon fill="WHITE" iconName="CHECK" size="3em" textAlignment="CENTER" wrappingWidth="28.571428298950195">
                      <HBox.margin>
-                        <Insets right="5.0" />
+                        <Insets />
                      </HBox.margin></FontAwesomeIcon>
                </children>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="7.0" top="2.0" />
+               </padding>
             </HBox>
          </children>
          <padding>

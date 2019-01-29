@@ -195,7 +195,11 @@ public class OrderScreenController implements Initializable {
             int total = ((Integer) txtMoneyTotal.getUserData()).intValue();
             if (total != 0) {
                 System.out.println("IDNV: " + FXMLLoginController.nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
-                DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
+                try {
+                    DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
+                } catch (SQLException ex) {
+                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 DBUtils_MonOrder.deleteAll();
                 clearDiscountInfo();
                 try {
@@ -476,6 +480,7 @@ public class OrderScreenController implements Initializable {
         btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
         dialog.show();
     }
+    
     public static void setSDT(String numb) {
         sdt = numb;
     }

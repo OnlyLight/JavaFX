@@ -76,8 +76,10 @@ public class DBUtils_Bill {
         }
     }
     
-    public static void insert(int idNV, int tongTien, LocalDate ngayLap) {
+    public static void insert(int idNV, int tongTien, LocalDate ngayLap) throws SQLException {
         execute("INSERT INTO dbo.Bill (idNhanVien, tongTien, ngayLap) VALUES ( "+idNV+", "+tongTien+", CONVERT(DATE, '"+ngayLap+"') )");
+        CallableStatement command = con.prepareCall("{call pr_insertOrderList}");
+        command.execute();
         System.out.println("Chèn thành công !!");
     }
     
