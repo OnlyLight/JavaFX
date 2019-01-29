@@ -159,7 +159,7 @@ public class FXMLManagerMenuController implements Initializable {
             }
         });
 
-        ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+        ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList(true));
         if (!listMon.isEmpty()) {
             tbLoaiMon.setItems(listMon);
             tbLoaiMon.getColumns().addAll(tbIDColumnLoaiMon, tbTenLoaiMonColumn, tbIsActiveLoaiMonColumn);
@@ -351,7 +351,7 @@ public class FXMLManagerMenuController implements Initializable {
                     DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
                 };
 
-                ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList());
+                ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList(true));
                 if (!listMon.isEmpty()) {
                     tbLoaiMon.getItems().clear();
                     tbLoaiMon.setItems(listMon);
@@ -476,7 +476,7 @@ public class FXMLManagerMenuController implements Initializable {
         ObservableList<LoaiMon> listLoai = FXCollections.observableArrayList();
         ObservableList<DVT> arrDVT = FXCollections.observableArrayList();
 
-        for (LoaiMon loaiMon : DBUtils_LoaiMon.getList()) {
+        for (LoaiMon loaiMon : DBUtils_LoaiMon.getList(true)) {
             if (loaiMon.isIsActive()) {
                 listLoai.add(loaiMon);
             }

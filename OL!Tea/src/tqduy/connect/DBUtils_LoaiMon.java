@@ -41,16 +41,19 @@ public class DBUtils_LoaiMon {
     }
     
     // TABLE LOAI MON
-    public static ArrayList<LoaiMon> getList() throws SQLException {
+    public static ArrayList<LoaiMon> getList(Boolean getAll) throws SQLException {
         ArrayList<LoaiMon> arrLoaiMon = new ArrayList<>();
         
-        CallableStatement command = con.prepareCall("{call pr_getListLoaiMon}");
-            
-        ResultSet result = command.executeQuery();
+//        CallableStatement command = con.prepareCall("{call pr_getListLoaiMon}");
+//            
+//        ResultSet result = command.executeQuery();
         
-//        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + " ORDER BY id";
-//
-//        ResultSet res = query(sql);
+        String where = getAll ? "" : " WHERE isActive != 0";
+        
+        String sql = "SELECT * FROM " + DBUtils_LoaiMon.TB_LOAIMON + where + " ORDER BY id";
+        System.out.println(sql);
+
+        ResultSet result = query(sql);
 
         try {
             while (result.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.

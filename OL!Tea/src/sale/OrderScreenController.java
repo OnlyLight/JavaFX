@@ -355,7 +355,7 @@ public class OrderScreenController implements Initializable {
 //        acdMenu.getPanes().clear();
 //        ArrayList<TitledPane> titles = new ArrayList<>();
         ArrayList<LoaiMon> listLoaiMon = new ArrayList<>();
-        ArrayList<LoaiMon> listLM = DBUtils_LoaiMon.getList();
+        ArrayList<LoaiMon> listLM = DBUtils_LoaiMon.getList(false);
         for (LoaiMon lm : listLM) {
             if (lm.isIsActive()) {
                 listLoaiMon.add(lm);
@@ -398,7 +398,7 @@ public class OrderScreenController implements Initializable {
         if (menuList.getUserData() != btn.getUserData()) {
             menuList.setUserData(btn.getUserData());
             menuList.getChildren().clear();
-            ArrayList<LoaiMon> listMenu = DBUtils_LoaiMon.getList();
+            ArrayList<LoaiMon> listMenu = DBUtils_LoaiMon.getList(false);
             menuItemName.setText(listMenu.get(Integer.parseInt(btn.getUserData().toString())).getLoaiMon().toUpperCase());
             new FadeInUp(menuItemName).setSpeed(2.0).play();
             for (Mon m : DBUtils_Mon.getMon(Integer.parseInt(btn.getUserData().toString()) + 1)) {
@@ -430,7 +430,7 @@ public class OrderScreenController implements Initializable {
                                     Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 try {
-                                    ArrayList<LoaiMon> list = DBUtils_LoaiMon.getList();
+                                    ArrayList<LoaiMon> list = DBUtils_LoaiMon.getList(false);
                                 } catch (SQLException ex) {
                                     Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
