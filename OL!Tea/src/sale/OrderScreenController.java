@@ -194,9 +194,7 @@ public class OrderScreenController implements Initializable {
             new BounceIn(btnPay).setSpeed(2.0).play();
             int total = ((Integer) txtMoneyTotal.getUserData()).intValue();
             if (total != 0) {
-                if (customer.getIdCus() > 0) {
-                    System.out.println("IDNV: " + FXMLLoginController.nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
-                }
+                System.out.println("IDNV: " + FXMLLoginController.nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
                 DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
                 DBUtils_MonOrder.deleteAll();
                 clearDiscountInfo();
@@ -265,6 +263,55 @@ public class OrderScreenController implements Initializable {
                 ((Label) itemOrdered.lookup("#itemPrice")).setText(String.format(Locale.US, "%,d", monOrder1.getDonGia()).replace(",", "."));
                 ((Label) itemOrdered.lookup("#itemQty")).setText("x" + monOrder1.getSoLuong());
                 ((Label) itemOrdered.lookup("#subTotal")).setText(String.format(Locale.US, "%,d", monOrder1.getSoLuong() * monOrder1.getDonGia()).replace(",", "."));
+                JFXButton deleteBtn = (JFXButton) itemOrdered.lookup("#deleteBtn");
+                JFXButton decreaseBtn = (JFXButton) itemOrdered.lookup("#decreaseBtn");
+                JFXButton increaseBtn = (JFXButton) itemOrdered.lookup("#increaseBtn");
+                HBox editQtyHBox = (HBox) itemOrdered.lookup("#editQtyHBox");
+                TextField qtyTxt = (TextField) itemOrdered.lookup("#qtyTxt");     
+                qtyTxt.setText(String.valueOf(monOrder1.getSoLuong()));
+                editQtyHBox.setVisible(false);
+                deleteBtn.setVisible(false);
+                itemOrdered.setOnMouseEntered((event) -> {
+                    editQtyHBox.setVisible(true);
+                    deleteBtn.setVisible(true);
+                });
+                itemOrdered.setOnMouseExited((event) -> {
+                    editQtyHBox.setVisible(false);
+                    deleteBtn.setVisible(false);
+                    int qtyEdit = Integer.parseInt(qtyTxt.getText());
+                    if (qtyEdit != monOrder1.getSoLuong()) {
+                        DBUtils_MonOrder.update(monOrder1.getId(), qtyEdit);
+                        try {
+                            getOrderedList();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+                deleteBtn.setOnAction((event) -> {
+                    DBUtils_MonOrder.delete(monOrder1.getId());
+                    try {
+                        getOrderedList();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                decreaseBtn.setOnAction((event) -> {
+                    DBUtils_MonOrder.update(monOrder1.getId(), monOrder1.getSoLuong() - 1);
+                    try {
+                        getOrderedList();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                increaseBtn.setOnAction((event) -> {
+                    DBUtils_MonOrder.update(monOrder1.getId(), monOrder1.getSoLuong() + 1);
+                    try {
+                        getOrderedList();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
                 itemOrdered.setUserData(monOrder1);
                 orderedList.getChildren().add(itemOrdered);
                 total += monOrder1.getSoLuong() * monOrder1.getDonGia();

@@ -839,8 +839,11 @@ public class FXMLWareHouseController implements Initializable {
                 String type = ((JFXRadioButton) addType.getSelectedToggle()).getText();
                 if (type.equals("Export")) {
                     getTenSpXuat();
+                    txtDonGiaNhap.setText("");
+                    txtDonGiaNhap.setDisable(true);
                 } else {
                     showBoxNhap();
+                    txtDonGiaNhap.setDisable(false);
                 }
             });
             tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

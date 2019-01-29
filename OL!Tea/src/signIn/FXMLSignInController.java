@@ -117,6 +117,7 @@ public class FXMLSignInController implements Initializable {
                     DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
                     
                     CusMember cus = DBUtils_CusMember.getCusAddNew();
+                    System.out.println(cus);
 //                    System.out.println("IDNV: " + nvLogin.getIdNV() + " - " + cus.getIdCus());
                     DBUtils_DK.insert(nvLogin.getIdNV(), cus.getIdCus());
                     OrderScreenController.setSDT(sdt);

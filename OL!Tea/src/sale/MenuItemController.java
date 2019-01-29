@@ -33,7 +33,11 @@ public class MenuItemController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        itemQuantity.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                itemQuantity.setText(oldValue);
+            }
+        });
     }    
 
     @FXML

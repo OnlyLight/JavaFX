@@ -18,7 +18,10 @@
          <children>
             <HBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: #fff; -fx-border-radius: 50%; -fx-border-width: 3px;">
                <children>
-                  <FontAwesomeIcon fill="WHITE" iconName="CHECK" size="3em" textAlignment="CENTER" translateX="-8.0" wrappingWidth="28.571428298950195" />
+                  <FontAwesomeIcon fill="WHITE" iconName="CHECK" size="3em" textAlignment="CENTER" wrappingWidth="28.571428298950195">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></FontAwesomeIcon>
                </children>
             </HBox>
          </children>

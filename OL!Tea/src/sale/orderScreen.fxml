@@ -160,7 +160,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="51.0" prefWidth="446.0" style="-fx-border-color: transparent transparent #000 transparent;">
                                  <children>
-                                    <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="206.0" HBox.hgrow="ALWAYS">
+                                    <VBox alignment="CENTER_LEFT" minWidth="-Infinity" prefWidth="206.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label style="-fx-font-weight: bold; -fx-font-size: 15;" text="Name" />
                                        </children>
@@ -185,7 +185,7 @@
                                     </VBox>
                                  </children>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets left="30.0" right="30.0" />
                                  </VBox.margin>
                                  <padding>
                                     <Insets right="16.0" />
@@ -193,14 +193,76 @@
                               </HBox>
                               <ScrollPane fx:id="orderedScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                                  <content>
-                                    <VBox fx:id="orderedList" fillWidth="false" maxWidth="430.0" minHeight="-Infinity" minWidth="430.0" prefWidth="430.0" spacing="10.0" style="-fx-background-color: #fff;">
-                                       <padding>
-                                          <Insets left="20.0" />
-                                       </padding>
+                                    <VBox fx:id="orderedList" fillWidth="false" maxWidth="490.0" minHeight="-Infinity" minWidth="490.0" prefWidth="490.0" spacing="10.0" style="-fx-background-color: #fff;">
+                                       <children>
+                                          <VBox minHeight="-Infinity" prefHeight="24.0" prefWidth="502.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="15.0" prefWidth="446.0">
+                                                   <children>
+                                                      <HBox alignment="CENTER">
+                                                         <children>
+                                                            <JFXButton contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #F35F62;" textAlignment="CENTER">
+                                                               <graphic>
+                                                                  <FontAwesomeIcon fill="WHITE" iconName="TRASH_ALT" size="1.2em" textAlignment="CENTER" />
+                                                               </graphic>
+                                                               <padding>
+                                                                  <Insets bottom="1.0" left="3.0" right="2.0" top="1.0" />
+                                                               </padding>
+                                                            </JFXButton>
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" right="20.0" />
+                                                         </HBox.margin>
+                                                      </HBox>
+                                                      <VBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="186.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label fx:id="itemName" style="-fx-font-size: 15;" styleClass="font-RobotoCondensed" stylesheets="@../css/global.css" text="SỮA TƯƠI TRÂN CHÂU ĐƯỜNG ĐEN" wrapText="true" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="CENTER" prefHeight="51.0" prefWidth="88.0">
+                                                         <children>
+                                                            <Label fx:id="itemPrice" style="-fx-font-size: 15;" styleClass="font-RobotoCondensed" stylesheets="@../css/global.css" text="30k" />
+                                                         </children>
+                                                      </VBox>
+                                                      <HBox alignment="CENTER" prefHeight="51.0" prefWidth="78.0">
+                                                         <children>
+                                                            <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="11.0" prefWidth="3.0" style="-fx-background-color: #00adb5;">
+                                                               <graphic>
+                                                                  <FontAwesomeIcon fill="WHITE" iconName="MINUS" />
+                                                               </graphic>
+                                                               <padding>
+                                                                  <Insets bottom="-1.0" left="2.0" right="2.0" top="-1.0" />
+                                                               </padding>
+                                                            </JFXButton>
+                                                            <Label fx:id="itemQty" style="-fx-font-size: 15;" styleClass="font-RobotoCondensed" stylesheets="@../css/global.css" text="x5">
+                                                               <HBox.margin>
+                                                                  <Insets left="10.0" right="10.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                            <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="11.0" prefWidth="3.0" style="-fx-background-color: #00adb5;">
+                                                               <graphic>
+                                                                  <FontAwesomeIcon fill="WHITE" iconName="PLUS" />
+                                                               </graphic>
+                                                               <padding>
+                                                                  <Insets bottom="-1.0" left="3.0" right="3.0" top="-1.0" />
+                                                               </padding>
+                                                            </JFXButton>
+                                                         </children>
+                                                      </HBox>
+                                                      <VBox alignment="CENTER" prefHeight="51.0" prefWidth="74.0">
+                                                         <children>
+                                                            <Label fx:id="subTotal" style="-fx-font-size: 15;" styleClass="font-RobotoCondensed" stylesheets="@../css/global.css" text="150k" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
                                     </VBox>
                                  </content>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets bottom="10.0" left="3.0" right="3.0" />
                                  </VBox.margin>
                               </ScrollPane>
                            </children>
@@ -222,7 +284,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField fx:id="txtSdtCheck" alignment="CENTER_RIGHT" focusColor="#00adb5" prefHeight="25.0" prefWidth="67.0" style="-fx-font-size: 15;" styleClass="font-bold" HBox.hgrow="ALWAYS" />
+                                    <JFXTextField fx:id="txtSdtCheck" alignment="CENTER_RIGHT" focusColor="#00adb5" focusTraversable="false" prefHeight="25.0" prefWidth="67.0" style="-fx-font-size: 15;" styleClass="font-bold" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" GridPane.rowIndex="1">
@@ -264,7 +326,7 @@
                               <Insets bottom="30.0" top="30.0" />
                            </padding>
                            <VBox.margin>
-                              <Insets left="2.0" right="2.0" />
+                              <Insets left="32.0" right="32.0" />
                            </VBox.margin>
                         </GridPane>
                         <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" minHeight="-Infinity" VBox.vgrow="NEVER">
@@ -309,12 +371,12 @@
                            </VBox.margin>
                         </HBox>
                      </children>
-                     <padding>
-                        <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
-                     </padding>
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
+                     <padding>
+                        <Insets bottom="30.0" top="10.0" />
+                     </padding>
                   </VBox>
                </children>
                <effect>
