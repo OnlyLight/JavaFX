@@ -18,13 +18,13 @@
          <children>
             <HBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: #fff; -fx-border-radius: 50%; -fx-border-width: 3px;">
                <children>
-                  <FontAwesomeIcon fill="WHITE" iconName="CHECK" size="3em" textAlignment="CENTER" wrappingWidth="28.571428298950195">
+                  <FontAwesomeIcon fill="WHITE" iconName="CHECK" size="40px" textAlignment="CENTER" wrappingWidth="28.571428298950195">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></FontAwesomeIcon>
                </children>
                <padding>
-                  <Insets bottom="2.0" left="2.0" right="7.0" top="2.0" />
+                  <Insets bottom="2.0" left="2.0" right="12.0" top="2.0" />
                </padding>
             </HBox>
          </children>

@@ -369,9 +369,10 @@ public class OrderScreenController implements Initializable {
             try {
                 StackPane btnWrapper = FXMLLoader.load(getClass().getResource("menuType.fxml"));
                 JFXButton btn = (JFXButton) btnWrapper.lookup("#btnMenuType");
-                btn.setUserData(i);
+                int id = listLoaiMon.get(i).getId();
+                btn.setUserData(id);
                 btn.setText(listLoaiMon.get(i).getLoaiMon().toUpperCase());
-                int mainColor = 40 + i * 15;
+                int mainColor = 40 + id * 15;
                 HBox shadow = (HBox) btnWrapper.lookup("#shadowHbox");
                 String mainHsl = "hsb(" + mainColor + ", 70%, 80%)";
                 String secondHsl = "hsb(" + mainColor + ", 70%, 87%)";
@@ -399,9 +400,17 @@ public class OrderScreenController implements Initializable {
             menuList.setUserData(btn.getUserData());
             menuList.getChildren().clear();
             ArrayList<LoaiMon> listMenu = DBUtils_LoaiMon.getList(false);
-            menuItemName.setText(listMenu.get(Integer.parseInt(btn.getUserData().toString())).getLoaiMon().toUpperCase());
+            int index = -1;
+            for (int i = 0; i < listMenu.size(); i++) {
+                LoaiMon get = listMenu.get(i);
+                if (get.getId() == Integer.parseInt(btn.getUserData().toString())) {
+                    index = i;
+                    break;
+                }
+            }
+            menuItemName.setText(listMenu.get(index).getLoaiMon());
             new FadeInUp(menuItemName).setSpeed(2.0).play();
-            for (Mon m : DBUtils_Mon.getMon(Integer.parseInt(btn.getUserData().toString()) + 1)) {
+            for (Mon m : DBUtils_Mon.getMon(listMenu.get(index).getId())) {
                 if (m.isIsActive()) {
                     try {
                         GridPane item = FXMLLoader.load(getClass().getResource("menuItem.fxml"));

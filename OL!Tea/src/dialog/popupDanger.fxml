@@ -18,10 +18,10 @@
          <children>
             <HBox alignment="CENTER" prefHeight="60.0" prefWidth="60.0" style="-fx-border-color: #fff; -fx-border-radius: 50%; -fx-border-width: 3px;">
                <children>
-                  <FontAwesomeIcon fill="WHITE" iconName="TIMES" size="3em" textAlignment="CENTER" wrappingWidth="28.571428298950195" />
+                  <FontAwesomeIcon fill="WHITE" iconName="TIMES" size="40px" textAlignment="CENTER" wrappingWidth="28.571428298950195" />
                </children>
                <padding>
-                  <Insets bottom="1.0" right="-1.0" top="-1.0" />
+                  <Insets bottom="1.0" right="3.0" top="-1.0" />
                </padding>
             </HBox>
          </children>
