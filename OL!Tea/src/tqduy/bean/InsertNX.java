@@ -12,15 +12,21 @@ package tqduy.bean;
 public class InsertNX {
     private String tenLoaiNX;
     private String dvt; 
+    private int id;
 
     public InsertNX() {
     }
 
-    public InsertNX(String tenLoaiNX, String dvt) {
+    public InsertNX(String tenLoaiNX, String dvt, int id) {
         this.tenLoaiNX = tenLoaiNX;
         this.dvt = dvt;
+        this.id = id;
     }
-
+    
+    public int getId() {
+        return id;
+    }
+    
     public String getTenLoaiNX() {
         return tenLoaiNX;
     }

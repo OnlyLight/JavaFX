@@ -100,8 +100,8 @@ public class DBUtils_LoaiNX {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
                 String tenLoaiNX = res.getString("tenLoaiNX");
                 String dvt = res.getString("DVT");
-                
-                InsertNX in = new InsertNX(tenLoaiNX, dvt);
+                int id = res.getInt("idLoaiNX");
+                InsertNX in = new InsertNX(tenLoaiNX, dvt, id);
                 System.out.println("NX: " + in);
                 arrLoaiMon.add(in);
             }

@@ -6,6 +6,9 @@
 package managerMenu;
 
 import animatefx.animation.BounceIn;
+import animatefx.animation.FadeInDown;
+import animatefx.animation.FadeInUp;
+import animatefx.animation.FadeOutDown;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import java.io.IOException;
@@ -124,9 +127,53 @@ public class FXMLManagerMenuController implements Initializable {
     private StackPane deleteStackPane;
     @FXML
     private JFXButton deleteBtn;
+    @FXML
+    private StackPane deleteTypeStackPane;
+    @FXML
+    private JFXButton deleteTypeBtn;
+    @FXML
+    private StackPane deleteTypeMenuStackPane;
+    @FXML
+    private JFXButton deleteTypeMenuBtn;
 
     private void loadTableLoaiMon() throws SQLException {
+        deleteTypeMenuStackPane.setVisible(false);
         tbLoaiMon.getColumns().clear();
+        tbLoaiMon.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tbLoaiMon.getSelectionModel().selectedItemProperty().addListener((observable) -> {
+            LoaiMon item = tbLoaiMon.getSelectionModel().getSelectedItem();
+
+            if (item == null) {
+                toggleVisible(deleteTypeMenuStackPane, false);
+            } else {
+                ObservableList<LoaiMon> items = tbLoaiMon.getSelectionModel().getSelectedItems();
+                System.out.println(items);
+                deleteTypeMenuBtn.setOnAction((event) -> {
+                    String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
+                    try {
+                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JFXButton btn = (JFXButton) mainMenuStackPane.lookup("#btnExecute");
+                    btn.setOnAction((eventt) -> {
+                        items.forEach((t) -> {
+                            DBUtils_LoaiMon.delete(t.getId());
+                        });
+                        try {
+                            loadTableLoaiMon();
+                            ((JFXDialog) mainMenuStackPane.getChildren().get(2)).close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                });
+                tbMenu.getSelectionModel().clearSelection();
+                tbLoaiNX.getSelectionModel().clearSelection();
+                lvDVT.getSelectionModel().clearSelection();
+                toggleVisible(deleteTypeMenuStackPane, true);
+            }
+        });
         tbLoaiMon.setEditable(true);
         tbIDColumnLoaiMon.setText("STT");
         tbTenLoaiMonColumn.setText("Loại");
@@ -167,12 +214,13 @@ public class FXMLManagerMenuController implements Initializable {
     }
 
     private void loadTableMenu() throws SQLException {
+        deleteStackPane.setVisible(false);
         tbMenu.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbMenu.getSelectionModel().selectedItemProperty().addListener((observable) -> {
             Menu item = tbMenu.getSelectionModel().getSelectedItem();
 
             if (item == null) {
-                deleteStackPane.setVisible(false);
+                toggleVisible(deleteStackPane, false);
             } else {
                 ObservableList<Menu> items = tbMenu.getSelectionModel().getSelectedItems();
                 System.out.println(items);
@@ -199,7 +247,7 @@ public class FXMLManagerMenuController implements Initializable {
                 tbLoaiMon.getSelectionModel().clearSelection();
                 tbLoaiNX.getSelectionModel().clearSelection();
                 lvDVT.getSelectionModel().clearSelection();
-                deleteStackPane.setVisible(true);
+                toggleVisible(deleteStackPane, true);
             }
         });
         tbMenu.getColumns().clear();
@@ -246,13 +294,48 @@ public class FXMLManagerMenuController implements Initializable {
     }
 
     private void loadTableNX() throws SQLException {
+        deleteTypeStackPane.setVisible(false);
+        tbLoaiNX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbLoaiNX.getColumns().clear();
         tbLoaiNXColumn.setText("Loại NX");
         tbDVTColumn.setText("Đơn vị tính");
 
         tbLoaiNXColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoaiNX"));
         tbDVTColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));
+        tbLoaiNX.getSelectionModel().selectedItemProperty().addListener((observable) -> {
+            InsertNX item = tbLoaiNX.getSelectionModel().getSelectedItem();
 
+            if (item == null) {
+//                deleteTypeStackPane.setVisible(false);
+                toggleVisible(deleteTypeStackPane, false);
+            } else {
+                ObservableList<InsertNX> items = tbLoaiNX.getSelectionModel().getSelectedItems();
+                deleteTypeBtn.setOnAction((event) -> {
+                    String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
+                    try {
+                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JFXButton btn = (JFXButton) mainMenuStackPane.lookup("#btnExecute");
+                    btn.setOnAction((eventt) -> {
+                        items.forEach((t) -> {
+                            DBUtils_LoaiNX.delete(t.getId());
+                        });
+                        try {
+                            loadTableNX();
+                            ((JFXDialog) mainMenuStackPane.getChildren().get(2)).close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                });
+                tbLoaiMon.getSelectionModel().clearSelection();
+                tbMenu.getSelectionModel().clearSelection();
+                lvDVT.getSelectionModel().clearSelection();
+                toggleVisible(deleteTypeStackPane, true);
+            }
+        });
         ObservableList<InsertNX> listMon = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
         if (!listMon.isEmpty()) {
             tbLoaiNX.setItems(listMon);
@@ -528,13 +611,35 @@ public class FXMLManagerMenuController implements Initializable {
         btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
         dialog.show();
     }
+    
+    private void toggleVisible(Node node, Boolean visible) {
+        if (visible) {
+            if (node.getUserData() != null) {
+                ((FadeOutDown)node.getUserData()).stop();
+            }
+            if (node.visibleProperty().getValue() == false || (node.getUserData() != null)) {
+              new FadeInUp(node).setSpeed(2.0).play();
+              node.setVisible(true);  
+              node.setUserData(null);
+            }    
+        } else {
+                FadeOutDown down = new FadeOutDown();
+                down.setNode(node);
+                down.setSpeed(2.0);
+                down.isResetOnFinished();
+                down.setOnFinished((event) -> {
+                    node.setVisible(false);
+                });
+                down.play(); 
+                node.setUserData(down);
+        }
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        deleteStackPane.setVisible(false);
         try {
             // TODO
             loadTableLoaiMon();
