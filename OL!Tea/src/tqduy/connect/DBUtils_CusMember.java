@@ -42,10 +42,12 @@ public class DBUtils_CusMember {
                 int idMember = res.getInt("idMember");
                 String loaiMember = res.getString("tenLoaiMember");
                 Date ngayLap = res.getDate("ngayLap");
+                int idCus = res.getInt("idCustomer");
                 
                 CusMember cm = new CusMember(tenNhanVien, roleName, tenCus, sdt, loaiMember, ngayLap);
                 cm.setIdNV(idNV);
                 cm.setIdMember(idMember);
+                cm.setIdCus(idCus);
                 arrCusMem.add(cm);
             }
         } catch (SQLException e) {
@@ -128,6 +130,7 @@ public class DBUtils_CusMember {
     }
     
     public static void delete(int id) {
+        execute("DELETE FROM dbo.DKMember WHERE idCustomer = " + id + "");
         execute("DELETE FROM dbo.Customer WHERE idCustomer = " + id + "");
     }
 }

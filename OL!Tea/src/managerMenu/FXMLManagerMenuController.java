@@ -135,6 +135,10 @@ public class FXMLManagerMenuController implements Initializable {
     private StackPane deleteTypeMenuStackPane;
     @FXML
     private JFXButton deleteTypeMenuBtn;
+    @FXML
+    private JFXButton deleteDVTBtn;
+    @FXML
+    private StackPane deleteDVTStackPane;
 
     private void loadTableLoaiMon() throws SQLException {
         deleteTypeMenuStackPane.setVisible(false);
@@ -344,21 +348,48 @@ public class FXMLManagerMenuController implements Initializable {
     }
 
     private void loadListViewDVT() {
-        Runnable tast = () -> {
-            ObservableList<DVT> listDVT = FXCollections.observableArrayList();
-            for (DVT dvt : DBUtils_DVT.getList()) {
-                listDVT.add(dvt);
-            }
+        deleteDVTStackPane.setVisible(false);
+        lvDVT.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lvDVT.getSelectionModel().selectedItemProperty().addListener((observable) -> {
+            DVT item = lvDVT.getSelectionModel().getSelectedItem();
 
-            if (!listDVT.isEmpty()) {
-                lvDVT.getItems().clear();
-                lvDVT.setItems(listDVT);
+            if (item == null) {
+//                deleteTypeStackPane.setVisible(false);
+                toggleVisible(deleteDVTStackPane, false);
+            } else {
+                ObservableList<DVT> items = lvDVT.getSelectionModel().getSelectedItems();
+                deleteDVTBtn.setOnAction((event) -> {
+                    String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
+                    try {
+                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JFXButton btn = (JFXButton) mainMenuStackPane.lookup("#btnExecute");
+                    btn.setOnAction((eventt) -> {
+                        items.forEach((t) -> {
+                            DBUtils_DVT.delete(t.getIdDVT());
+                        });
+                        loadListViewDVT();
+                        ((JFXDialog) mainMenuStackPane.getChildren().get(2)).close();
+                    });
+                });
+                tbLoaiMon.getSelectionModel().clearSelection();
+                tbMenu.getSelectionModel().clearSelection();
+                tbLoaiNX.getSelectionModel().clearSelection();
+                toggleVisible(deleteDVTStackPane, true);
             }
-            //To change body of generated methods, choose Tools | Templates.
-        };
-        Thread backgroundThread = new Thread(tast);
-        backgroundThread.setDaemon(true);
-        backgroundThread.start();
+        });
+        ObservableList<DVT> listDVT = FXCollections.observableArrayList();
+        for (DVT dvt : DBUtils_DVT.getList()) {
+            listDVT.add(dvt);
+        }
+
+        if (!listDVT.isEmpty()) {
+            lvDVT.getItems().clear();
+            lvDVT.setItems(listDVT);
+        }
+        //To change body of generated methods, choose Tools | Templates.
     }
 
     private void creatDialog(JFXButton btn, Region dialogContent, StackPane toStackPane) {
@@ -611,27 +642,27 @@ public class FXMLManagerMenuController implements Initializable {
         btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
         dialog.show();
     }
-    
+
     private void toggleVisible(Node node, Boolean visible) {
         if (visible) {
             if (node.getUserData() != null) {
-                ((FadeOutDown)node.getUserData()).stop();
+                ((FadeOutDown) node.getUserData()).stop();
             }
             if (node.visibleProperty().getValue() == false || (node.getUserData() != null)) {
-              new FadeInUp(node).setSpeed(2.0).play();
-              node.setVisible(true);  
-              node.setUserData(null);
-            }    
+                new FadeInUp(node).setSpeed(2.0).play();
+                node.setVisible(true);
+                node.setUserData(null);
+            }
         } else {
-                FadeOutDown down = new FadeOutDown();
-                down.setNode(node);
-                down.setSpeed(2.0);
-                down.isResetOnFinished();
-                down.setOnFinished((event) -> {
-                    node.setVisible(false);
-                });
-                down.play(); 
-                node.setUserData(down);
+            FadeOutDown down = new FadeOutDown();
+            down.setNode(node);
+            down.setSpeed(2.0);
+            down.isResetOnFinished();
+            down.setOnFinished((event) -> {
+                node.setVisible(false);
+            });
+            down.play();
+            node.setUserData(down);
         }
     }
 

@@ -5,8 +5,12 @@
  */
 package managerNV;
 
+import animatefx.animation.BounceIn;
+import animatefx.animation.FadeInUp;
+import animatefx.animation.FadeOutDown;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -18,11 +22,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,9 +42,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import managerMenu.FXMLManagerMenuController;
 import tqduy.MD5.MD5Library;
+import tqduy.bean.InsertNX;
 import tqduy.bean.Role;
 import tqduy.bean.NhanVien;
+import tqduy.connect.DBUtils_LoaiNX;
 import tqduy.connect.DBUtils_NhanVien;
 import tqduy.connect.DBUtils_Role;
 
@@ -85,11 +96,20 @@ public class FXMLNhanVienController implements Initializable {
     private JFXButton btnOpenAddStaffForm;
     @FXML
     private JFXButton btnOpenAddRoleForm;
+    @FXML
+    private StackPane deleteStaffStackPane;
+    @FXML
+    private JFXButton deleteStaffBtn;
+    @FXML
+    private StackPane deleteRoleStackPane;
+    @FXML
+    private JFXButton deleteRoleBtn;
 
     private void showTableRole() throws SQLException {
+        deleteRoleStackPane.setVisible(false);
         tbRole.getColumns().clear();
         tbRole.setEditable(true);
-
+        tbRole.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbIDVaiTroColumn.setText("STT");
         tbTenVaiTroColumn.setText("Loại");
         tbIsActiveVaiTroColumn.setText("Active");
@@ -121,7 +141,38 @@ public class FXMLNhanVienController implements Initializable {
                 return cell;
             }
         });
+        tbRole.getSelectionModel().selectedItemProperty().addListener((observable) -> {
+            Role item = tbRole.getSelectionModel().getSelectedItem();
 
+            if (item == null) {
+//                deleteTypeStackPane.setVisible(false);
+                toggleVisible(deleteRoleStackPane, false);
+            } else {
+                ObservableList<Role> items = tbRole.getSelectionModel().getSelectedItems();
+                deleteRoleBtn.setOnAction((event) -> {
+                    String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
+                    try {
+                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JFXButton btn = (JFXButton) mainStackStaff.lookup("#btnExecute");
+                    btn.setOnAction((eventt) -> {
+                        items.forEach((t) -> {
+                            DBUtils_Role.delete(t.getIdRole());
+                        });
+                        try {
+                            showTableRole();
+                            ((JFXDialog) mainStackStaff.getChildren().get(1)).close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                });
+                tbNhanVien.getSelectionModel().clearSelection();
+                toggleVisible(deleteRoleStackPane, true);
+            }
+        });
         ObservableList<Role> list = FXCollections.observableArrayList(DBUtils_Role.getList());
         System.out.println("List: " + list);
         if (!list.isEmpty()) {
@@ -129,11 +180,61 @@ public class FXMLNhanVienController implements Initializable {
             tbRole.getColumns().addAll(tbIDVaiTroColumn, tbTenVaiTroColumn, tbIsActiveVaiTroColumn);
         }
     }
+    
+    private void toggleVisible(Node node, Boolean visible) {
+        if (visible) {
+            if (node.getUserData() != null) {
+                ((FadeOutDown) node.getUserData()).stop();
+            }
+            if (node.visibleProperty().getValue() == false || (node.getUserData() != null)) {
+                new FadeInUp(node).setSpeed(2.0).play();
+                node.setVisible(true);
+                node.setUserData(null);
+            }
+        } else {
+            FadeOutDown down = new FadeOutDown();
+            down.setNode(node);
+            down.setSpeed(2.0);
+            down.isResetOnFinished();
+            down.setOnFinished((event) -> {
+                node.setVisible(false);
+            });
+            down.play();
+            node.setUserData(down);
+        }
+    }
+    
+    private void creatDialog(String text, String type) throws IOException {
+        String url;
+        switch (type) {
+            case "succes":
+                url = "/dialog/popupSuccess.fxml";
+                break;
+            case "danger":
+                url = "/dialog/popupDanger.fxml";
+                break;
+            default:
+                url = "/dialog/popupWarning.fxml";
+        }
+        Region dialogContent = FXMLLoader.load(getClass().getResource(url));
+        JFXDialog dialog = new JFXDialog(mainStackStaff, dialogContent, JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(false);
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnClose");
+        Label txtContent = (Label) dialog.lookup("#txtContent");
+        txtContent.setText(text);
+        btnClose.setOnAction((eventt) -> {
+            new BounceIn(btnClose).setSpeed(2.0).play();
+            dialog.close();
+        });
+        btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
+        dialog.show();
+    }
 
     private void showTBNV() throws SQLException {
+        deleteStaffStackPane.setVisible(false);
         tbNhanVien.getColumns().clear();
         tbNhanVien.setEditable(true);
-
+        tbNhanVien.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbUserNameNVColumn.setText("User Name");
         tbVaiTroNVColumn.setText("Vai Trò");
         tbIsActiveNVColumn.setText("Active");
@@ -165,7 +266,38 @@ public class FXMLNhanVienController implements Initializable {
                 return cell;
             }
         });
+        tbNhanVien.getSelectionModel().selectedItemProperty().addListener((observable) -> {
+            NhanVien item = tbNhanVien.getSelectionModel().getSelectedItem();
 
+            if (item == null) {
+//                deleteTypeStackPane.setVisible(false);
+                toggleVisible(deleteStaffStackPane, false);
+            } else {
+                ObservableList<NhanVien> items = tbNhanVien.getSelectionModel().getSelectedItems();
+                deleteStaffBtn.setOnAction((event) -> {
+                    String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
+                    try {
+                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    JFXButton btn = (JFXButton) mainStackStaff.lookup("#btnExecute");
+                    btn.setOnAction((eventt) -> {
+                        items.forEach((t) -> {
+                            DBUtils_NhanVien.delete(t.getIdNV());
+                        });
+                        try {
+                            showTBNV();
+                            ((JFXDialog) mainStackStaff.getChildren().get(1)).close();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                });
+                tbRole.getSelectionModel().clearSelection();
+                toggleVisible(deleteStaffStackPane, true);
+            }
+        });
         ObservableList<NhanVien> list = FXCollections.observableArrayList(DBUtils_NhanVien.getList());
         System.out.println("List: " + list);
         if (!list.isEmpty()) {

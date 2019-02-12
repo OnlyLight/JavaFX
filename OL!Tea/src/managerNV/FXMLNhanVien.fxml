@@ -183,8 +183,28 @@
                                     <Insets bottom="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <HBox alignment="BASELINE_RIGHT" HBox.hgrow="ALWAYS">
+                              <HBox alignment="BASELINE_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
+                                    <StackPane fx:id="deleteStaffStackPane" maxWidth="-Infinity" prefHeight="31.0" prefWidth="88.0">
+                                       <children>
+                                          <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #e84545;" stylesheets="@../css/global.css" translateY="7.0">
+                                             <effect>
+                                                <BoxBlur height="15.0" iterations="2" width="17.86" />
+                                             </effect>
+                                          </HBox>
+                                          <JFXButton fx:id="deleteStaffBtn" prefWidth="190.0" style="-fx-background-color: #e84545;" styleClass="btn-login" stylesheets="@../css/global.css" text="DELETE" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="15.0" />
+                                             </font>
+                                             <effect>
+                                                <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                             </effect>
+                                             <graphic>
+                                                <FontAwesomeIcon fill="WHITE" iconName="TRASH_ALT" />
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </StackPane>
                                     <StackPane maxWidth="-Infinity" prefHeight="31.0" prefWidth="80.0">
                                        <children>
                                           <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
@@ -236,8 +256,28 @@
                                     <Insets bottom="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <HBox alignment="BASELINE_RIGHT" HBox.hgrow="ALWAYS">
+                              <HBox alignment="BASELINE_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
+                                    <StackPane fx:id="deleteRoleStackPane" maxWidth="-Infinity" prefHeight="31.0" prefWidth="88.0">
+                                       <children>
+                                          <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #e84545;" stylesheets="@../css/global.css" translateY="7.0">
+                                             <effect>
+                                                <BoxBlur height="15.0" iterations="2" width="17.86" />
+                                             </effect>
+                                          </HBox>
+                                          <JFXButton fx:id="deleteRoleBtn" prefWidth="190.0" style="-fx-background-color: #e84545;" styleClass="btn-login" stylesheets="@../css/global.css" text="DELETE" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="15.0" />
+                                             </font>
+                                             <effect>
+                                                <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                                             </effect>
+                                             <graphic>
+                                                <FontAwesomeIcon fill="WHITE" iconName="TRASH_ALT" />
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </StackPane>
                                     <StackPane maxWidth="-Infinity" prefHeight="31.0" prefWidth="80.0">
                                        <children>
                                           <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">

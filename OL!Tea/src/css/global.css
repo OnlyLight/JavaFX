@@ -162,7 +162,7 @@ and open the template in the editor.
     -fx-alignment: CENTER_RIGHT;
 }
 
-.table-view{
+.table-view, .list-view{
     -fx-border-color: #fff;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
@@ -233,7 +233,7 @@ and open the template in the editor.
     -fx-pref-height: 3;
 }
 
-.table-view .table-cell{
+.table-view .table-cell, .list-view .list-cell{
     -fx-border-color: transparent;
     -fx-padding: 5 10;
     -fx-font-size: 16;
