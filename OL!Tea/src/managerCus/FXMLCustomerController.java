@@ -8,6 +8,7 @@ package managerCus;
 import animatefx.animation.BounceIn;
 import animatefx.animation.FadeInUp;
 import animatefx.animation.FadeOutDown;
+import animatefx.animation.Tada;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import java.io.IOException;
@@ -39,6 +40,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -104,6 +106,9 @@ public class FXMLCustomerController implements Initializable {
         });
         btnOpenAddForm.setOnAction((event) -> {
             creatDialog(btnOpenAddForm, addTypeForm, mainCusStackPane);
+            if (addTypeForm.lookup("#errorText") != null) {
+                    addTypeForm.getChildren().remove(addTypeForm.getChildren().size() - 2);
+            }
         });
         txtDiscountMember.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.matches("\\d*") && !newValue.equals("0")) {
@@ -124,17 +129,18 @@ public class FXMLCustomerController implements Initializable {
             }
         });
         
-        btnThemMember.setDisable(true);
-        txtDiscountMember.textProperty().addListener((observable, oldValue, newValue) -> {
-            btnThemMember.setDisable(newValue.trim().isEmpty());
-        });
-        
         btnThemMember.setOnAction((event) -> {
             String tenLoai = txtTenLoaiMember.getText().toString().trim();
-            if(!tenLoai.isEmpty() && discount < 100) {
+            if (addTypeForm.lookup("#errorText") != null) {
+                    addTypeForm.getChildren().remove(addTypeForm.getChildren().size() - 2);
+            }
+            if (tenLoai.isEmpty() || discount == 0 || "".equals(txtDiscountMember.getText().trim())) {
+                 addErrorText(addTypeForm, "All fields are required !");
+            } else if (discount > 100) {
+                addErrorText(addTypeForm, "Discount percent must be equal or smaller than 100 !");
+            } else {
                 System.out.println(tenLoai + " - " + discount);
                 DBUtils_Member.insert(tenLoai, discount);
-                
                 ObservableList<Member> list = null;
                 try {
                     list = FXCollections.observableArrayList(DBUtils_Member.getList());
@@ -149,8 +155,6 @@ public class FXMLCustomerController implements Initializable {
                 JFXDialog dialog = (JFXDialog) mainCusStackPane.getChildren().get(1);
                 btnOpenAddForm.setDisable(false);
                 dialog.close();
-            } else {
-                createAlert("Hãy Nhập đầy đủ và giảm giá < 100");
             }
         });
     }
@@ -331,7 +335,7 @@ public class FXMLCustomerController implements Initializable {
         System.out.println("List: " + list);
         if(!list.isEmpty()) {
             tbCus.setItems(list);
-            tbCus.getColumns().addAll(tbTenNVCusColumn, tbVaiTroCusColumn, tbTenCusColumn, tbSDTCusColumn, tbLoaiMemberCusColumn, tbNgayLapCusColumn);
+            tbCus.getColumns().addAll(tbTenCusColumn, tbSDTCusColumn, tbLoaiMemberCusColumn, tbNgayLapCusColumn, tbTenNVCusColumn, tbVaiTroCusColumn);
         }
     }
     
@@ -382,6 +386,16 @@ public class FXMLCustomerController implements Initializable {
         });
         btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
         dialog.show();
+    }
+    
+    private void addErrorText(VBox vbox, String text) {
+        Label textLabel = new Label(text);
+        textLabel.setStyle("-fx-text-fill: #e84545; -fx-font-weight: bold");
+        HBox hbox = new HBox(textLabel);
+        textLabel.setId("errorText");
+        hbox.setUserData("error");
+        vbox.getChildren().add(vbox.getChildren().size() - 1, hbox);
+        new Tada(textLabel).setSpeed(1.5).play();
     }
 
     /**

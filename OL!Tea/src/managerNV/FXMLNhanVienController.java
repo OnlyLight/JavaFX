@@ -8,6 +8,7 @@ package managerNV;
 import animatefx.animation.BounceIn;
 import animatefx.animation.FadeInUp;
 import animatefx.animation.FadeOutDown;
+import animatefx.animation.Tada;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import java.io.IOException;
@@ -38,6 +39,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -324,10 +326,16 @@ public class FXMLNhanVienController implements Initializable {
     private void setEventClick() {
         btnOpenAddRoleForm.setOnAction((event) -> {
             creatDialog(btnOpenAddRoleForm, addRoleForm, mainStackStaff);
+            if (addRoleForm.lookup("#errorText") != null) {
+                    addRoleForm.getChildren().remove(addRoleForm.getChildren().size() - 2);
+            }
         });
 
         btnOpenAddStaffForm.setOnAction((event) -> {
             creatDialog(btnOpenAddStaffForm, addStaffForm, mainStackStaff);
+            if (addStaffForm.lookup("#errorText") != null) {
+                    addStaffForm.getChildren().remove(addStaffForm.getChildren().size() - 2);
+            }
         });
 
         txtTenVaiTro.setOnKeyPressed((event) -> {
@@ -339,6 +347,9 @@ public class FXMLNhanVienController implements Initializable {
 
         btnThemVaiTro.setOnAction((event) -> {
             String ten = txtTenVaiTro.getText().toString().trim();
+            if (addRoleForm.lookup("#errorText") != null) {
+                    addRoleForm.getChildren().remove(addRoleForm.getChildren().size() - 2);
+            }
             if (!ten.isEmpty()) {
                 Optional<ButtonType> result = createAlert("Do you want add ?");
 
@@ -359,7 +370,7 @@ public class FXMLNhanVienController implements Initializable {
                 btnOpenAddRoleForm.setDisable(false);
                 dialog.close();
             } else {
-                createAlert("Hãy nhập thông tin !!");
+                addErrorText(addRoleForm, "All fields are required !");
             }
         });
 
@@ -371,31 +382,29 @@ public class FXMLNhanVienController implements Initializable {
         btnThemNV.setOnAction((event) -> {
             String userName = txtUserName.getText().toString().trim();
             String passWord = txtPassWord.getText().toString().trim();
-
-            if (!userName.isEmpty() && !passWord.isEmpty()) {
-                Optional<ButtonType> result = createAlert("Do you want add ?");
+            if (addStaffForm.lookup("#errorText") != null) {
+                    addStaffForm.getChildren().remove(addStaffForm.getChildren().size() - 2);
+            }
+            if (!userName.isEmpty() && !passWord.isEmpty() && roleSelected.getIdRole() != -1) {
                 String pass = MD5Library.md5(passWord);
+                try {
+                    DBUtils_NhanVien.insert(userName, pass, roleSelected.getIdRole());
+                    System.out.println(userName + " - " + passWord + " - " + roleSelected.getIdRole());
 
-                if (result.get() == ButtonType.OK) {
-                    try {
-                        DBUtils_NhanVien.insert(userName, pass, roleSelected.getIdRole());
-                        System.out.println(userName + " - " + passWord + " - " + roleSelected.getIdRole());
-
-                        ObservableList<NhanVien> list = FXCollections.observableArrayList(DBUtils_NhanVien.getList());
-                        System.out.println("List: " + list);
-                        if (!list.isEmpty()) {
-                            tbNhanVien.getItems().clear();
-                            tbNhanVien.setItems(list);
-                        }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                    ObservableList<NhanVien> list = FXCollections.observableArrayList(DBUtils_NhanVien.getList());
+                    System.out.println("List: " + list);
+                    if (!list.isEmpty()) {
+                        tbNhanVien.getItems().clear();
+                        tbNhanVien.setItems(list);
                     }
-                };
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JFXDialog dialog = (JFXDialog) mainStackStaff.getChildren().get(1);
                 btnOpenAddStaffForm.setDisable(false);
                 dialog.close();
             } else {
-                createAlert("Hãy nhập thông tin !!");
+                addErrorText(addStaffForm, "All fields are required !");
             }
         });
     }
@@ -431,12 +440,23 @@ public class FXMLNhanVienController implements Initializable {
             btn.setDisable(false);
         });
     }
+    
+    private void addErrorText(VBox vbox, String text) {
+        Label textLabel = new Label(text);
+        textLabel.setStyle("-fx-text-fill: #e84545; -fx-font-weight: bold");
+        HBox hbox = new HBox(textLabel);
+        textLabel.setId("errorText");
+        hbox.setUserData("error");
+        vbox.getChildren().add(vbox.getChildren().size() - 1, hbox);
+        new Tada(textLabel).setSpeed(1.5).play();
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        roleSelected.setIdRole(-1);
         try {
             // TODO
             showTableRole();

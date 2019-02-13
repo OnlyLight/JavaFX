@@ -5,12 +5,19 @@
  */
 package bill;
 
+import animatefx.animation.BounceIn;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import tqduy.bean.Bill;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -20,16 +27,27 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.stage.DirectoryChooser;
+import login.Login;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import tqduy.connect.DBUtils_Bill;
 
 /**
@@ -51,12 +69,78 @@ public class FXMLBillController implements Initializable {
     private TableColumn<Bill, Date> tbNgayLapColumn;
     @FXML
     private JFXButton btnInThongTin;
+    @FXML
+    private StackPane mainStackPane;
+    @FXML
+    private NumberAxis yAxis;
+    @FXML
+    private CategoryAxis xAxis;
 
     // EVENT FOR IN THONG TIN THONG KE
     private void setEvent() {
         btnInThongTin.setOnAction((event) -> {
-            createAlert("Printing...");
+            DirectoryChooser chooser = new DirectoryChooser();
+            File f = chooser.showDialog(Login.getStage());
+            if(f != null){
+                System.out.println(f.getAbsolutePath());
+                try {
+                    XSSFWorkbook wb = new XSSFWorkbook();
+                    XSSFSheet sheet = wb.createSheet("Bill Statistical");
+                    XSSFRow header = sheet.createRow(0);
+                    header.createCell(0).setCellValue("Staff");
+                    header.createCell(1).setCellValue("Amount");
+                    header.createCell(2).setCellValue("Created Date");
+                    sheet.autoSizeColumn(0);
+                    sheet.autoSizeColumn(1);
+                    sheet.autoSizeColumn(2);
+                    ArrayList<Bill> list = DBUtils_Bill.getList();
+                    int index = 1;
+                    for (int i = 0; i < list.size(); i++) {
+                        Bill get = list.get(i);
+                        XSSFRow row = sheet.createRow(i+1);
+                        row.createCell(0).setCellValue(get.getTenNV());
+                        row.createCell(1).setCellValue(get.getTongTien());
+                        row.createCell(2).setCellValue(new SimpleDateFormat("dd.MM.yyyy").format(get.getNgayLap()));
+                    }
+                    FileOutputStream fileOut = new FileOutputStream(f.getPath() + "/bill-static.xlsx");
+                    wb.write(fileOut);
+                    fileOut.close();
+                    creatDialog("Export file successfull at :\n"+ f.getPath() + "\\" + "bill-static.xlsx", "success");
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLBillController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FXMLBillController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLBillController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
+    }
+    
+    private void creatDialog(String text, String type) throws IOException {
+        String url;
+        switch (type) {
+            case "success":
+                url = "/dialog/popupSuccess.fxml";
+                break;
+            case "danger":
+                url = "/dialog/popupDanger.fxml";
+                break;
+            default:
+                url = "/dialog/popupWarning.fxml";
+        }
+        Region dialogContent = FXMLLoader.load(getClass().getResource(url));
+        JFXDialog dialog = new JFXDialog(mainStackPane, dialogContent, JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(false);
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnClose");
+        Label txtContent = (Label) dialog.lookup("#txtContent");
+        txtContent.setText(text);
+        btnClose.setOnAction((eventt) -> {
+            new BounceIn(btnClose).setSpeed(2.0).play();
+            dialog.close();
+        });
+        btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
+        dialog.show();
     }
 
     // CREATE ALERT FOR NOTIFICATION
