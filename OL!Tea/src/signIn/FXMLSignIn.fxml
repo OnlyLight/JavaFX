@@ -13,88 +13,93 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="addMemberForm" alignment="CENTER" maxWidth="-Infinity" prefWidth="400.0" spacing="20.0" stylesheets="@../css/global.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signIn.FXMLSignInController">
+
+<StackPane fx:id="mainStackPane" prefHeight="448.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signIn.FXMLSignInController">
    <children>
-      <Label alignment="CENTER" style="-fx-font-size: 18;" styleClass="font-bold" text="ADD NEW MEMBER" textAlignment="CENTER" />
-      <VBox spacing="5.0">
+      <VBox fx:id="addMemberForm" alignment="CENTER" maxWidth="-Infinity" prefHeight="465.0" prefWidth="496.0" spacing="20.0" stylesheets="@../css/global.css">
          <children>
-            <Label styleClass="font-bold" text="Member Name" />
-            <TextField fx:id="txtTenCus" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </TextField>
-         </children>
-      </VBox>
-      <VBox spacing="5.0">
-         <children>
-            <Label styleClass="font-bold" text="Telephone" />
-            <TextField fx:id="txtSDT" prefHeight="40.0" prefWidth="819.0" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </TextField>
-         </children>
-      </VBox>
-      <HBox spacing="20.0">
-         <children>
+            <Label alignment="CENTER" style="-fx-font-size: 18;" styleClass="font-bold" text="ADD NEW MEMBER" textAlignment="CENTER" />
             <VBox spacing="5.0">
                <children>
-                  <Label styleClass="font-bold" text="Member Type" />
-                  <ComboBox fx:id="cbLoaiMember" prefHeight="44.0" prefWidth="241.0" promptText="Choose type" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-border-radius: 3; -fx-padding: 2 2 2 0;" />
+                  <Label styleClass="font-bold" text="Member Name" />
+                  <TextField fx:id="txtTenCus" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </TextField>
                </children>
             </VBox>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" spacing="20.0">
-         <children>
-            <StackPane maxWidth="-Infinity" prefHeight="31.0" prefWidth="80.0">
+            <VBox spacing="5.0">
                <children>
-                  <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
-                     <effect>
-                        <BoxBlur height="15.0" iterations="2" width="17.86" />
-                     </effect>
-                  </HBox>
-                  <JFXButton fx:id="btnAdd" prefHeight="59.0" prefWidth="80.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" ADD" textFill="WHITE">
+                  <Label styleClass="font-bold" text="Telephone" />
+                  <TextField fx:id="txtSDT" prefHeight="40.0" prefWidth="819.0" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-border-radius: 3;">
                      <font>
-                        <Font name="System Bold" size="15.0" />
+                        <Font size="17.0" />
                      </font>
-                     <effect>
-                        <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
-                     </effect>
-                     <graphic>
-                        <FontAwesomeIcon fill="WHITE" iconName="PLUS" />
-                     </graphic>
-                  </JFXButton>
+                  </TextField>
                </children>
-            </StackPane>
-            <StackPane maxWidth="-Infinity" prefHeight="38.0" prefWidth="103.0">
+            </VBox>
+            <HBox spacing="20.0">
                <children>
-                  <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #e84545;" stylesheets="@../css/global.css" translateY="7.0">
-                     <effect>
-                        <BoxBlur height="15.0" iterations="2" width="17.86" />
-                     </effect>
-                  </HBox>
-                  <JFXButton fx:id="btnCloseAddMenu" prefHeight="68.0" prefWidth="103.0" styleClass="btn-danger" stylesheets="@../css/global.css" text=" CANCLE" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <effect>
-                        <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
-                     </effect>
-                     <graphic>
-                        <FontAwesomeIcon fill="WHITE" iconName="CLOSE" />
-                     </graphic>
-                  </JFXButton>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label styleClass="font-bold" text="Member Type" />
+                        <ComboBox fx:id="cbLoaiMember" prefHeight="44.0" prefWidth="241.0" promptText="Choose type" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-border-radius: 3; -fx-padding: 2 2 2 0;" />
+                     </children>
+                  </VBox>
                </children>
-            </StackPane>
+            </HBox>
+            <HBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <StackPane maxWidth="-Infinity" prefHeight="31.0" prefWidth="80.0">
+                     <children>
+                        <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #00adb5;" stylesheets="@../css/global.css" translateY="7.0">
+                           <effect>
+                              <BoxBlur height="15.0" iterations="2" width="17.86" />
+                           </effect>
+                        </HBox>
+                        <JFXButton fx:id="btnAdd" prefHeight="59.0" prefWidth="80.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" ADD" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                           </effect>
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" iconName="PLUS" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </StackPane>
+                  <StackPane maxWidth="-Infinity" prefHeight="38.0" prefWidth="103.0">
+                     <children>
+                        <HBox opacity="0.42" prefHeight="0.0" prefWidth="200.0" scaleX="0.95" scaleZ="3.0" style="-fx-background-color: #e84545;" stylesheets="@../css/global.css" translateY="7.0">
+                           <effect>
+                              <BoxBlur height="15.0" iterations="2" width="17.86" />
+                           </effect>
+                        </HBox>
+                        <JFXButton fx:id="btnCloseAddMenu" prefHeight="68.0" prefWidth="103.0" styleClass="btn-danger" stylesheets="@../css/global.css" text=" CANCLE" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
+                           </effect>
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" iconName="CLOSE" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </StackPane>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
          </children>
-         <VBox.margin>
-            <Insets top="20.0" />
-         </VBox.margin>
-      </HBox>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
    </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+</StackPane>

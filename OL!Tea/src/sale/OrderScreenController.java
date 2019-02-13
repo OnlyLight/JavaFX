@@ -7,6 +7,7 @@ package sale;
 
 import animatefx.animation.BounceIn;
 import animatefx.animation.FadeIn;
+import animatefx.animation.FadeInLeft;
 import animatefx.animation.FadeInUp;
 import animatefx.animation.FadeOutDown;
 import animatefx.animation.Pulse;
@@ -160,9 +161,9 @@ public class OrderScreenController implements Initializable {
                 idMem = customer.getIdMember();
                 System.out.println(customer);
                 SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-                String content = "Telephone: " + customer.getSdt() + "\nMember Name: " + customer.getTenCus() +
-                        "\nMember Type: " + customer.getLoaiMember() + "\nDiscount: " + customer.getDiscount() + "%" +
-                        "\nCreated date: " + format.format(customer.getNgayLap()) + "\nCreated by: " + customer.getTenNhanVien();
+                String content = "Telephone: " + customer.getSdt() + "\nMember Name: " + customer.getTenCus()
+                        + "\nMember Type: " + customer.getLoaiMember() + "\nDiscount: " + customer.getDiscount() + "%"
+                        + "\nCreated date: " + format.format(customer.getNgayLap()) + "\nCreated by: " + customer.getTenNhanVien();
                 try {
                     creatDialog(content, "success");
                     txtDiscount.setText(String.valueOf(customer.getDiscount()) + "%");
@@ -192,31 +193,40 @@ public class OrderScreenController implements Initializable {
         });
         btnPay.setOnAction((event) -> {
             new BounceIn(btnPay).setSpeed(2.0).play();
-            int total = ((Integer) txtMoneyTotal.getUserData()).intValue();
-            if (total != 0) {
-                System.out.println("IDNV: " + FXMLLoginController.nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
-                try {
-                    DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
-                } catch (SQLException ex) {
-                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                DBUtils_MonOrder.deleteAll();
-                clearDiscountInfo();
-                try {
-                    creatDialog("Checkout successful !", "success");
-                } catch (IOException ex) {
-                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                try {
-                    creatDialog("Nothing to checkout !", "danger");
-                } catch (IOException ex) {
-                    Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                creatDialog("Do you want to checkout ?", "warning");
+                JFXButton btn = (JFXButton) mainOrderScreenStackPane.lookup("#btnExecute");
+                btn.setOnAction((t) -> {
+                    ((JFXDialog) mainOrderScreenStackPane.getChildren().get(2)).close();
+                    int total = ((Integer) txtMoneyTotal.getUserData()).intValue();
+                    if (total != 0) {
+                        System.out.println("IDNV: " + FXMLLoginController.nvLogin.getIdNV() + " - idCUs: " + customer.getIdCus());
+                        try {
+                            DBUtils_Bill.insert(FXMLLoginController.nvLogin.getIdNV(), total, LocalDate.now());
+                        } catch (SQLException ex) {
+                            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        DBUtils_MonOrder.deleteAll();
+                        clearDiscountInfo();
+                        try {
+                            creatDialog("Checkout successful !", "success");
+                        } catch (IOException ex) {
+                            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        try {
+                            creatDialog("Nothing to checkout !", "danger");
+                        } catch (IOException ex) {
+                            Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+            } catch (IOException ex) {
+                Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
-    
+
     private void clearDiscountInfo() {
         sdt = "";
         txtSdtCheck.setText("");
@@ -229,7 +239,7 @@ public class OrderScreenController implements Initializable {
             Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public static void closeAddMemberForm() {
         JFXDialog dialog = (JFXDialog) mainOrderScreen.getChildren().get(2);
         dialog.close();
@@ -271,7 +281,7 @@ public class OrderScreenController implements Initializable {
                 JFXButton decreaseBtn = (JFXButton) itemOrdered.lookup("#decreaseBtn");
                 JFXButton increaseBtn = (JFXButton) itemOrdered.lookup("#increaseBtn");
                 HBox editQtyHBox = (HBox) itemOrdered.lookup("#editQtyHBox");
-                TextField qtyTxt = (TextField) itemOrdered.lookup("#qtyTxt");     
+                TextField qtyTxt = (TextField) itemOrdered.lookup("#qtyTxt");
                 qtyTxt.setText(String.valueOf(monOrder1.getSoLuong()));
                 editQtyHBox.setVisible(false);
                 deleteBtn.setVisible(false);
@@ -327,7 +337,7 @@ public class OrderScreenController implements Initializable {
         txtPay.setText(price);
         if (txtDiscount.getUserData() != null) {
             int discount = (int) txtDiscount.getUserData();
-            total = total - total*discount/100;
+            total = total - total * discount / 100;
             price = String.format(Locale.US, "%,d", total).replace(",", ".");
         }
         txtMoneyTotal.setText(price);
@@ -444,7 +454,7 @@ public class OrderScreenController implements Initializable {
                                     Logger.getLogger(OrderScreenController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 if (getQtyitem == -1) {
-                                    new Pulse(orderedList.getChildren().get(orderedList.getChildren().size() - 1)).setSpeed(2.0).setResetOnFinished(true).play();
+                                    new FadeInLeft(orderedList.getChildren().get(orderedList.getChildren().size() - 1)).setSpeed(2.0).setResetOnFinished(true).play();
                                 } else {
                                     System.out.println("size: " + orderedList.getChildren().size());
                                     new Pulse(orderedList.getChildren().get(getPosItemInOrderList(m.getIdMon()))).setSpeed(3.0).setResetOnFinished(true).play();
@@ -475,7 +485,17 @@ public class OrderScreenController implements Initializable {
     }
 
     private void creatDialog(String text, String type) throws IOException {
-        String url = "success".equals(type) ? "/dialog/popupSuccess.fxml" : "/dialog/popupDanger.fxml";
+        String url;
+        switch (type) {
+            case "success":
+                url = "/dialog/popupSuccess.fxml";
+                break;
+            case "danger":
+                url = "/dialog/popupDanger.fxml";
+                break;
+            default:
+                url = "/dialog/popupWarning.fxml";
+        }
         Region dialogContent = FXMLLoader.load(getClass().getResource(url));
         JFXDialog dialog = new JFXDialog(mainOrderScreenStackPane, dialogContent, JFXDialog.DialogTransition.CENTER);
         dialog.setOverlayClose(false);
@@ -489,7 +509,7 @@ public class OrderScreenController implements Initializable {
         btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
         dialog.show();
     }
-    
+
     public static void setSDT(String numb) {
         sdt = numb;
     }

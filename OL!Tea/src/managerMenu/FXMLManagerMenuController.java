@@ -9,6 +9,7 @@ import animatefx.animation.BounceIn;
 import animatefx.animation.FadeInDown;
 import animatefx.animation.FadeInUp;
 import animatefx.animation.FadeOutDown;
+import animatefx.animation.Tada;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import java.io.IOException;
@@ -43,6 +44,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -412,6 +414,9 @@ public class FXMLManagerMenuController implements Initializable {
                 Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
             creatDialog(btnOpenAddForm, addForm, mainMenuStackPane);
+            if (addForm.lookup("#errorText") != null) {
+                    addForm.getChildren().remove(addForm.getChildren().size() - 2);
+            }
 //            btnOpenAddForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
 //            dialog.setOverlayClose(false);
@@ -424,6 +429,9 @@ public class FXMLManagerMenuController implements Initializable {
         });
         btnOpenAddTypeForm.setOnAction((event) -> {
             creatDialog(btnOpenAddTypeForm, addTypeForm, mainMenuStackPane);
+            if (addTypeForm.lookup("#errorText") != null) {
+                    addTypeForm.getChildren().remove(addTypeForm.getChildren().size() - 2);
+            }
 //            btnOpenAddTypeForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(typeMenuStackPane, addTypeForm, JFXDialog.DialogTransition.NONE);
 //            dialog.setOverlayClose(false);
@@ -441,9 +449,15 @@ public class FXMLManagerMenuController implements Initializable {
                 Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
             creatDialog(btnOpenImportTypeForm, addImportTypeForm, mainMenuStackPane);
+            if (addImportTypeForm.lookup("#errorText") != null) {
+                    addImportTypeForm.getChildren().remove(addImportTypeForm.getChildren().size() - 2);
+            }
         });
         btnOpenAddUnitForm.setOnAction((event) -> {
             creatDialog(btnOpenAddUnitForm, addUntiForm, mainMenuStackPane);
+            if (addUntiForm.lookup("#errorText") != null) {
+                    addUntiForm.getChildren().remove(addUntiForm.getChildren().size() - 2);
+            }
         });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -461,41 +475,49 @@ public class FXMLManagerMenuController implements Initializable {
 
         btnThemLoaiMon.setOnAction((event) -> {
             try {
+                if (addTypeForm.lookup("#errorText") != null) {
+                    addTypeForm.getChildren().remove(addTypeForm.getChildren().size() - 2);
+                }
                 if (!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
                     DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
-                };
-
-                ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList(true));
-                if (!listMon.isEmpty()) {
-                    tbLoaiMon.getItems().clear();
-                    tbLoaiMon.setItems(listMon);
-                };
-                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
-                btnOpenAddTypeForm.setDisable(false);
-                dialog.close();
+                    ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList(true));
+                    if (!listMon.isEmpty()) {
+                        tbLoaiMon.getItems().clear();
+                        tbLoaiMon.setItems(listMon);
+                    };
+                    JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+                    btnOpenAddTypeForm.setDisable(false);
+                    dialog.close();
+                } else {
+                    addErrorText(addTypeForm, "All fields are required !");
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
         btnThemDVT.setOnAction((event) -> {
+            if (addUntiForm.lookup("#errorText") != null) {
+                    addUntiForm.getChildren().remove(addUntiForm.getChildren().size() - 2);
+            }
             if (!txtDVT.getText().toString().trim().isEmpty()) {
                 DBUtils_DVT.insert(txtDVT.getText().toString().trim());
+                ObservableList<DVT> listDVT = FXCollections.observableArrayList();
+
+                for (DVT dvt : DBUtils_DVT.getList()) {
+                    listDVT.add(dvt);
+                }
+
+                if (!listDVT.isEmpty()) {
+                    lvDVT.getItems().clear();
+                    lvDVT.setItems(listDVT);
+                };
+                JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
+                btnOpenAddUnitForm.setDisable(false);
+                dialog.close();
+            } else {
+                addErrorText(addUntiForm, "All fields are required !");
             }
-
-            ObservableList<DVT> listDVT = FXCollections.observableArrayList();
-
-            for (DVT dvt : DBUtils_DVT.getList()) {
-                listDVT.add(dvt);
-            }
-
-            if (!listDVT.isEmpty()) {
-                lvDVT.getItems().clear();
-                lvDVT.setItems(listDVT);
-            };
-            JFXDialog dialog = (JFXDialog) mainMenuStackPane.getChildren().get(2);
-            btnOpenAddUnitForm.setDisable(false);
-            dialog.close();
         });
 
         cbLoaiMonMenu.setOnAction((event) -> {
@@ -510,8 +532,10 @@ public class FXMLManagerMenuController implements Initializable {
 
         btnThemLoaiNX.setOnAction((event) -> {
             String tenLoaiNX = txtLoaiNhapXuat.getText().toString().trim();
-
-            if (!tenLoaiNX.isEmpty() && dvtSelected != null) {
+            if (addImportTypeForm.lookup("#errorText") != null) {
+                    addImportTypeForm.getChildren().remove(addImportTypeForm.getChildren().size() - 2);
+            }
+            if (!tenLoaiNX.isEmpty() && dvtSelected != null && dvtSelected.getIdDVT() != -1) {
                 try {
                     DBUtils_LoaiNX.insert(tenLoaiNX, dvtSelected.getIdDVT());
 
@@ -528,7 +552,7 @@ public class FXMLManagerMenuController implements Initializable {
                     Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                createAlert("Hãy nhập đầy đủ thông tin !!");
+                addErrorText(addImportTypeForm, "All fields are required !");
             }
         });
 
@@ -546,8 +570,11 @@ public class FXMLManagerMenuController implements Initializable {
 
         btnThemMenu.setOnAction((event) -> {
             String tenMon = txtTenMonMenu.getText().toString().trim();
-
-            if (!tenMon.isEmpty() && donGiaMenu > 0 && loaiMenu != null) {
+            if (addForm.lookup("#errorText") != null) {
+                    addForm.getChildren().remove(addForm.getChildren().size() - 2);
+            }
+            System.out.println("data: " + tenMon + loaiMenu);
+            if (!tenMon.isEmpty() && donGiaMenu > 0 && loaiMenu != null && loaiMenu.getId() != -1) {
                 try {
                     DBUtils_Mon.insert(tenMon, donGiaMenu, loaiMenu.getId());
                     txtTenLoaiMon.clear();
@@ -567,7 +594,7 @@ public class FXMLManagerMenuController implements Initializable {
                     Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                createAlert("Hãy nhập đầy đủ thông tin !!");
+                addErrorText(addForm, "All fields are required !");
             }
         });
     }
@@ -665,12 +692,24 @@ public class FXMLManagerMenuController implements Initializable {
             node.setUserData(down);
         }
     }
+    
+    private void addErrorText(VBox vbox, String text) {
+        Label textLabel = new Label(text);
+        textLabel.setStyle("-fx-text-fill: #e84545; -fx-font-weight: bold");
+        HBox hbox = new HBox(textLabel);
+        textLabel.setId("errorText");
+        hbox.setUserData("error");
+        vbox.getChildren().add(vbox.getChildren().size() - 1, hbox);
+        new Tada(textLabel).setSpeed(1.5).play();
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        loaiMenu.setId(-1);
+        dvtSelected.setIdDVT(-1);
         try {
             // TODO
             loadTableLoaiMon();
