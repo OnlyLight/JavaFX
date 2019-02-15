@@ -112,8 +112,8 @@ public class FXMLNhanVienController implements Initializable {
         tbRole.getColumns().clear();
         tbRole.setEditable(true);
         tbRole.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tbIDVaiTroColumn.setText("STT");
-        tbTenVaiTroColumn.setText("Loại");
+        tbIDVaiTroColumn.setText("No.");
+        tbTenVaiTroColumn.setText("Role Name");
         tbIsActiveVaiTroColumn.setText("Active");
         tbIsActiveVaiTroColumn.getStyleClass().add("align-center");
 
@@ -238,7 +238,7 @@ public class FXMLNhanVienController implements Initializable {
         tbNhanVien.setEditable(true);
         tbNhanVien.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbUserNameNVColumn.setText("User Name");
-        tbVaiTroNVColumn.setText("Vai Trò");
+        tbVaiTroNVColumn.setText("Role");
         tbIsActiveNVColumn.setText("Active");
         tbIsActiveNVColumn.getStyleClass().add("align-center");
 

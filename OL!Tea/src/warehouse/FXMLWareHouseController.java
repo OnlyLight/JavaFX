@@ -6,11 +6,17 @@
 package warehouse;
 
 import animatefx.animation.BounceIn;
+import animatefx.animation.Tada;
+import bill.FXMLBillController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXRadioButton;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -26,6 +32,7 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -37,6 +44,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
@@ -46,10 +54,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import login.Login;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import tqduy.bean.Bill;
 import tqduy.bean.DVT;
 import tqduy.bean.LoaiNX;
 import tqduy.bean.Nhap;
@@ -57,6 +73,7 @@ import tqduy.bean.NhapTable;
 import tqduy.bean.TKTable;
 import tqduy.bean.Xuat;
 import tqduy.bean.XuatTable;
+import tqduy.connect.DBUtils_Bill;
 import tqduy.connect.DBUtils_DVT;
 import tqduy.connect.DBUtils_LoaiNX;
 import tqduy.connect.DBUtils_Nhap;
@@ -143,6 +160,8 @@ public class FXMLWareHouseController implements Initializable {
     private JFXButton btnCloseAddMenu;
     @FXML
     private StackPane prdNameStackPane;
+    @FXML
+    private VBox importExportForm;
 
     // Bản thông kê
     private void displayBarChart() throws SQLException {
@@ -162,10 +181,10 @@ public class FXMLWareHouseController implements Initializable {
         });
 
         XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<>();
-        dataSeries1.setName("Nhập");
+        dataSeries1.setName("Import");
 
         XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<>();
-        dataSeries2.setName("Xuất");
+        dataSeries2.setName("Export");
 
         for (int i = year - 2; i <= year; i++) {
             dataSeries1.getData().add(new XYChart.Data<String, Number>("" + i + "", DBUtils_Nhap.getNhap(i)));
@@ -196,7 +215,50 @@ public class FXMLWareHouseController implements Initializable {
         });
 
         btnPrintInfo.setOnAction((event) -> {
-            createAlert("Printing....");
+            DirectoryChooser chooser = new DirectoryChooser();
+            File f = chooser.showDialog(Login.getStage());
+            if(f != null){
+                System.out.println(f.getAbsolutePath());
+                try {
+                    XSSFWorkbook wb = new XSSFWorkbook();
+                    XSSFSheet sheet = wb.createSheet("Import - Export Statistical");
+                    XSSFRow header = sheet.createRow(0);
+                    header.createCell(0).setCellValue("Product Name");
+                    header.createCell(1).setCellValue("Price");
+                    header.createCell(2).setCellValue("Import Qty");
+                    header.createCell(3).setCellValue("Import Date");
+                    header.createCell(4).setCellValue("Export Qty");
+                    header.createCell(5).setCellValue("Export Date");
+                    header.createCell(6).setCellValue("Type");              
+                    ArrayList<TKTable> list = DBUtils_TK.getList();
+                    int index = 1;
+                    for (int i = 0; i < list.size(); i++) {
+                        TKTable get = list.get(i);
+                        XSSFRow row = sheet.createRow(i+1);
+                        System.out.println("gia: " + get.getDonGia());
+                        row.createCell(0).setCellValue(get.getTenSp());
+                        row.createCell(1).setCellValue(get.getDonGia());
+                        row.createCell(2).setCellValue(get.getSoLuongNhap());
+                        row.createCell(3).setCellValue(new SimpleDateFormat("dd.MM.yyyy").format(get.getNgayNhap()));
+                        row.createCell(4).setCellValue(get.getSoLuongXuat());
+                        row.createCell(5).setCellValue(new SimpleDateFormat("dd.MM.yyyy").format(get.getNgayXuat()));
+                        row.createCell(6).setCellValue(get.getTenLoai());
+                    }
+                    for (int i = 0; i < 7; i++) {
+                        sheet.autoSizeColumn(i);
+                    }   
+                    FileOutputStream fileOut = new FileOutputStream(f.getPath() + "/import-export-static.xlsx");
+                    wb.write(fileOut);
+                    fileOut.close();
+                    creatDialog("Export file successfull at :\n"+ f.getPath() + "\\" + "import-export-static.xlsx", "success");
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
     }
 
@@ -485,9 +547,12 @@ public class FXMLWareHouseController implements Initializable {
     }
 
     private void submitNhap() {
+        if (importExportForm.lookup("#errorText") != null) {
+            importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
+        }
         String ten = txtTenSpNhap.getText().toString().trim();
-        if (ten.isEmpty() || txtSoLuongNhap.getText().isEmpty() || txtDonGiaNhap.getText().isEmpty() || tenLoaiNhap == null) {
-            createAlert("Xin Nhập đầy đủ thông tin !!!");
+        if (ten.isEmpty() || txtSoLuongNhap.getText().isEmpty() || txtDonGiaNhap.getText().isEmpty() || tenLoaiNhap.getIdLoaiNX() == -1) {
+            addErrorText(importExportForm, "All fields are required !");
         } else {
             try {
                 DBUtils_Nhap.insert(ten, tenLoaiNhap.getIdLoaiNX(), donGiaNhap, soLuongNhap, dateNhap);
@@ -508,8 +573,12 @@ public class FXMLWareHouseController implements Initializable {
     }
 
     private void submitXuat() throws SQLException {
-        if (tenSpXuat.isEmpty() || txtSoLuongNhap.getText().toString().trim().isEmpty() || tenLoaiXuat == null) {
-            createAlert("Xin Nhập đầy đủ thông tin !!!");
+        if (importExportForm.lookup("#errorText") != null) {
+                    importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
+        }
+        System.out.println("data: " + tenSpXuat + txtSoLuongNhap + tenLoaiXuat);
+        if (tenSpXuat == null || tenSpXuat.isEmpty() || txtSoLuongNhap.getText().trim().isEmpty() || tenLoaiXuat.getIdLoaiNX() == -1) {
+            addErrorText(importExportForm, "All fields are required !");
         } else {
 //            System.out.println("tenSpXuat: " + tenSpXuat + " - tenLoaiXuat: " + tenLoaiNhap.getIdLoaiNX() + " So luog:" + soLuongXuat + " - "+ dateXuat);
             DBUtils_Xuat.insert(tenSpXuat, tenLoaiNhap.getIdLoaiNX(), soLuongXuat, dateXuat);
@@ -564,28 +633,28 @@ public class FXMLWareHouseController implements Initializable {
     // Table
     private void createNameColumn() {
         // Table Nhap
-        tbTenSpNhapColumn.setText("Tên sản phẩm");
-        tbTenLoaiNhapColumn.setText("Loại");
-        tbDVTNhapColumn.setText("Đơn vị tính");
-        tbDonGiaNhapColumn.setText("Đơn giá nhập");
-        tbSoLuongNhapColumn.setText("Số lượng nhập");
-        tbNgayNhapColumn.setText("Ngày nhập");
+        tbTenSpNhapColumn.setText("Product Name");
+        tbTenLoaiNhapColumn.setText("Type");
+        tbDVTNhapColumn.setText("Unit");
+        tbDonGiaNhapColumn.setText("Price");
+        tbSoLuongNhapColumn.setText("Quantity");
+        tbNgayNhapColumn.setText("Imported Date");
 
         // Table Xuat
-        tbTenSpXuatColumn.setText("Tên sản phẩm");
-        tbTenLoaiXuatColumn.setText("Loại");
-        tbDVTXuatColumn.setText("Đơn vị tính");
-        tbSoLuongXuatColumn.setText("Số lượng xuất");
-        tbNgayXuatColumn.setText("Ngày xuất");
+        tbTenSpXuatColumn.setText("Product Name");
+        tbTenLoaiXuatColumn.setText("Type");
+        tbDVTXuatColumn.setText("Unit");
+        tbSoLuongXuatColumn.setText("Quantity");
+        tbNgayXuatColumn.setText("Exported Date");
 
         // Table Thong Ke
-        tbTenSpTKColumn.setText("Tên SP");
-        tbDonGiaTKColumn.setText("Đơn Giá");
-        tbSoLuongNhapTKColumn.setText("Số lượng nhập");
-        tbNgayNhapTKColumn.setText("Ngày Nhập");
-        tbSoLuongXuatTKColumn.setText("Số lượng xuất");
-        tbNgayXuatTKColumn.setText("Ngày xuất");
-        tbLoaiTKColumn.setText("Loại");
+        tbTenSpTKColumn.setText("Product Name");
+        tbDonGiaTKColumn.setText("Price");
+        tbSoLuongNhapTKColumn.setText("Import Qty");
+        tbNgayNhapTKColumn.setText("Imported Date");
+        tbSoLuongXuatTKColumn.setText("Export Qty");
+        tbNgayXuatTKColumn.setText("Exported Date");
+        tbLoaiTKColumn.setText("Type");
     }
 
     private void setDataTable() {
@@ -826,15 +895,55 @@ public class FXMLWareHouseController implements Initializable {
         return list;
     }
     // End Table
-
+    private void addErrorText(VBox vbox, String text) {
+        System.out.println("size: " + vbox.getChildren().size());
+        Label textLabel = new Label(text);
+        textLabel.setStyle("-fx-text-fill: #e84545; -fx-font-weight: bold");
+        HBox hbox = new HBox(textLabel);
+        textLabel.setId("errorText");
+        hbox.setUserData("error");
+        vbox.getChildren().add(vbox.getChildren().size() - 1, hbox);
+        new Tada(textLabel).setSpeed(1.5).play();
+    }
+    
+    private void creatDialog(String text, String type) throws IOException {
+        String url;
+        switch (type) {
+            case "success":
+                url = "/dialog/popupSuccess.fxml";
+                break;
+            case "danger":
+                url = "/dialog/popupDanger.fxml";
+                break;
+            default:
+                url = "/dialog/popupWarning.fxml";
+        }
+        Region dialogContent = FXMLLoader.load(getClass().getResource(url));
+        JFXDialog dialog = new JFXDialog(mainStackPane, dialogContent, JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(false);
+        JFXButton btnClose = (JFXButton) dialog.lookup("#btnClose");
+        Label txtContent = (Label) dialog.lookup("#txtContent");
+        txtContent.setText(text);
+        btnClose.setOnAction((eventt) -> {
+            new BounceIn(btnClose).setSpeed(2.0).play();
+            dialog.close();
+        });
+        btnClose.defaultButtonProperty().bind(btnClose.focusedProperty());
+        dialog.show();
+    }
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
+            tenLoaiNhap.setIdLoaiNX(-1);
             loadCombobox();
             addType.selectedToggleProperty().addListener((observable) -> {
+                if (importExportForm.lookup("#errorText") != null) {
+                    importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
+                }
                 prdNameStackPane.getChildren().get(0).toFront();
                 String type = ((JFXRadioButton) addType.getSelectedToggle()).getText();
                 if (type.equals("Export")) {

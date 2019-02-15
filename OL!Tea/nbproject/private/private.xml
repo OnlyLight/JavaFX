@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Projects/JavaFX/OL!Tea/src/sale/OrderScreenController.java</file>
-            <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_LoaiNX.java</file>
-            <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerMember/FXMLMemberController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerCus/FXMLCustomerController.java</file>
-            <file>file:/E:/Projects/JavaFX/OL!Tea/src/signIn/FXMLSignInController.java</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/src/bill/FXMLBillController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/warehouse/FXMLWareHouseController.java</file>
-            <file>file:/E:/Projects/JavaFX/OL!Tea/src/managerMenu/FXMLManagerMenuController.java</file>
         </group>
     </open-files>
 </project-private>

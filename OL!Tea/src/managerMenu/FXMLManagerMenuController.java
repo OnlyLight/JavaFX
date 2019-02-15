@@ -181,8 +181,8 @@ public class FXMLManagerMenuController implements Initializable {
             }
         });
         tbLoaiMon.setEditable(true);
-        tbIDColumnLoaiMon.setText("STT");
-        tbTenLoaiMonColumn.setText("Loại");
+        tbIDColumnLoaiMon.setText("No.");
+        tbTenLoaiMonColumn.setText("Type");
         tbIsActiveLoaiMonColumn.setText("Active");
         tbIsActiveLoaiMonColumn.getStyleClass().add("align-center");
 
@@ -303,8 +303,8 @@ public class FXMLManagerMenuController implements Initializable {
         deleteTypeStackPane.setVisible(false);
         tbLoaiNX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tbLoaiNX.getColumns().clear();
-        tbLoaiNXColumn.setText("Loại NX");
-        tbDVTColumn.setText("Đơn vị tính");
+        tbLoaiNXColumn.setText("Type I/E");
+        tbDVTColumn.setText("Unit");
 
         tbLoaiNXColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoaiNX"));
         tbDVTColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));

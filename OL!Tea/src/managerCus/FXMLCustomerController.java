@@ -9,12 +9,17 @@ import animatefx.animation.BounceIn;
 import animatefx.animation.FadeInUp;
 import animatefx.animation.FadeOutDown;
 import animatefx.animation.Tada;
+import bill.FXMLBillController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -44,12 +49,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Callback;
-import managerMember.FXMLMemberController;
+import login.Login;
 import managerMenu.FXMLManagerMenuController;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import tqduy.bean.Bill;
 import tqduy.bean.CusMember;
 import tqduy.bean.Member;
 import tqduy.bean.Role;
+import tqduy.connect.DBUtils_Bill;
 import tqduy.connect.DBUtils_CusMember;
 import tqduy.connect.DBUtils_Member;
 import tqduy.connect.DBUtils_Role;
@@ -102,7 +113,50 @@ public class FXMLCustomerController implements Initializable {
     
     private void setEvent() {
         btnInThongTin.setOnAction((event) -> {
-            createAlert("Printing....");
+            DirectoryChooser chooser = new DirectoryChooser();
+            File f = chooser.showDialog(Login.getStage());
+            if(f != null){
+                System.out.println(f.getAbsolutePath());
+                try {
+                    XSSFWorkbook wb = new XSSFWorkbook();
+                    XSSFSheet sheet = wb.createSheet("Customer Statistical");
+                    XSSFRow header = sheet.createRow(0);
+                    header.createCell(0).setCellValue("Customer Name");
+                    header.createCell(1).setCellValue("Phone Number");
+                    header.createCell(2).setCellValue("Member Type");
+                    header.createCell(3).setCellValue("Created Date");
+                    header.createCell(4).setCellValue("Staff");
+                    header.createCell(5).setCellValue("Role");
+                    sheet.autoSizeColumn(0);
+                    sheet.autoSizeColumn(1);
+                    sheet.autoSizeColumn(2);
+                    sheet.autoSizeColumn(3);
+                    sheet.autoSizeColumn(4);
+                    sheet.autoSizeColumn(5);
+                    ArrayList<CusMember> list = DBUtils_CusMember.getList();
+                    int index = 1;
+                    for (int i = 0; i < list.size(); i++) {
+                        CusMember get = list.get(i);
+                        XSSFRow row = sheet.createRow(i+1);
+                        row.createCell(0).setCellValue(get.getTenCus());
+                        row.createCell(1).setCellValue(get.getSdt());
+                        row.createCell(2).setCellValue(get.getLoaiMember());
+                        row.createCell(3).setCellValue(new SimpleDateFormat("dd.MM.yyyy").format(get.getNgayLap()));
+                        row.createCell(4).setCellValue(get.getTenNhanVien());
+                        row.createCell(5).setCellValue(get.getVaiTro());
+                    }
+                    FileOutputStream fileOut = new FileOutputStream(f.getPath() + "/customer-static.xlsx");
+                    wb.write(fileOut);
+                    fileOut.close();
+                    creatDialog("Export file successfull at :\n"+ f.getPath() + "\\" + "customer-static.xlsx", "success");
+                } catch (SQLException ex) {
+                    Logger.getLogger(FXMLCustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FXMLCustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLCustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
         btnOpenAddForm.setOnAction((event) -> {
             creatDialog(btnOpenAddForm, addTypeForm, mainCusStackPane);
@@ -145,7 +199,7 @@ public class FXMLCustomerController implements Initializable {
                 try {
                     list = FXCollections.observableArrayList(DBUtils_Member.getList());
                 } catch (SQLException ex) {
-                    Logger.getLogger(FXMLMemberController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FXMLCustomerController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println("List: " + list);
                 if(!list.isEmpty()) {
@@ -189,9 +243,9 @@ public class FXMLCustomerController implements Initializable {
         tbMember.getColumns().clear();
         tbMember.setEditable(true);
         tbMember.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tbIDMemberColumn.setText("STT");
-        tbLoaiMemberColumn.setText("Tên Loại");
-        tbDiscountMemberColumn.setText("Giảm Giá");
+        tbIDMemberColumn.setText("No.");
+        tbLoaiMemberColumn.setText("Type Name");
+        tbDiscountMemberColumn.setText("Discount");
         tbActiveMemberColumn.setText("Active");
         tbActiveMemberColumn.getStyleClass().add("align-center");
         
@@ -267,12 +321,12 @@ public class FXMLCustomerController implements Initializable {
         System.out.println("Hello ");
         tbCus.getColumns().clear();
         tbCus.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        tbTenNVCusColumn.setText("Nhân Viên");
-        tbVaiTroCusColumn.setText("Vai Trò");
-        tbTenCusColumn.setText("Tên Khách hàng");
-        tbSDTCusColumn.setText("SDT");
-        tbLoaiMemberCusColumn.setText("Loại Thành Viên");
-        tbNgayLapCusColumn.setText("Ngày Lập");
+        tbTenNVCusColumn.setText("Staff");
+        tbVaiTroCusColumn.setText("Role");
+        tbTenCusColumn.setText("Customer Name");
+        tbSDTCusColumn.setText("Phone Number");
+        tbLoaiMemberCusColumn.setText("Member Type");
+        tbNgayLapCusColumn.setText("Created Date");
         
         tbTenNVCusColumn.setCellValueFactory(new PropertyValueFactory<>("tenNhanVien"));
         tbVaiTroCusColumn.setCellValueFactory(new PropertyValueFactory<>("vaiTro"));
@@ -365,7 +419,7 @@ public class FXMLCustomerController implements Initializable {
     private void creatDialog(String text, String type) throws IOException {
         String url;
         switch (type) {
-            case "succes":
+            case "success":
                 url = "/dialog/popupSuccess.fxml";
                 break;
             case "danger":

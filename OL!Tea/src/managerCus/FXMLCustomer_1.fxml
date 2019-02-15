@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane fx:id="mainCusStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="managerCus.FXMLCustomerController">
    <children>
       <VBox fx:id="mainCusScreenVBox">
@@ -60,7 +59,7 @@
                                           <BoxBlur height="15.0" iterations="2" width="17.86" />
                                        </effect>
                                     </HBox>
-                                    <JFXButton fx:id="btnInThongTin" prefHeight="52.0" prefWidth="101.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" PRINT" textFill="WHITE">
+                                    <JFXButton fx:id="btnInThongTin" prefHeight="52.0" prefWidth="101.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" EXPORT" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="15.0" />
                                        </font>
@@ -68,7 +67,7 @@
                                           <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                        </effect>
                                        <graphic>
-                                          <FontAwesomeIcon fill="WHITE" iconName="PRINT" />
+                                          <FontAwesomeIcon fill="WHITE" iconName="FILE_EXCEL_ALT" />
                                        </graphic>
                                     </JFXButton>
                                  </children>

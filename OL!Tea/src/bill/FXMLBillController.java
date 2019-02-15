@@ -165,9 +165,9 @@ public class FXMLBillController implements Initializable {
         tbBill.getColumns().clear(); // CLEAR TABLE
 
         // SET NAME FOR COLUMN
-        tbTenNVColumn.setText("Nhân Viên");
-        tbTongTienColumn.setText("Tổng tiền");
-        tbNgayLapColumn.setText("Ngày Lập");
+        tbTenNVColumn.setText("Staff");
+        tbTongTienColumn.setText("Amount");
+        tbNgayLapColumn.setText("Created Date");
 
         // SET POPERTY FOR COLUMN
         tbTenNVColumn.setCellValueFactory(new PropertyValueFactory<>("tenNV"));

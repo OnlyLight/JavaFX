@@ -47,7 +47,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <VBox spacing="15.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
+                              <VBox fx:id="importExportForm" spacing="15.0" style="-fx-background-color: #fff;" VBox.vgrow="ALWAYS">
                                  <children>
                                     <HBox>
                                        <children>
@@ -273,7 +273,7 @@
                                                       <BoxBlur height="15.0" iterations="2" width="17.86" />
                                                    </effect>
                                                 </HBox>
-                                                <JFXButton fx:id="btnPrintInfo" prefHeight="52.0" prefWidth="101.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" PRINT" textFill="WHITE">
+                                                <JFXButton fx:id="btnPrintInfo" prefHeight="52.0" prefWidth="101.0" styleClass="btn-login" stylesheets="@../css/global.css" text=" EXPORT" textFill="WHITE">
                                                    <font>
                                                       <Font name="System Bold" size="15.0" />
                                                    </font>
@@ -281,7 +281,7 @@
                                                       <DropShadow color="#00bff3" height="30.33" offsetY="5.0" radius="11.747499999999999" spread="0.16" width="18.66" />
                                                    </effect>
                                                    <graphic>
-                                                      <FontAwesomeIcon fill="WHITE" iconName="PRINT" />
+                                                      <FontAwesomeIcon fill="WHITE" iconName="FILE_EXCEL_ALT" />
                                                    </graphic>
                                                 </JFXButton>
                                              </children>
@@ -307,7 +307,7 @@
                                                    <children>
                                                       <VBox spacing="5.0" GridPane.rowIndex="1">
                                                          <children>
-                                                            <Label styleClass="font-bold" text="Xuất từ Ngày" />
+                                                            <Label styleClass="font-bold" text="Export From Date" />
                                                       <JFXDatePicker fx:id="dpDayStartXuat" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
                                                          <padding>
                                                             <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
@@ -317,7 +317,7 @@
                                                       </VBox>
                                                       <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                          <children>
-                                                            <Label styleClass="font-bold" text="Đến Ngày" />
+                                                            <Label styleClass="font-bold" text="Export To Date" />
                                                       <JFXDatePicker fx:id="dpDayFinishXuat" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
                                                          <padding>
                                                             <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
@@ -327,7 +327,7 @@
                                                       </VBox>
                                                       <VBox spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                                          <children>
-                                                            <Label styleClass="font-bold" text="Nhập từ Ngày" />
+                                                            <Label styleClass="font-bold" text="Import From Date" />
                                                       <JFXDatePicker fx:id="dpDayStartNhap" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
                                                          <padding>
                                                             <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
@@ -337,7 +337,7 @@
                                                       </VBox>
                                                       <VBox spacing="5.0" GridPane.columnIndex="1">
                                                          <children>
-                                                            <Label styleClass="font-bold" text="Đến Ngày" />
+                                                            <Label styleClass="font-bold" text="Import To Date" />
                                                       <JFXDatePicker fx:id="dpDayFinishNhap" defaultColor="#00adb5" promptText="Pick a day" style="-fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-padding: 2 2 2 10; -fx-border-radius: 3;" stylesheets="@../css/global.css">
                                                          <padding>
                                                             <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
@@ -347,7 +347,7 @@
                                                       </VBox>
                                                 <VBox spacing="5.0" GridPane.columnIndex="2">
                                                    <children>
-                                                            <Label styleClass="font-bold" text="Loại" />
+                                                            <Label styleClass="font-bold" text="Type" />
                                                       <ComboBox fx:id="cbLoaiThongKe" prefHeight="44.0" prefWidth="241.0" promptText="Choose type" style="-fx-background-color: #fff; -fx-border-color: #393e46; -fx-border-width: 1; -fx-font-size: 17; -fx-border-radius: 3; -fx-padding: 2 2 2 0;" />
                                                    </children>
                                                 </VBox>
