@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -417,6 +418,7 @@ public class FXMLManagerMenuController implements Initializable {
             if (addForm.lookup("#errorText") != null) {
                     addForm.getChildren().remove(addForm.getChildren().size() - 2);
             }
+            txtTenMonMenu.requestFocus();
 //            btnOpenAddForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(menuStackPane, addForm, JFXDialog.DialogTransition.NONE);
 //            dialog.setOverlayClose(false);
@@ -432,6 +434,7 @@ public class FXMLManagerMenuController implements Initializable {
             if (addTypeForm.lookup("#errorText") != null) {
                     addTypeForm.getChildren().remove(addTypeForm.getChildren().size() - 2);
             }
+            txtTenLoaiMon.requestFocus();
 //            btnOpenAddTypeForm.setDisable(true);
 //            JFXDialog dialog = new JFXDialog(typeMenuStackPane, addTypeForm, JFXDialog.DialogTransition.NONE);
 //            dialog.setOverlayClose(false);
@@ -452,12 +455,14 @@ public class FXMLManagerMenuController implements Initializable {
             if (addImportTypeForm.lookup("#errorText") != null) {
                     addImportTypeForm.getChildren().remove(addImportTypeForm.getChildren().size() - 2);
             }
+            txtLoaiNhapXuat.requestFocus();
         });
         btnOpenAddUnitForm.setOnAction((event) -> {
             creatDialog(btnOpenAddUnitForm, addUntiForm, mainMenuStackPane);
             if (addUntiForm.lookup("#errorText") != null) {
                     addUntiForm.getChildren().remove(addUntiForm.getChildren().size() - 2);
             }
+            txtDVT.requestFocus();
         });
         txtTenLoaiMon.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -480,6 +485,7 @@ public class FXMLManagerMenuController implements Initializable {
                 }
                 if (!txtTenLoaiMon.getText().toString().trim().isEmpty()) {
                     DBUtils_LoaiMon.insert(txtTenLoaiMon.getText().toString().trim());
+                    txtTenLoaiMon.clear();
                     ObservableList<LoaiMon> listMon = FXCollections.observableArrayList(DBUtils_LoaiMon.getList(true));
                     if (!listMon.isEmpty()) {
                         tbLoaiMon.getItems().clear();
@@ -557,9 +563,11 @@ public class FXMLManagerMenuController implements Initializable {
         });
 
         txtDonGiaMenu.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*") && !newValue.equals("0")) {
+            if (newValue.replace(".", "").matches("\\d*") && !newValue.equals("0")) {
                 try {
-                    donGiaMenu = Integer.parseInt(newValue);
+                    donGiaMenu = Integer.parseInt(newValue.replace(".", ""));
+                    String price = String.format(Locale.US, "%,d", donGiaMenu).replace(",", ".");
+                    txtDonGiaMenu.setText(price);
                 } catch (Exception e) {
 
                 }

@@ -121,7 +121,7 @@
       </VBox>
       <VBox fx:id="orderScreen" prefHeight="815.0" prefWidth="1073.0">
          <children>
-            <VBox>
+            <VBox style="-fx-background-color: #eee;">
                <children>
                   <FlowPane fx:id="listMenuType" hgap="10.0" vgap="20.0" />
                </children>
