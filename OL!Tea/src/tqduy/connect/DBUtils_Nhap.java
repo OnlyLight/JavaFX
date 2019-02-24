@@ -36,13 +36,11 @@ public class DBUtils_Nhap {
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
                 int idNhap = res.getInt("idNhap");
-                String tenSpNhap = res.getString("tenSpNhap");
                 int idLoaiNX = res.getInt("idLoaiNX");
-                int donGia = res.getInt("donGia");
                 int soLuong = res.getInt("soLuong");
                 Date date = res.getDate("ngayNhap");
                 
-                Nhap n = new Nhap(idNhap, tenSpNhap, idLoaiNX, donGia, soLuong, date);
+                Nhap n = new Nhap(idNhap, null, idLoaiNX, 0, soLuong, date);
                 arrNhap.add(n);
             }
         } catch (SQLException e) {
@@ -85,17 +83,13 @@ public class DBUtils_Nhap {
         System.out.println("Delete Success");
     }
 
-    public static void insert(String tenSp, int idLoai, int donGia, int soLuong, LocalDate ngayNhap) {
+    public static void insert(int idLoai, int soLuong, LocalDate ngayNhap) {
         execute("INSERT INTO dbo.Nhap " +
-"        ( tenSpNhap , " +
-"          idLoaiNX , " +
-"          donGia , " +
+"        ( idLoaiNX , " +
 "          soLuong , " +
 "          ngayNhap " +
 "        )" +
-"VALUES  ( N'"+tenSp+"' , " +
-"          "+idLoai+" , " +
-"          "+donGia+" , " +
+"VALUES  ( "+idLoai+" , " +
 "          "+soLuong+" , " +
 "          CONVERT(DATE, '"+ngayNhap+"') " +
 "        )");

@@ -13,6 +13,15 @@ public class LoaiNX {
     private int idLoaiNX;
     private String tenLoaiNX;
     private int idDVT;
+    private int price;
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
+    }
 
     public LoaiNX() {
     }

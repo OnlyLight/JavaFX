@@ -331,7 +331,7 @@
                         </GridPane>
                         <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" minHeight="-Infinity" VBox.vgrow="NEVER">
                            <children>
-                              <JFXButton fx:id="btnCheck" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: linear-gradient(to left,  #222831, #3c4756);" text="Check" textFill="WHITE">
+                              <JFXButton fx:id="btnCheck" focusTraversable="false" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: linear-gradient(to left,  #222831, #3c4756);" text="Check" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -352,7 +352,7 @@
                                           <BoxBlur height="15.0" iterations="2" width="17.86" />
                                        </effect>
                                     </HBox>
-                                    <JFXButton fx:id="btnPay" styleClass="btn-login" stylesheets="@../css/global.css" text="Checkout" textFill="WHITE">
+                                    <JFXButton fx:id="btnPay" focusTraversable="false" styleClass="btn-login" stylesheets="@../css/global.css" text="Checkout" textFill="WHITE">
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding>

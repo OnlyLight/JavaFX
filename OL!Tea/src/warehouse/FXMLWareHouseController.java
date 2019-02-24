@@ -104,13 +104,11 @@ public class FXMLWareHouseController implements Initializable {
     @FXML
     private TableColumn<XuatTable, Date> tbNgayXuatColumn;
     @FXML
-    private TextField txtTenSpNhap, txtSoLuongNhap, txtDonGiaNhap;
+    private TextField txtSoLuongNhap;
     @FXML
     private DatePicker dpNgayNhap, dpDayStartNhap, dpDayFinishNhap;
     @FXML
     private ComboBox<LoaiNX> cbTenLoaiNhap, cbLoaiThongKe;
-    @FXML
-    private ComboBox<String> cbTenSpXuat;
     @FXML
     private Button btnNhap, btnFind, btnPrintInfo, btnReset;
     @FXML
@@ -158,7 +156,6 @@ public class FXMLWareHouseController implements Initializable {
     private JFXRadioButton exportRadio;
     @FXML
     private JFXButton btnCloseAddMenu;
-    @FXML
     private StackPane prdNameStackPane;
     @FXML
     private VBox importExportForm;
@@ -295,57 +292,12 @@ public class FXMLWareHouseController implements Initializable {
     }
     // End Set event for Tab Thong ke
 
-    // Combobox
-    private void loadCombobox() throws SQLException {
-        ArrayList<Nhap> arrNhap = DBUtils_Nhap.getList();
-        ArrayList<String> copy = new ArrayList<>();
-        ObservableList<String> list = FXCollections.observableArrayList();
-
-        for (Nhap nhap : arrNhap) {
-            String ten = nhap.getTenSpNhap();
-            copy.add(ten);
-        }
-        System.out.println("arrCopy1: " + copy.toString());
-
-        // Hiển thị tên cho việc nhập xuất
-        for (int i = 0; i < arrNhap.size(); i++) {
-            int count = 0;
-            for (int j = 0; j < copy.size(); j++) {
-                if (arrNhap.get(i).getTenSpNhap().equals(copy.get(j))) {
-                    count++;
-                    if (count >= 2) {
-                        copy.remove(j); // Nếu đếm được tên 2 lần thì xóa đi lấy 1 lần
-                        break;
-                    }
-                }
-            }
-        }
-        System.out.println("arrCopy2: " + copy.toString());
-
-        list.addAll(copy);
-        if (!list.isEmpty()) {
-            cbTenSpXuat.setItems(list);
-        }
-    }
 
     private void showComboboxTenXuat() {
-        cbTenSpXuat.setOnMouseClicked((event) -> {
-            cbTenSpXuat.getItems().clear();
-            try {
-                loadCombobox();
-            } catch (SQLException ex) {
-                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
 
-        cbTenSpXuat.setOnAction((event) -> {
-            getTenSpXuat();
-//            showBoxNhap();
-        });
     }
 
     private void getTenSpXuat() {
-        tenSpXuat = cbTenSpXuat.getSelectionModel().getSelectedItem();
         System.out.println("Ten sp Xuat: " + tenSpXuat);
 
         if (tenSpXuat != null) {
@@ -404,18 +356,6 @@ public class FXMLWareHouseController implements Initializable {
                 }
             } else {
                 txtSoLuongNhap.setText(oldValue);
-            }
-        });
-
-        txtDonGiaNhap.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*") && !newValue.equals("0")) {
-                try {
-                    donGiaNhap = Integer.parseInt(newValue);
-                } catch (Exception e) {
-
-                }
-            } else {
-                txtDonGiaNhap.setText(oldValue);
             }
         });
         // End Box Nhap
@@ -550,16 +490,13 @@ public class FXMLWareHouseController implements Initializable {
         if (importExportForm.lookup("#errorText") != null) {
             importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
         }
-        String ten = txtTenSpNhap.getText().toString().trim();
-        if (ten.isEmpty() || txtSoLuongNhap.getText().isEmpty() || txtDonGiaNhap.getText().isEmpty() || tenLoaiNhap.getIdLoaiNX() == -1) {
+        if (txtSoLuongNhap.getText().isEmpty() || tenLoaiNhap.getIdLoaiNX() == -1) {
             addErrorText(importExportForm, "All fields are required !");
         } else {
             try {
-                DBUtils_Nhap.insert(ten, tenLoaiNhap.getIdLoaiNX(), donGiaNhap, soLuongNhap, dateNhap);
-                System.out.println("Ten: " + ten + " - Số lượng: " + soLuongNhap + " - Đơn giá: " + donGiaNhap + " - Date: " + dateNhap + " - Loai: " + tenLoaiNhap);
-                txtTenSpNhap.setText("");
+                DBUtils_Nhap.insert(tenLoaiNhap.getIdLoaiNX(), soLuongNhap, dateNhap);
+                System.out.println(" - Số lượng: " + soLuongNhap + " - Date: " + dateNhap + " - Loai: " + tenLoaiNhap);
                 txtSoLuongNhap.setText("");
-                txtDonGiaNhap.setText("");
 
                 ObservableList<NhapTable> listNhapDisplay = getListNhapDisplay(DBUtils_Nhap.getList());
                 if (!listNhapDisplay.isEmpty()) {
@@ -577,11 +514,11 @@ public class FXMLWareHouseController implements Initializable {
                     importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
         }
         System.out.println("data: " + tenSpXuat + txtSoLuongNhap + tenLoaiXuat);
-        if (tenSpXuat == null || tenSpXuat.isEmpty() || txtSoLuongNhap.getText().trim().isEmpty() || tenLoaiXuat.getIdLoaiNX() == -1) {
+        if (txtSoLuongNhap.getText().trim().isEmpty() || tenLoaiXuat.getIdLoaiNX() == -1) {
             addErrorText(importExportForm, "All fields are required !");
         } else {
 //            System.out.println("tenSpXuat: " + tenSpXuat + " - tenLoaiXuat: " + tenLoaiNhap.getIdLoaiNX() + " So luog:" + soLuongXuat + " - "+ dateXuat);
-            DBUtils_Xuat.insert(tenSpXuat, tenLoaiNhap.getIdLoaiNX(), soLuongXuat, dateXuat);
+            DBUtils_Xuat.insert(tenLoaiNhap.getIdLoaiNX(), soLuongXuat, dateXuat);
             txtSoLuongNhap.setText("");
 
             ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());
@@ -774,7 +711,7 @@ public class FXMLWareHouseController implements Initializable {
 
         if (!listXuatDisplay.isEmpty() && !listNhapDisplay.isEmpty()) {
             tbNhap.setItems(listNhapDisplay);
-            tbNhap.getColumns().addAll(tbTenSpNhapColumn, tbTenLoaiNhapColumn, tbDVTNhapColumn, tbDonGiaNhapColumn, tbSoLuongNhapColumn, tbNgayNhapColumn);
+            tbNhap.getColumns().addAll(tbTenLoaiNhapColumn, tbSoLuongNhapColumn, tbDVTNhapColumn, tbNgayNhapColumn);
 
             tbXuat.setItems(listXuatDisplay);
             tbXuat.getColumns().addAll(tbTenSpXuatColumn, tbTenLoaiXuatColumn, tbDVTXuatColumn, tbSoLuongXuatColumn, tbNgayXuatColumn);
@@ -939,20 +876,15 @@ public class FXMLWareHouseController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             tenLoaiNhap.setIdLoaiNX(-1);
-            loadCombobox();
             addType.selectedToggleProperty().addListener((observable) -> {
                 if (importExportForm.lookup("#errorText") != null) {
                     importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
                 }
-                prdNameStackPane.getChildren().get(0).toFront();
                 String type = ((JFXRadioButton) addType.getSelectedToggle()).getText();
                 if (type.equals("Export")) {
                     getTenSpXuat();
-                    txtDonGiaNhap.setText("");
-                    txtDonGiaNhap.setDisable(true);
                 } else {
                     showBoxNhap();
-                    txtDonGiaNhap.setDisable(false);
                 }
             });
             tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

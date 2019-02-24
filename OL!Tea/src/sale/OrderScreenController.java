@@ -139,6 +139,10 @@ public class OrderScreenController implements Initializable {
         });
         txtSdtCheck.setText(sdt);
         txtSdtCheck.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals("")) {
+                sdt = "";
+                clearDiscountInfo();
+            }
             if (newValue.matches("\\d*")) {
                 try {
                     sdt = newValue;
@@ -287,6 +291,7 @@ public class OrderScreenController implements Initializable {
                 deleteBtn.setVisible(false);
                 itemOrdered.setOnMouseEntered((event) -> {
                     editQtyHBox.setVisible(true);
+                    qtyTxt.requestFocus();
                     deleteBtn.setVisible(true);
                 });
                 itemOrdered.setOnMouseExited((event) -> {

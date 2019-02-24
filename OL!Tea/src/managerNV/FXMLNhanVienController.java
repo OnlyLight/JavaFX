@@ -44,6 +44,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import login.FXMLLoginController;
 import managerMenu.FXMLManagerMenuController;
 import tqduy.MD5.MD5Library;
 import tqduy.bean.InsertNX;
@@ -106,6 +107,7 @@ public class FXMLNhanVienController implements Initializable {
     private StackPane deleteRoleStackPane;
     @FXML
     private JFXButton deleteRoleBtn;
+    private NhanVien nvLogin = FXMLLoginController.nvLogin;
 
     private void showTableRole() throws SQLException {
         deleteRoleStackPane.setVisible(false);
@@ -250,11 +252,23 @@ public class FXMLNhanVienController implements Initializable {
                 NhanVien nv = param.getValue();
 
                 SimpleBooleanProperty booleanProperty = new SimpleBooleanProperty(nv.isActive());
-
                 booleanProperty.addListener((observable, oldValue, newValue) -> {
-                    nv.setActive(newValue);
-                    System.out.println(nv);
-                    DBUtils_NhanVien.update(nv.getIdNV(), nv.isActive());
+                    if (nvLogin.getIdNV() == nv.getIdNV() && newValue == false) {
+                        try {
+                            showTBNV();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        try {
+                            creatDialog("Cannot deactive! This staff is being used!", "danger");
+                        } catch (IOException ex) {
+                            Logger.getLogger(FXMLNhanVienController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        nv.setActive(newValue);
+                        System.out.println(nv);
+                        DBUtils_NhanVien.update(nv.getIdNV(), nv.isActive());
+                    }
                 });
                 return booleanProperty;
             }

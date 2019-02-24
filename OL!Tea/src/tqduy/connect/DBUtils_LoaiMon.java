@@ -115,6 +115,7 @@ public class DBUtils_LoaiMon {
     }
     
     public static void delete(int id) {
+        execute("DELETE FROM " + DBUtils_LoaiMon.TB_MON + " WHERE idLoaiMon = " + id + "");
         execute("DELETE FROM " + DBUtils_LoaiMon.TB_LOAIMON + " WHERE id = " + id + "");
     }
 

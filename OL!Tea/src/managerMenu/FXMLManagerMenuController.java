@@ -102,6 +102,7 @@ public class FXMLManagerMenuController implements Initializable {
     private TableColumn<InsertNX, String> tbDVTColumn;
 
     private int donGiaMenu = 0;
+    private int donGiaNX = 0;
     private LoaiMon loaiMenu = new LoaiMon();
     private DVT dvtSelected = new DVT();
     @FXML
@@ -142,6 +143,10 @@ public class FXMLManagerMenuController implements Initializable {
     private JFXButton deleteDVTBtn;
     @FXML
     private StackPane deleteDVTStackPane;
+    @FXML
+    private TableColumn<InsertNX, Integer> tbPriceColumn;
+    @FXML
+    private TextField txtPriceUnit;
 
     private void loadTableLoaiMon() throws SQLException {
         deleteTypeMenuStackPane.setVisible(false);
@@ -158,7 +163,7 @@ public class FXMLManagerMenuController implements Initializable {
                 deleteTypeMenuBtn.setOnAction((event) -> {
                     String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
                     try {
-                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                        creatDialog("Do you want to delete " + count + " ?\nWarning: It will delete everything related !", "warning");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -169,6 +174,7 @@ public class FXMLManagerMenuController implements Initializable {
                         });
                         try {
                             loadTableLoaiMon();
+                            loadTableMenu();
                             ((JFXDialog) mainMenuStackPane.getChildren().get(2)).close();
                         } catch (SQLException ex) {
                             Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
@@ -234,7 +240,7 @@ public class FXMLManagerMenuController implements Initializable {
                 deleteBtn.setOnAction((event) -> {
                     String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
                     try {
-                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                        creatDialog("Do you want to delete " + count + " ?\nWarning: It will delete everything related !", "warning");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -306,9 +312,11 @@ public class FXMLManagerMenuController implements Initializable {
         tbLoaiNX.getColumns().clear();
         tbLoaiNXColumn.setText("Type I/E");
         tbDVTColumn.setText("Unit");
-
+        tbPriceColumn.setText("Price Per Unit");
+        
         tbLoaiNXColumn.setCellValueFactory(new PropertyValueFactory<>("tenLoaiNX"));
         tbDVTColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));
+        tbPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         tbLoaiNX.getSelectionModel().selectedItemProperty().addListener((observable) -> {
             InsertNX item = tbLoaiNX.getSelectionModel().getSelectedItem();
 
@@ -320,7 +328,7 @@ public class FXMLManagerMenuController implements Initializable {
                 deleteTypeBtn.setOnAction((event) -> {
                     String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
                     try {
-                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                        creatDialog("Do you want to delete " + count + " ?\nWarning: It will delete everything related !", "warning");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -346,7 +354,7 @@ public class FXMLManagerMenuController implements Initializable {
         ObservableList<InsertNX> listMon = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
         if (!listMon.isEmpty()) {
             tbLoaiNX.setItems(listMon);
-            tbLoaiNX.getColumns().addAll(tbLoaiNXColumn, tbDVTColumn);
+            tbLoaiNX.getColumns().addAll(tbLoaiNXColumn, tbDVTColumn, tbPriceColumn);
         }
     }
 
@@ -364,7 +372,7 @@ public class FXMLManagerMenuController implements Initializable {
                 deleteDVTBtn.setOnAction((event) -> {
                     String count = items.size() > 1 ? items.size() + " selected items" : "selected item";
                     try {
-                        creatDialog("Do you want to delete " + count + " ?", "warning");
+                        creatDialog("Do you want to delete " + count + " ?\nWarning: It will delete everything related !", "warning");
                     } catch (IOException ex) {
                         Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -374,6 +382,11 @@ public class FXMLManagerMenuController implements Initializable {
                             DBUtils_DVT.delete(t.getIdDVT());
                         });
                         loadListViewDVT();
+                        try {
+                            loadTableNX();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(FXMLManagerMenuController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         ((JFXDialog) mainMenuStackPane.getChildren().get(2)).close();
                     });
                 });
@@ -541,9 +554,9 @@ public class FXMLManagerMenuController implements Initializable {
             if (addImportTypeForm.lookup("#errorText") != null) {
                     addImportTypeForm.getChildren().remove(addImportTypeForm.getChildren().size() - 2);
             }
-            if (!tenLoaiNX.isEmpty() && dvtSelected != null && dvtSelected.getIdDVT() != -1) {
+            if (!tenLoaiNX.isEmpty() && donGiaNX > 0 && dvtSelected != null && dvtSelected.getIdDVT() != -1) {
                 try {
-                    DBUtils_LoaiNX.insert(tenLoaiNX, dvtSelected.getIdDVT());
+                    DBUtils_LoaiNX.insert(tenLoaiNX, dvtSelected.getIdDVT(), donGiaNX);
 
                     ObservableList<InsertNX> listLoai = FXCollections.observableArrayList(DBUtils_LoaiNX.getListNX());
 
@@ -573,6 +586,20 @@ public class FXMLManagerMenuController implements Initializable {
                 }
             } else {
                 txtDonGiaMenu.setText(oldValue);
+            }
+        });
+        
+        txtPriceUnit.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.replace(".", "").matches("\\d*") && !newValue.equals("0")) {
+                try {
+                    donGiaNX = Integer.parseInt(newValue.replace(".", ""));
+                    String price = String.format(Locale.US, "%,d", donGiaNX).replace(",", ".");
+                    txtPriceUnit.setText(price);
+                } catch (Exception e) {
+
+                }
+            } else {
+                txtPriceUnit.setText(oldValue);
             }
         });
 

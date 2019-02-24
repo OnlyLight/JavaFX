@@ -109,18 +109,16 @@ public class DBUtils_Xuat {
     }
     
     public static void main(String[] args) {
-        insert("Cà Phê 3", 5, 1, LocalDate.now());
+        insert(5, 1, LocalDate.now());
     }
     
-    public static void insert(String tenSp, int idLoai, int soLuong, LocalDate ngayXuat) {
+    public static void insert(int idLoai, int soLuong, LocalDate ngayXuat) {
         String sql = "INSERT INTO dbo.Xuat " +
-"        ( tenSpXuat , " +
-"          idLoaiNX , " +
+"        ( idLoaiNX , " +
 "          soLuong , " +
 "          ngayXuat " +
 "        ) " +
-"VALUES  ( N'"+tenSp+"' , " +
-"          "+idLoai+" , " +
+"VALUES  ( "+idLoai+" , " +
 "          "+soLuong+" , " +
 "          CONVERT(DATE, '"+ngayXuat+"') " +
 "        )";

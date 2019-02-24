@@ -124,8 +124,8 @@ public class DBUtils_Mon {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
                 int stid = res.getInt("idMon");
                 if (stid == idMon) {
-                    execute("DELETE FROM " + DBUtils_LoaiMon.TB_MON + " WHERE idMon = " + idMon + "");
-                    check = true;
+                    DBUtils_MonOrder.delete(idMon);
+                    execute("DELETE FROM " + DBUtils_LoaiMon.TB_MON + " WHERE idMon = " + idMon + "");                    check = true;
                     break;
                 }
             }

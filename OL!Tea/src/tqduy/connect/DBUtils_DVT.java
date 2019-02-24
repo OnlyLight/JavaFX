@@ -9,6 +9,8 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tqduy.bean.DVT;
 import static tqduy.connect.DBUtils_LoaiMon.con;
 import static tqduy.connect.DBUtils_LoaiMon.execute;
@@ -78,6 +80,16 @@ public class DBUtils_DVT {
     }
     
     public static void delete(int id) {
+        String sql = "SELECT idLoaiNX FROM " + DBUtils_LoaiNX.TB_LOAINX + " WHERE idDVT = " + id + "";
+        ResultSet res = query(sql);
+        try {
+            while (res.next()) {
+                int idLoaiNX = res.getInt("idLoaiNX");
+                DBUtils_LoaiNX.delete(idLoaiNX);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUtils_DVT.class.getName()).log(Level.SEVERE, null, ex);
+        }
         execute("DELETE FROM dbo.DVT WHERE idDVT = " + id + "");
     }
 }

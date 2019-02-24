@@ -70,10 +70,11 @@ public class DBUtils_LoaiNX {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
                 String tenLoaiNX = res.getString("tenLoaiNX");
                 int idLoaiNX = res.getInt("idLoaiNX");
-                
+                int price = res.getInt("price");
                 LoaiNX lnx = new LoaiNX();
                 lnx.setIdLoaiNX(idLoaiNX);
                 lnx.setTenLoaiNX(tenLoaiNX);
+                lnx.setPrice(price);
                 arrLoaiNX.add(lnx);
             }
         } catch (SQLException e) {
@@ -101,7 +102,8 @@ public class DBUtils_LoaiNX {
                 String tenLoaiNX = res.getString("tenLoaiNX");
                 String dvt = res.getString("DVT");
                 int id = res.getInt("idLoaiNX");
-                InsertNX in = new InsertNX(tenLoaiNX, dvt, id);
+                int price = res.getInt("price");
+                InsertNX in = new InsertNX(tenLoaiNX, dvt, id, price);
                 System.out.println("NX: " + in);
                 arrLoaiMon.add(in);
             }
@@ -113,12 +115,14 @@ public class DBUtils_LoaiNX {
         }
     }
     
-    public static void insert(String tenLoai, int dvt) {
-        execute("INSERT INTO " + DBUtils_LoaiNX.TB_LOAINX + "(tenLoaiNX, idDVT) VALUES ( N'"+ tenLoai +"', "+dvt+" )");
+    public static void insert(String tenLoai, int dvt, int price) {
+        execute("INSERT INTO " + DBUtils_LoaiNX.TB_LOAINX + "(tenLoaiNX, idDVT, price) VALUES ( N'"+ tenLoai +"', "+dvt+", "+price+" )");
         System.out.println("Chèn thành công !!");
     }
     
     public static void delete(int id) {
+        execute("DELETE FROM " + DBUtils_LoaiNX.TB_NHAP + " WHERE idLoaiNX = " + id + "");
+        execute("DELETE FROM " + DBUtils_LoaiNX.TB_XUAT + " WHERE idLoaiNX = " + id + "");
         execute("DELETE FROM " + DBUtils_LoaiNX.TB_LOAINX + " WHERE idLoaiNX = " + id + "");
     }
 }

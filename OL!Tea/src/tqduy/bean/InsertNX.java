@@ -13,14 +13,24 @@ public class InsertNX {
     private String tenLoaiNX;
     private String dvt; 
     private int id;
+    private int price;
 
     public InsertNX() {
     }
 
-    public InsertNX(String tenLoaiNX, String dvt, int id) {
+    public InsertNX(String tenLoaiNX, String dvt, int id, int price) {
         this.tenLoaiNX = tenLoaiNX;
         this.dvt = dvt;
         this.id = id;
+        this.price = price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
     }
     
     public int getId() {

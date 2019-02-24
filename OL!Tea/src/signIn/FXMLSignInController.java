@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -120,15 +121,15 @@ public class FXMLSignInController implements Initializable {
 
             System.out.println("Ten: " + ten + " - sdt: " + sdt + " - NGay: " + dateDK + " - idMember: " + m.getIdMember() + " - " + m.getLoai());
             if (addMemberForm.lookup("#errorText") != null) {
-                 addMemberForm.getChildren().remove(addMemberForm.getChildren().size() - 2);
+                addMemberForm.getChildren().remove(addMemberForm.getChildren().size() - 2);
             }
             if (ten.isEmpty() || sdt.isEmpty() || dateDK == null || m == null || m.getIdMember() == -1) {
                 addErrorText(addMemberForm, "All fields are require !");
             } else {
-            
+
                 try {
                     DBUtils_CusMember.insert(ten, sdt, m.getIdMember(), dateDK);
-                    
+
                     CusMember cus = DBUtils_CusMember.getCusAddNew();
                     System.out.println(cus);
 //                    System.out.println("IDNV: " + nvLogin.getIdNV() + " - " + cus.getIdCus());
@@ -156,7 +157,7 @@ public class FXMLSignInController implements Initializable {
         System.out.println(result.get().getText());
         return result;
     }
-    
+
     private void addErrorText(VBox vbox, String text) {
         Label textLabel = new Label(text);
         textLabel.setStyle("-fx-text-fill: #e84545; -fx-font-weight: bold");
@@ -191,6 +192,7 @@ public class FXMLSignInController implements Initializable {
         stage.close();
         System.out.println("Close");
     }
+
     private void creatDialog(String text, String type) throws IOException {
         String url = "success".equals(type) ? "/dialog/popupSuccess.fxml" : "/dialog/popupDanger.fxml";
         Region dialogContent = FXMLLoader.load(getClass().getResource(url));
@@ -214,6 +216,12 @@ public class FXMLSignInController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                txtTenCus.requestFocus();
+            }
+        });
         try {
             // TODO
             inputData();

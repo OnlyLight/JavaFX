@@ -17,7 +17,7 @@
    <left>
       <VBox fx:id="sideBar" alignment="TOP_CENTER" minWidth="90.0" prefWidth="90.0" style="-fx-background-color: #393e46;">
          <children>
-            <JFXButton fx:id="orderBtn" contentDisplay="TOP" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Order" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <JFXButton fx:id="orderBtn" contentDisplay="TOP" focusTraversable="false" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Order" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="CLIPBOARD" size="2em" textOrigin="CENTER" />
                </graphic>
@@ -28,7 +28,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnThucDon" contentDisplay="TOP" prefHeight="53.0" prefWidth="134.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Menu" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <JFXButton fx:id="mnThucDon" contentDisplay="TOP" focusTraversable="false" prefHeight="53.0" prefWidth="134.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Menu" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="FILE_TEXT_ALT" size="2em" textOrigin="CENTER" />
                </graphic>
@@ -39,7 +39,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnHoaDon" contentDisplay="TOP" prefHeight="53.0" prefWidth="128.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Bills" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <JFXButton fx:id="mnHoaDon" contentDisplay="TOP" focusTraversable="false" prefHeight="53.0" prefWidth="128.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Bills" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="MONEY" size="2em" textOrigin="CENTER" />
                </graphic>
@@ -50,7 +50,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnNhanVien" contentDisplay="TOP" prefHeight="53.0" prefWidth="147.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Staffs" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <JFXButton fx:id="mnNhanVien" contentDisplay="TOP" focusTraversable="false" prefHeight="53.0" prefWidth="147.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Staffs" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="USER_PLUS" size="2em" textOrigin="CENTER" />
                </graphic>
@@ -61,7 +61,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnCus" contentDisplay="TOP" prefHeight="53.0" prefWidth="121.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Customers" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <JFXButton fx:id="mnCus" contentDisplay="TOP" focusTraversable="false" prefHeight="53.0" prefWidth="121.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Customers" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="USERS" size="2em" textOrigin="CENTER" />
                </graphic>
@@ -72,7 +72,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnTonKho" contentDisplay="TOP" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Warehouse" textFill="WHITE">
+            <JFXButton fx:id="mnTonKho" contentDisplay="TOP" focusTraversable="false" prefHeight="0.0" prefWidth="90.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Warehouse" textFill="WHITE">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="HOME" size="2em" textOrigin="CENTER" />
                </graphic>
@@ -83,7 +83,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="mnLogout" contentDisplay="TOP" prefHeight="53.0" prefWidth="96.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Logout" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <JFXButton fx:id="mnLogout" contentDisplay="TOP" focusTraversable="false" prefHeight="53.0" prefWidth="96.0" styleClass="btn-sideBar" stylesheets="@../css/global.css" text="Logout" textFill="WHITE" VBox.vgrow="ALWAYS">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" iconName="SIGN_OUT" size="2em" textOrigin="CENTER" />
                </graphic>
