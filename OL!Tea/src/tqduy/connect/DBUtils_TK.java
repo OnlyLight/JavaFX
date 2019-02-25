@@ -24,7 +24,7 @@ public class DBUtils_TK {
     public static ArrayList<TKTable> getList() throws SQLException {
         ArrayList<TKTable> arrTK = new ArrayList<>();
         
-        CallableStatement command = con.prepareCall("{call pr_getListTK}");
+        CallableStatement command = con.prepareCall("{call pr_getListWarhouse}");
 
         ResultSet res = command.executeQuery();
         
@@ -36,15 +36,13 @@ public class DBUtils_TK {
 
         try {
             while (res.next()) {// Di chuyển con trỏ xuống bản ghi kế tiếp.
-                String tenSp = res.getString("tenSpNhap");
-                int donGia = res.getInt("donGia");
-                int soLuongNhap = res.getInt("soLuong");
-                Date ngayNhap = res.getDate("ngayNhap");
-                int soLuongXuat = res.getInt("soLuong");
-                Date ngayXuat = res.getDate("ngayXuat");
+                int soLuongNhap = res.getInt("totalImportQty");
+                int soLuongXuat = res.getInt("totalExportQty");
                 String tenLoai = res.getString("tenLoaiNX");
-                
-                TKTable tk = new TKTable(tenSp, donGia, soLuongNhap, ngayNhap, soLuongXuat, ngayXuat, tenLoai);
+                int idLoaiNX = res.getInt("idLoaiNX");
+                int totalNX = res.getInt("totalNX");
+                String dvt = res.getString("DVT");
+                TKTable tk = new TKTable(null, 0, soLuongNhap, null, soLuongXuat, null, tenLoai, idLoaiNX, totalNX, dvt);
                 arrTK.add(tk);
             }
         } catch (SQLException e) {
@@ -80,7 +78,7 @@ public class DBUtils_TK {
                     Date ngayXuat = res.getDate("ngayXuat");
                     String tenLoai = res.getString("tenLoaiNX");
 
-                    TKTable tk = new TKTable(tenSp, donGia, soLuongNhap, ngayNhap, soLuongXuat, ngayXuat, tenLoai);
+                    TKTable tk = new TKTable(tenSp, donGia, soLuongNhap, ngayNhap, soLuongXuat, ngayXuat, tenLoai, 0, 0, null);
                     arrTK.add(tk);
                 }
             } else {

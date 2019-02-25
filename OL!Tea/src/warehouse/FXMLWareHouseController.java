@@ -297,26 +297,6 @@ public class FXMLWareHouseController implements Initializable {
 
     }
 
-    private void getTenSpXuat() {
-        System.out.println("Ten sp Xuat: " + tenSpXuat);
-
-        if (tenSpXuat != null) {
-            try {
-                ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
-                for (LoaiNX loaiNX : DBUtils_LoaiNX.getListForName(tenSpXuat)) { // Bug Here
-                    loai.add(loaiNX);
-                }
-
-                if (!loai.isEmpty()) {
-                    cbTenLoaiNhap.getItems().clear();
-                    cbTenLoaiNhap.setItems(loai);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(FXMLWareHouseController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
     private void showBoxNhap() {
         ObservableList<LoaiNX> loai = FXCollections.observableArrayList();
         for (LoaiNX loaiNX : arrLoai) {
@@ -514,7 +494,7 @@ public class FXMLWareHouseController implements Initializable {
                     importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
         }
         System.out.println("data: " + tenSpXuat + txtSoLuongNhap + tenLoaiXuat);
-        if (txtSoLuongNhap.getText().trim().isEmpty() || tenLoaiXuat.getIdLoaiNX() == -1) {
+        if (txtSoLuongNhap.getText().trim().isEmpty() || tenLoaiNhap.getIdLoaiNX() == -1) {
             addErrorText(importExportForm, "All fields are required !");
         } else {
 //            System.out.println("tenSpXuat: " + tenSpXuat + " - tenLoaiXuat: " + tenLoaiNhap.getIdLoaiNX() + " So luog:" + soLuongXuat + " - "+ dateXuat);
@@ -585,11 +565,11 @@ public class FXMLWareHouseController implements Initializable {
         tbNgayXuatColumn.setText("Exported Date");
 
         // Table Thong Ke
-        tbTenSpTKColumn.setText("Product Name");
-        tbDonGiaTKColumn.setText("Price");
-        tbSoLuongNhapTKColumn.setText("Import Qty");
+        tbTenSpTKColumn.setText("Unit");
+        tbDonGiaTKColumn.setText("Total Qty");
+        tbSoLuongNhapTKColumn.setText("Total Import Qty");
         tbNgayNhapTKColumn.setText("Imported Date");
-        tbSoLuongXuatTKColumn.setText("Export Qty");
+        tbSoLuongXuatTKColumn.setText("Total Export Qty");
         tbNgayXuatTKColumn.setText("Exported Date");
         tbLoaiTKColumn.setText("Type");
     }
@@ -611,8 +591,8 @@ public class FXMLWareHouseController implements Initializable {
         tbNgayXuatColumn.setCellValueFactory(new PropertyValueFactory<>("ngayXuat"));
 
         // Set data for Table Thong Ke
-        tbTenSpTKColumn.setCellValueFactory(new PropertyValueFactory<>("tenSp"));
-        tbDonGiaTKColumn.setCellValueFactory(new PropertyValueFactory<>("donGia"));
+        tbTenSpTKColumn.setCellValueFactory(new PropertyValueFactory<>("dvt"));
+        tbDonGiaTKColumn.setCellValueFactory(new PropertyValueFactory<>("totalNX"));
         tbSoLuongNhapTKColumn.setCellValueFactory(new PropertyValueFactory<>("soLuongNhap"));
         tbNgayNhapTKColumn.setCellValueFactory(new PropertyValueFactory<>("ngayNhap"));
         tbSoLuongXuatTKColumn.setCellValueFactory(new PropertyValueFactory<>("soLuongXuat"));
@@ -714,10 +694,10 @@ public class FXMLWareHouseController implements Initializable {
             tbNhap.getColumns().addAll(tbTenLoaiNhapColumn, tbSoLuongNhapColumn, tbDVTNhapColumn, tbNgayNhapColumn);
 
             tbXuat.setItems(listXuatDisplay);
-            tbXuat.getColumns().addAll(tbTenSpXuatColumn, tbTenLoaiXuatColumn, tbDVTXuatColumn, tbSoLuongXuatColumn, tbNgayXuatColumn);
+            tbXuat.getColumns().addAll(tbTenLoaiXuatColumn, tbSoLuongXuatColumn, tbDVTXuatColumn, tbNgayXuatColumn);
         }
 
-        tbThongKe.getColumns().addAll(tbTenSpTKColumn, tbDonGiaTKColumn, tbSoLuongNhapTKColumn, tbNgayNhapTKColumn, tbSoLuongXuatTKColumn, tbNgayXuatTKColumn, tbLoaiTKColumn);
+        tbThongKe.getColumns().addAll(tbLoaiTKColumn, tbSoLuongNhapTKColumn, tbSoLuongXuatTKColumn, tbDonGiaTKColumn, tbTenSpTKColumn);
     }
 
     private void setOnKeyPress() {
@@ -876,16 +856,12 @@ public class FXMLWareHouseController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             tenLoaiNhap.setIdLoaiNX(-1);
+            showBoxNhap();
             addType.selectedToggleProperty().addListener((observable) -> {
                 if (importExportForm.lookup("#errorText") != null) {
                     importExportForm.getChildren().remove(importExportForm.getChildren().size() - 2);
                 }
                 String type = ((JFXRadioButton) addType.getSelectedToggle()).getText();
-                if (type.equals("Export")) {
-                    getTenSpXuat();
-                } else {
-                    showBoxNhap();
-                }
             });
             tbNhap.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
             tbXuat.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

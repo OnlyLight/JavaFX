@@ -19,11 +19,38 @@ public class TKTable {
     private int soLuongXuat;
     private Date ngayXuat;
     private String tenLoai;
+    private int idLoaiNX;
+    private int totalNX;
+    private String dvt;
+
+    public void setDvt(String dvt) {
+        this.dvt = dvt;
+    }
+
+    public String getDvt() {
+        return dvt;
+    }
+
+    public void setIdLoaiNX(int idLoaiNX) {
+        this.idLoaiNX = idLoaiNX;
+    }
+
+    public void setTotalNX(int totalNX) {
+        this.totalNX = totalNX;
+    }
+
+    public int getIdLoaiNX() {
+        return idLoaiNX;
+    }
+
+    public int getTotalNX() {
+        return totalNX;
+    }
 
     public TKTable() {
     }
 
-    public TKTable(String tenSp, int donGia, int soLuongNhap, Date ngayNhap, int soLuongXuat, Date ngayXuat, String tenLoai) {
+    public TKTable(String tenSp, int donGia, int soLuongNhap, Date ngayNhap, int soLuongXuat, Date ngayXuat, String tenLoai, int id, int total, String dvt) {
         this.tenSp = tenSp;
         this.donGia = donGia;
         this.soLuongNhap = soLuongNhap;
@@ -31,6 +58,9 @@ public class TKTable {
         this.soLuongXuat = soLuongXuat;
         this.ngayXuat = ngayXuat;
         this.tenLoai = tenLoai;
+        this.totalNX = total;
+        this.idLoaiNX = id;
+        this.dvt = dvt;
     }
 
     public String getTenSp() {

@@ -211,7 +211,7 @@
                            <children>
                               <HBox>
                                  <children>
-                                    <Label alignment="TOP_LEFT" style="-fx-font-size: 20;" styleClass="font-bold" text="IMPORT / EXPORT STATISTICAL">
+                                    <Label alignment="TOP_LEFT" style="-fx-font-size: 20;" styleClass="font-bold" text="WARHOUSE STATISTICAL">
                                        <padding>
                                           <Insets bottom="5.0" right="5.0" top="5.0" />
                                        </padding>
