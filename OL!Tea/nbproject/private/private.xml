@@ -5,6 +5,7 @@
         <group>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/bean/TKTable.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_LoaiNX.java</file>
+            <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_Nhap.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/warehouse/FXMLWareHouseController.java</file>
             <file>file:/E:/Projects/JavaFX/OL!Tea/src/tqduy/connect/DBUtils_TK.java</file>
         </group>

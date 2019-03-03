@@ -498,13 +498,23 @@ public class FXMLWareHouseController implements Initializable {
             addErrorText(importExportForm, "All fields are required !");
         } else {
 //            System.out.println("tenSpXuat: " + tenSpXuat + " - tenLoaiXuat: " + tenLoaiNhap.getIdLoaiNX() + " So luog:" + soLuongXuat + " - "+ dateXuat);
-            DBUtils_Xuat.insert(tenLoaiNhap.getIdLoaiNX(), soLuongXuat, dateXuat);
-            txtSoLuongNhap.setText("");
-
-            ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());
-            if (!listXuatDisplay.isEmpty()) {
-                tbXuat.getItems().clear();
-                tbXuat.setItems(listXuatDisplay);
+            ArrayList<TKTable> list = DBUtils_TK.getList();
+            for (int i = 0; i < list.size(); i++) {
+                TKTable get = list.get(i);
+                if (get.getIdLoaiNX() == tenLoaiNhap.getIdLoaiNX()) {
+                    System.out.println("qty: " + get.getTotalNX());
+                    if (get.getTotalNX() >= soLuongNhap) {
+                        DBUtils_Xuat.insert(tenLoaiNhap.getIdLoaiNX(), soLuongNhap, dateXuat);
+                        txtSoLuongNhap.setText("");
+                        ObservableList<XuatTable> listXuatDisplay = getListXuatDisplay(DBUtils_Xuat.getList());
+                        if (!listXuatDisplay.isEmpty()) {
+                            tbXuat.getItems().clear();
+                            tbXuat.setItems(listXuatDisplay);
+                        }
+                    } else {
+                        addErrorText(importExportForm, "Export quantity invalid!");
+                    }
+                }
             }
         }
     }
